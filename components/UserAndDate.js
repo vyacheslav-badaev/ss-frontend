@@ -50,7 +50,9 @@ const UserAndDateStyles = styled.div`
 `
 function routeToUserPage(event, id) {
   event.stopPropagation()
-  Router.push(`/user?id=${id}`)
+  Router.push(`/user?id=${id}`).then(() => {
+    window.scrollTo(0, 0)
+  })
 }
 function UserAndDate({ className = '', style = {}, user, date }) {
   return (

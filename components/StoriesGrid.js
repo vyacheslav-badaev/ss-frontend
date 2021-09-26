@@ -44,7 +44,7 @@ function StoriesGrid({ edges, pageInfo, fetchMore, userId }) {
             loadMoreStories(fetchMore, pageInfo.endCursor)
           }}
         >
-          More
+          Далее
         </Button>
       )}
     </Fragment>

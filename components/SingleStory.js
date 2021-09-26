@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { styled } from 'linaria/react'
 import Head from 'next/head'
 import { Query } from 'react-apollo'
@@ -11,6 +11,7 @@ import UserAndDate from './UserAndDate'
 import BigLoader from './BigLoader'
 import LikeButton from './LikeButton'
 import DislikeButton from './DislikeButton'
+import ShareButton from './ShareButton'
 import Comments from './Comments'
 import User from './User'
 const STORY_DATA_QUERY = gql`
@@ -120,10 +121,25 @@ const SingleStoryStyles = styled.div`
   }
 `
 const Toolbar = styled.aside`
+  padding: 0 24px;
   > .reaction-buttons {
     display: flex;
     margin: 20px auto;
-    max-width: 700px;
+    max-width: 732px;
+    justify-content: space-between;
+    .reactions,
+    .sharing {
+      display: flex;
+    }
+    .share {
+      width: 46px;
+      height: 46px;
+      margin-left: 12px;
+      img {
+        width: 22px;
+        height: 22px;
+      }
+    }
   }
 `
 const Wrapper = styled.div`
@@ -135,8 +151,10 @@ const Wrapper = styled.div`
   }
 `
 function SingleStory({ mode, id, viewStory }) {
+  const [origin, setOrigin] = useState(null)
   useEffect(() => {
     viewStory()
+    setOrigin(window.location.origin)
   }, [viewStory])
   return (
     <User>
@@ -201,9 +219,9 @@ function SingleStory({ mode, id, viewStory }) {
                     ))}
                 </SingleStoryStyles>
                 {me && (
-                  <Fragment>
-                    <Toolbar>
-                      <div className="reaction-buttons">
+                  <Toolbar>
+                    <div className="reaction-buttons">
+                      <div className="reactions">
                         <LikeButton
                           night={mode === 'dark'}
                           id={id}
@@ -226,15 +244,36 @@ function SingleStory({ mode, id, viewStory }) {
                           )}
                         />
                       </div>
-                    </Toolbar>
-                    <Comments
-                      {...comments}
-                      id={id}
-                      me={me}
-                      fetchMore={fetchMore}
-                    />
-                  </Fragment>
+                      <div className="sharing">
+                        <ShareButton
+                          className="share"
+                          href={`https:
+                            story.title
+                          }&utm_source=share2`}
+                          title="Поделиться VK"
+                          icon="/static/images/icons/vk.svg"
+                        />
+                        <ShareButton
+                          className="share"
+                          href={`https:
+                            story.title
+                          }&url=${origin}`}
+                          title="Поделиться в Twitter"
+                          icon="/static/images/icons/twitter.svg"
+                        />
+                        <ShareButton
+                          className="share"
+                          href={`https:
+                            story.title
+                          }`}
+                          title="Поделиться в Facebook"
+                          icon="/static/images/icons/fb.svg"
+                        />
+                      </div>
+                    </div>
+                  </Toolbar>
                 )}
+                <Comments {...comments} id={id} me={me} fetchMore={fetchMore} />
               </Wrapper>
             )
           }}

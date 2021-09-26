@@ -14,7 +14,7 @@ export const STORIES_QUERY = gql`
     $isLiked: Boolean
   ) {
     stories(cursor: $cursor, limit: $limit, userId: $userId, isLiked: $isLiked)
-      @connection(key: "StoriesConnection") {
+      @connection(key: "AllStoriesConnection") {
       edges {
         id
         title
@@ -71,7 +71,7 @@ const NoStories = styled.div`
 `
 function Stories() {
   return (
-    <Query query={STORIES_QUERY} fetchPolicy="cache-and-network">
+    <Query query={STORIES_QUERY}>
       {({ data: { stories }, loading, error, fetchMore }) => {
         if (loading) return <BigLoader />
         if (error) return <ErrorMessage error={error} />

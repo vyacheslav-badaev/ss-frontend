@@ -13,7 +13,7 @@ import getPhoto from '../lib/get-photo'
 const WRITTEN_STORIES_QUERY = gql`
   query WRITTEN_STORIES_QUERY($cursor: String, $userId: ID) {
     stories(cursor: $cursor, limit: 20, userId: $userId, isLiked: false)
-      @connection(key: "StoriesConnection") {
+      @connection(key: "WrittenStoriesConnection") {
       edges {
         id
         title
@@ -48,7 +48,7 @@ const WRITTEN_STORIES_QUERY = gql`
 const LIKED_STORIES_QUERY = gql`
   query LIKED_STORIES_QUERY($cursor: String) {
     stories(cursor: $cursor, limit: 20, userId: null, isLiked: true)
-      @connection(key: "StoriesConnection") {
+      @connection(key: "LikedStoriesConnection") {
       edges {
         id
         title
@@ -289,7 +289,6 @@ class Account extends Component {
               variables={
                 activeTab === 'written' && me ? { userId: me.id } : undefined
               }
-              fetchPolicy="network-only"
             >
               {({ data: { stories }, loading, error, fetchMore }) => (
                 <>

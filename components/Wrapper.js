@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from 'linaria'
 import { node } from 'prop-types'
 import Header from './Header'
+import Footer from './Footer'
 const styles = css`
   position: relative;
   min-height: 100%;
@@ -21,9 +22,11 @@ const styles = css`
   }
   .inner {
     max-width: 1024px;
+    min-height: calc(100vh - 184px);
     margin: 0 auto;
     margin-top: 64px;
     padding: 20px;
+    padding-bottom: 40px;
   }
 `
 function Wrapper({ children }) {
@@ -31,6 +34,7 @@ function Wrapper({ children }) {
     <main className={styles}>
       <Header />
       <div className="inner">{children}</div>
+      <Footer />
     </main>
   )
 }

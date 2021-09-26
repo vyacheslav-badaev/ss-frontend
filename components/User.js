@@ -18,7 +18,7 @@ const User = props => (
   </Query>
 )
 User.propTypes = {
-  children: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 }
 export default User
 export { CURRENT_USER_QUERY }

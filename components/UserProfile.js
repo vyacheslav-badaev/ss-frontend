@@ -15,7 +15,7 @@ const USER_STORIES_QUERY = gql`
     $isLiked: Boolean
   ) {
     stories(cursor: $cursor, limit: $limit, userId: $userId, isLiked: $isLiked)
-      @connection(key: "StoriesConnection") {
+      @connection(key: "UserStoriesConnection", filter: ["userId"]) {
       edges {
         id
         title
@@ -102,7 +102,7 @@ const UserProfileStyles = styled.div`
 `
 function UserProfile({ id }) {
   return (
-    <Query query={USER_QUERY} variables={{ id }}>
+    <Query query={USER_QUERY} variables={{ id }} partialRefetch>
       {({ loading, error, data }) => {
         if (error) return <Error error={error} />
         if (loading) return <BigLoader />
@@ -118,11 +118,7 @@ function UserProfile({ id }) {
               </div>
               <span className="username">{data.user.username}</span>
             </div>
-            <Query
-              query={USER_STORIES_QUERY}
-              variables={{ userId: id }}
-              fetchPolicy="cache-and-network"
-            >
+            <Query query={USER_STORIES_QUERY} variables={{ userId: id }}>
               {({ data: { stories }, loading, error, fetchMore }) => {
                 if (loading) return <BigLoader />
                 if (error) return <Error error={error} />

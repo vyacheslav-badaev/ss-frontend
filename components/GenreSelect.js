@@ -51,7 +51,12 @@ const selectedListItem = css`
 `
 const filterResult = (item, inputValue) =>
   !inputValue || item.name.toLowerCase().includes(inputValue.toLowerCase())
-function GenreSelect({ items, onSelect, isDarkMode, initialSelectedItem = null }) {
+function GenreSelect({
+  items,
+  onSelect,
+  isDarkMode,
+  initialSelectedItem = null,
+}) {
   const getFilteredItems = inputValue =>
     items.filter(item => filterResult(item, inputValue))
   return (

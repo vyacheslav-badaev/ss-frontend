@@ -38,7 +38,9 @@ function StoryItem({
   return (
     <StoryStyles
       onClick={() => {
-        Router.push(`/story?id=${id}`)
+        Router.push(`/story?id=${id}`).then(() => {
+          window.scrollTo(0, 0)
+        })
       }}
     >
       {isStoryOwner ? (
@@ -47,7 +49,9 @@ function StoryItem({
             type="button"
             onClick={event => {
               event.stopPropagation()
-              Router.push(`/edit-story?id=${id}`)
+              Router.push(`/edit-story?id=${id}`).then(() => {
+                window.scrollTo(0, 0)
+              })
             }}
           >
             <img src="/static/images/icons/edit.svg" alt="Edit" />

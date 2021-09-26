@@ -191,7 +191,7 @@ function CommentEditor({
         <Textarea>
           <ErrorMessage error={error} />
           <ReactTextareaAutosize
-            placeholder="Edit your comment..."
+            placeholder="Измените комментарий..."
             name="comment"
             id={comment.id}
             value={commentBody}
@@ -207,7 +207,7 @@ function CommentEditor({
               resetAfterUpdate()
             }}
           >
-            Save
+            Изменить
           </Button>
         </Textarea>
       )}
@@ -324,7 +324,7 @@ function CommentsList({
       )}
     </Fragment>
   ) : (
-    <p className="no-comments">No comments yet</p>
+    <p className="no-comments">Пока что нет комментариев</p>
   )
 }
 CommentEditor.propTypes = {

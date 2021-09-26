@@ -36,10 +36,11 @@ const Textarea = styled.div`
   }
 `
 const CommentsStyles = styled.div`
-  max-width: 700px;
+  max-width: 732px;
+  padding: 0 24px;
   margin: 0 auto;
   .no-comments {
-    padding: 20px 0;
+    padding: 24px 0;
   }
   .more-button {
     width: 100%;
@@ -102,51 +103,53 @@ class Comments extends Component {
     const { body, editId, comment: commentBody } = this.state
     return (
       <CommentsStyles>
-        <Mutation
-          mutation={CREATE_COMMENT_MUTATION}
-          variables={{ id, body }}
-          update={(cache, payload) => update(cache, payload, id)}
-          optimisticResponse={{
-            __typename: 'Mutation',
-            createComment: {
-              __typename: 'Comment',
-              id: nanoid(10),
-              body,
-              user: {
-                __typename: 'User',
-                id: me.id,
+        {me && (
+          <Mutation
+            mutation={CREATE_COMMENT_MUTATION}
+            variables={{ id, body }}
+            update={(cache, payload) => update(cache, payload, id)}
+            optimisticResponse={{
+              __typename: 'Mutation',
+              createComment: {
+                __typename: 'Comment',
+                id: nanoid(10),
+                body,
+                user: {
+                  __typename: 'User',
+                  id: me.id,
+                },
+                createdAt: new Date().toISOString(),
               },
-              createdAt: new Date().toISOString(),
-            },
-          }}
-        >
-          {(createComment, { loading, error }) => (
-            <Textarea>
-              <ErrorMessage error={error} />
-              <ReactTextareaAutosize
-                placeholder="Write your comment..."
-                name="body"
-                id="body"
-                value={body}
-                onChange={this.onChange}
-                maxLength={300}
-              />
-              <Button
-                disabled={body.length === 0}
-                loading={loading}
-                type="button"
-                onClick={async () => {
-                  await createComment()
-                  this.setState({
-                    body: '',
-                  })
-                }}
-              >
-                Comment
-              </Button>
-            </Textarea>
-          )}
-        </Mutation>
+            }}
+          >
+            {(createComment, { loading, error }) => (
+              <Textarea>
+                <ErrorMessage error={error} />
+                <ReactTextareaAutosize
+                  placeholder="Оставьте комментарий..."
+                  name="body"
+                  id="body"
+                  value={body}
+                  onChange={this.onChange}
+                  maxLength={300}
+                />
+                <Button
+                  disabled={body.length === 0}
+                  loading={loading}
+                  type="button"
+                  onClick={async () => {
+                    await createComment()
+                    this.setState({
+                      body: '',
+                    })
+                  }}
+                >
+                  Написать
+                </Button>
+              </Textarea>
+            )}
+          </Mutation>
+        )}
         <CommentsList
           edges={edges}
           editId={editId}
