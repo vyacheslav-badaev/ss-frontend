@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled } from 'linaria/react'
 import Head from 'next/head'
 import { Query } from 'react-apollo'
@@ -151,10 +151,10 @@ const Wrapper = styled.div`
   }
 `
 function SingleStory({ mode, id, viewStory }) {
-  const [origin, setOrigin] = useState(null)
+  const [href, setHref] = useState(null)
   useEffect(() => {
+    setHref(window.location.href)
     viewStory()
-    setOrigin(window.location.origin)
   }, [viewStory])
   return (
     <User>
@@ -257,7 +257,7 @@ function SingleStory({ mode, id, viewStory }) {
                           className="share"
                           href={`https:
                             story.title
-                          }&url=${origin}`}
+                          }&url=${href}`}
                           title="Поделиться в Twitter"
                           icon="/static/images/icons/twitter.svg"
                         />
