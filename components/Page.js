@@ -20,7 +20,7 @@ const theme = css`
 `
 function Page({ children }) {
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/service-worker.js')
         .then(() => {
