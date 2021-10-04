@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import cn from 'classnames'
 import { string, bool, object, func, node } from 'prop-types'
 import Loader from './Loader'
@@ -8,11 +8,11 @@ const StyledButton = styled.button`
   font-size: 14px;
   text-transform: uppercase;
   height: 40px;
-  color: var(--white);
-  background-color: var(--black);
+  color: ${props => props.theme.white};
+  background-color: ${props => props.theme.black};
   transition: all 0.25s ease-out;
   &:hover {
-    background-color: var(--soft-violet);
+    background-color: ${props => props.theme.softViolet};
   }
   &:active {
     transform: scale(0.95);

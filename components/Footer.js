@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import ShareButton from './ShareButton'
 const StyledFooter = styled.footer`
   height: 60px;
-  background-color: var(--white);
+  background-color: ${props => props.theme.white};
   display: flex;
   align-items: center;
   .bar {

@@ -1,6 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import cn from 'classnames'
 import { Query, Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
@@ -48,10 +48,10 @@ const FormStyles = styled.form`
   input,
   textarea {
     width: 100%;
-    font-family: var(--text-font);
+    font-family: ${props => props.theme.textFont};
     border: none;
     outline: none;
-    color: var(--black);
+    color: ${props => props.theme.black};
     background: transparent;
   }
   .title-block {
@@ -70,7 +70,7 @@ const FormStyles = styled.form`
     }
   }
   .error-message {
-    color: var(--red);
+    color: ${props => props.theme.red};
     font-size: 1.2rem;
     font-weight: bold;
   }
@@ -83,11 +83,11 @@ const FormStyles = styled.form`
   &.dark {
     input,
     textarea {
-      color: var(--night-grey);
+      color: ${props => props.theme.nightGrey};
     }
     button {
-      color: var(--black);
-      background-color: var(--night-grey);
+      color: ${props => props.theme.black};
+      background-color: ${props => props.theme.nightGrey};
     }
   }
 `

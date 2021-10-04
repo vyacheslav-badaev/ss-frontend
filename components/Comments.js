@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
 import gql from 'graphql-tag'
@@ -26,9 +26,9 @@ const Textarea = styled.div`
   display: flex;
   flex-direction: column;
   textarea {
-    font-family: var(--ui-font);
+    font-family: ${props => props.theme.uiFont};
     border: 1px solid var(--grey);
-    background-color: var(--white);
+    background-color: ${props => props.theme.white};
     resize: none;
     min-height: 63px;
     padding: 20px;

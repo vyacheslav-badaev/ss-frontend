@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
 import gql from 'graphql-tag'
@@ -33,8 +33,8 @@ const Textarea = styled.div`
   margin-bottom: 20px;
   textarea {
     border: 1px solid var(--grey);
-    background-color: var(--white);
-    font-family: var(--ui-font);
+    background-color: ${props => props.theme.white};
+    font-family: ${props => props.theme.uiFont};
     resize: none;
     min-height: 63px;
     padding: 20px;
@@ -68,7 +68,7 @@ const List = styled.ul`
     button {
       cursor: pointer;
       outline: none;
-      background-color: var(--white);
+      background-color: ${props => props.theme.white};
       border: none;
       width: 50px;
       height: 50px;
@@ -82,13 +82,13 @@ const List = styled.ul`
         height: 20px;
       }
       &:hover {
-        background-color: var(--light-grey);
+        background-color: ${props => props.theme.lightGrey};
       }
     }
   }
   li {
     position: relative;
-    background-color: var(--white);
+    background-color: ${props => props.theme.white};
     margin-bottom: 20px;
     border-radius: 4px;
     padding: 20px;
@@ -230,7 +230,7 @@ function CommentsList({
     <Fragment>
       <List>
         {edges.map(comment =>
-          editId === comment.id ? (
+          me && editId === comment.id ? (
             <CommentEditor
               resetAfterUpdate={resetAfterUpdate}
               comment={comment}
@@ -247,7 +247,7 @@ function CommentsList({
                   user={comment.user}
                   date={comment.createdAt}
                 />
-                {me.id === comment.user.id && (
+                {me && me.id === comment.user.id && (
                   <div className="edit-and-delete">
                     <button
                       type="button"

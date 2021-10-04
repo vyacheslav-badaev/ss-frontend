@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import NProgress from 'nprogress'
 import Nav from './Nav'
 NProgress.configure({ showSpinner: false })
@@ -16,13 +16,13 @@ Router.onRouteChangeError = () => {
 }
 const Logo = styled.h1`
   margin: 0;
-  font-family: var(--logo-font);
+  font-family: ${props => props.theme.logoFont};
   font-size: 3rem;
   letter-spacing: -1.5px;
   position: relative;
   z-index: 2;
   a {
-    color: var(--black);
+    color: ${props => props.theme.black};
   }
 `
 const StyledHeader = styled.header`
@@ -30,7 +30,7 @@ const StyledHeader = styled.header`
   width: 100%;
   position: fixed;
   top: 0;
-  background-color: var(--white);
+  background-color: ${props => props.theme.white};
   z-index: 1;
   display: flex;
   align-items: center;

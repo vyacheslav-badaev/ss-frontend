@@ -1,4 +1,4 @@
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import darken from 'polished/lib/color/darken'
 const NavStyles = styled.nav`
   display: flex;
@@ -14,14 +14,14 @@ const NavStyles = styled.nav`
     position: relative;
     text-transform: uppercase;
     font-size: 12px;
-    color: var(--black);
+    color: ${props => props.theme.black};
     font-weight: 800;
     &:after {
       content: '';
       width: 0;
       height: 2px;
       position: absolute;
-      background: var(--soft-violet);
+      background: ${props => props.theme.softViolet};
       transform: translateX(-50%);
       transition: width 0.4s;
       transition-timing-function: cubic-bezier(1, -0.65, 0, 2.31);
@@ -34,8 +34,8 @@ const NavStyles = styled.nav`
   }
   .write,
   .signup {
-    background-color: var(--soft-violet);
-    color: var(--white);
+    background-color: ${props => props.theme.softViolet};
+    color: ${props => props.theme.white};
     border-radius: 4px;
     display: block;
     padding: 0 12px;

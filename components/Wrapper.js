@@ -1,17 +1,18 @@
 import React from 'react'
-import { css } from 'linaria'
+import styled from '@emotion/styled'
 import { node } from 'prop-types'
 import Header from './Header'
 import Footer from './Footer'
-const styles = css`
+const Styles = styled.main`
   position: relative;
   min-height: 100%;
-  color: var(--black);
+  color: ${props => props.theme.black};
   &::before {
     content: '';
     background-image: url('/static/images/topography.svg'),
       linear-gradient(20deg, rgb(20, 20, 20), rgb(20, 20, 20));
     background-size: 300px, auto;
+    background-repeat: repeat;
     position: fixed;
     top: 0;
     left: 0;
@@ -31,11 +32,11 @@ const styles = css`
 `
 function Wrapper({ children }) {
   return (
-    <main className={styles}>
+    <Styles>
       <Header />
       <div className="inner">{children}</div>
       <Footer />
-    </main>
+    </Styles>
   )
 }
 Wrapper.propTypes = {

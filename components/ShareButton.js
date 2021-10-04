@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import { string } from 'prop-types'
 const StyledLink = styled.a`
   cursor: pointer;
@@ -9,7 +9,7 @@ const StyledLink = styled.a`
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background-color: var(--black);
+  background-color: ${props => props.theme.black};
   transition: all 0.25s ease-out;
   div {
     display: flex;
@@ -21,7 +21,7 @@ const StyledLink = styled.a`
     height: 16px;
   }
   &:hover {
-    background-color: var(--soft-violet);
+    background-color: ${props => props.theme.softViolet};
   }
 `
 function ShareButton({ href, title, icon, className = '' }) {

@@ -1,4 +1,4 @@
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 const ErrorStyles = styled.div`
   padding: 1rem;

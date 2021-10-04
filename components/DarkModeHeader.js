@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import Router from 'next/router'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import cn from 'classnames'
 import { string, func } from 'prop-types'
 import Logo from './Logo'
@@ -16,7 +16,7 @@ const Header = styled.header`
   background-color: #fff;
   z-index: 999;
   h2 {
-    color: var(--black);
+    color: ${props => props.theme.black};
   }
   .back,
   .toggle-mode {
@@ -38,7 +38,7 @@ const Header = styled.header`
   &.dark {
     background-color: #111;
     h2 {
-      color: var(--night-grey);
+      color: ${props => props.theme.nightGrey};
     }
     .back {
       background-image: url('/static/images/icons/left-arrow-grey.svg');

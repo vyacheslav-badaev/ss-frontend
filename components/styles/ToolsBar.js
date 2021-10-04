@@ -1,4 +1,4 @@
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 const ToolsBar = styled.div`
   background: linear-gradient(
     hsla(0, 0%, 100%, 0),

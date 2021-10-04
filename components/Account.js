@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { styled } from 'linaria/react'
+import { keyframes } from '@emotion/core'
+import styled from '@emotion/styled'
 import ReactModal from 'react-modal'
 import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
 import User from './User'
 import PleaseSignIn from './PleaseSignIn'
 import DropAndCrop from './DropAndCrop'
@@ -10,81 +10,28 @@ import BigLoader from './BigLoader'
 import StoriesGrid from './StoriesGrid'
 import Error from './ErrorMessage'
 import getPhoto from '../lib/get-photo'
-const WRITTEN_STORIES_QUERY = gql`
-  query WRITTEN_STORIES_QUERY($cursor: String, $userId: ID) {
-    stories(cursor: $cursor, limit: 20, userId: $userId, isLiked: false)
-      @connection(key: "WrittenStoriesConnection") {
-      edges {
-        id
-        title
-        body
-        user {
-          ...author
-        }
-        genre {
-          id
-          name
-        }
-        stats {
-          likes
-          dislikes
-          comments
-          views
-        }
-        createdAt
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
+import { WRITTEN_STORIES_QUERY, LIKED_STORIES_QUERY } from '../lib/queries'
+const toWritten = keyframes`
+  from {
+    left: 85px;
   }
-  fragment author on User {
-    id
-    username
-    photo
+  to {
+    left: 0px;
   }
 `
-const LIKED_STORIES_QUERY = gql`
-  query LIKED_STORIES_QUERY($cursor: String) {
-    stories(cursor: $cursor, limit: 20, userId: null, isLiked: true)
-      @connection(key: "LikedStoriesConnection") {
-      edges {
-        id
-        title
-        body
-        user {
-          ...author
-        }
-        genre {
-          id
-          name
-        }
-        stats {
-          likes
-          dislikes
-          comments
-          views
-        }
-        createdAt
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
+const toLiked = keyframes`
+  from {
+    left: 0px;
   }
-  fragment author on User {
-    id
-    username
-    photo
+  to {
+    left: 85px;
   }
 `
 const AccountStyles = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   > p {
-    color: var(--white);
+    color: ${props => props.theme.white};
   }
   .photo-edit {
     cursor: pointer;
@@ -109,7 +56,7 @@ const AccountStyles = styled.div`
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      box-shadow: var(--box-shadow);
+      box-shadow: ${props => props.theme.boxShadow};
     }
     .blur {
       width: 100%;
@@ -130,13 +77,13 @@ const AccountStyles = styled.div`
     flex-direction: column;
     align-items: center;
     .username {
-      color: var(--white);
+      color: ${props => props.theme.white};
       font-size: 3.6rem;
       font-weight: bold;
       margin-bottom: 10px;
     }
     .email {
-      color: var(--white);
+      color: ${props => props.theme.white};
       font-size: 1.4rem;
       font-weight: bold;
       margin-bottom: 20px;
@@ -163,7 +110,7 @@ const AccountStyles = styled.div`
           border: none;
           margin: 0;
           padding: 0;
-          color: var(--white);
+          color: ${props => props.theme.white};
           font-size: 1.6rem;
           font-weight: bold;
           background: transparent;
@@ -182,15 +129,7 @@ const AccountStyles = styled.div`
         }
         &::after {
           left: 0;
-          animation: toWritten 0.25s ease;
-          @keyframes toWritten {
-            from {
-              left: 85px;
-            }
-            to {
-              left: 0px;
-            }
-          }
+          animation: ${toWritten} 0.25s ease;
         }
       }
       .favs {
@@ -199,15 +138,7 @@ const AccountStyles = styled.div`
         }
         &::after {
           left: 85px;
-          animation: toLiked 0.25s ease;
-          @keyframes toLiked {
-            from {
-              left: 0px;
-            }
-            to {
-              left: 85px;
-            }
-          }
+          animation: ${toLiked} 0.25s ease;
         }
       }
     }

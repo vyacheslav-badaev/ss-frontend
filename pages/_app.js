@@ -5,7 +5,6 @@ import Page from '../components/Page'
 import { initGA, logPageView } from '../lib/google-analytics'
 import withApollo from '../lib/with-apollo'
 import withSentry from '../lib/sentry'
-import 'normalize.css'
 const { captureException } = withSentry({ release: process.env.SENTRY_RELEASE })
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import Head from 'next/head'
 import { Query } from 'react-apollo'
 import cn from 'classnames'
@@ -66,8 +66,8 @@ const SingleStoryStyles = styled.div`
   padding-top: 104px;
   .title,
   .body-paragraph {
-    font-family: var(--text-font);
-    color: var(--black);
+    font-family: ${props => props.theme.textFont};
+    color: ${props => props.theme.black};
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -116,7 +116,7 @@ const SingleStoryStyles = styled.div`
   &.dark {
     .title,
     .body-paragraph {
-      color: var(--night-grey);
+      color: ${props => props.theme.nightGrey};
     }
   }
 `

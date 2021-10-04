@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import Link from 'next/link'
 import User from './User'
 import Signout from './Signout'
@@ -32,7 +32,7 @@ const MobileMenu = styled.div`
         display: inline-flex;
         line-height: 22px;
         font-size: 15px;
-        color: var(--black);
+        color: ${props => props.theme.black};
         text-decoration: none;
         position: relative;
         left: 0;
@@ -41,14 +41,14 @@ const MobileMenu = styled.div`
       }
       .write,
       .signup {
-        color: var(--soft-violet);
+        color: ${props => props.theme.softViolet};
       }
     }
     .checkbox {
       display: none;
     }
     .button {
-      background-color: var(--white);
+      background-color: ${props => props.theme.white};
       height: 3rem;
       width: 3rem;
       position: fixed;
@@ -62,7 +62,7 @@ const MobileMenu = styled.div`
       width: 2.8rem;
       border-radius: 50%;
       position: fixed;
-      background-color: var(--white);
+      background-color: ${props => props.theme.white};
       z-index: 1000;
       transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
     }

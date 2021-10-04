@@ -1,4 +1,4 @@
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 const InputStyles = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,8 +15,8 @@ const InputStyles = styled.div`
     position: relative;
     display: block;
     float: right;
-    font-family: var(--ui-font);
-    border: var(--black);
+    font-family: ${props => props.theme.uiFont};
+    border: ${props => props.theme.black};
     border-radius: 0;
     padding: 0.5em 0em 0.5em;
     width: 100%;
@@ -25,11 +25,11 @@ const InputStyles = styled.div`
     color: black;
     font-size: 1.25em;
     + .label {
-      color: var(--black);
+      color: ${props => props.theme.black};
       transform: translate3d(0, -1.25em, 0) scale3d(0.75, 0.75, 1);
     }
     ~ .line {
-      stroke: var(--black);
+      stroke: ${props => props.theme.black};
       transform: translate3d(-66.6%, 0, 0);
     }
     &.empty {
@@ -45,11 +45,11 @@ const InputStyles = styled.div`
     &:focus {
       outline: none;
       + .label {
-        color: var(--black);
+        color: ${props => props.theme.black};
         transform: translate3d(0, -1.25em, 0) scale3d(0.75, 0.75, 1);
       }
       ~ .line {
-        stroke: var(--black);
+        stroke: ${props => props.theme.black};
         transform: translate3d(-66.6%, 0, 0);
       }
     }
@@ -94,8 +94,8 @@ const InputStyles = styled.div`
     font-weight: normal;
     line-height: normal;
     text-shadow: none;
-    color: var(--red);
-    font-family: var(--ui-font);
+    color: ${props => props.theme.red};
+    font-family: ${props => props.theme.uiFont};
   }
 `
 export default InputStyles

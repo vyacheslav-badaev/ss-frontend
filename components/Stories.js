@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 import Link from 'next/link'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -48,14 +48,14 @@ export const STORIES_QUERY = gql`
 `
 const NoStories = styled.div`
   h2 {
-    color: var(--white);
+    color: ${props => props.theme.white};
   }
   a {
     position: relative;
-    color: var(--yellow);
+    color: ${props => props.theme.yellow};
     &::after {
       content: '';
-      border-bottom: 3px solid var(--yellow);
+      border-bottom: 3px solid ${props => props.theme.yellow};
       position: absolute;
       width: 0%;
       bottom: -1px;

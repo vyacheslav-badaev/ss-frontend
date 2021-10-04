@@ -1,10 +1,10 @@
-import { styled } from 'linaria/react'
+import styled from '@emotion/styled'
 const StoryStyles = styled.article`
   cursor: pointer;
   opacity: 0.95;
   height: 450px;
   overflow: hidden;
-  background: var(--white);
+  background: ${props => props.theme.white};
   padding: 25px;
   border-radius: 8px;
   transform: translateZ(0);
@@ -18,13 +18,13 @@ const StoryStyles = styled.article`
     margin: 10px 0;
     font-size: 2.4rem;
     font-weight: bold;
-    font-family: var(--text-font);
+    font-family: ${props => props.theme.textFont};
     line-height: 1.2;
   }
   .genre {
-    color: var(--white);
+    color: ${props => props.theme.white};
     border-radius: 8px;
-    background-color: var(--soft-violet);
+    background-color: ${props => props.theme.softViolet};
     padding: 6px 8px;
     display: inline-block;
     font-weight: bold;
@@ -33,7 +33,7 @@ const StoryStyles = styled.article`
   }
   .body {
     font-size: 1.6rem;
-    font-family: var(--text-font);
+    font-family: ${props => props.theme.textFont};
   }
   .edit-and-delete {
     display: flex;
@@ -43,7 +43,7 @@ const StoryStyles = styled.article`
     margin-right: -20px;
     margin-left: -20px;
     button {
-      background-color: var(--white);
+      background-color: ${props => props.theme.white};
       width: 50px;
       height: 50px;
       display: flex;
@@ -55,7 +55,7 @@ const StoryStyles = styled.article`
         height: 20px;
       }
       &:hover {
-        background-color: var(--light-grey);
+        background-color: ${props => props.theme.lightGrey};
       }
     }
   }

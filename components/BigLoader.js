@@ -1,5 +1,14 @@
 import React from 'react'
-import { styled } from 'linaria/react'
+import { keyframes } from '@emotion/core'
+import styled from '@emotion/styled'
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`
 const LoaderStyles = styled.div`
   position: fixed;
   top: 0;
@@ -30,7 +39,7 @@ const LoaderStyles = styled.div`
       border: 3px solid transparent;
       border-top-color: #e5e5e5;
       border-radius: 50%;
-      animation: spin 3s linear infinite;
+      animation: ${spin} 3s linear infinite;
     }
     &::after {
       content: '';
@@ -42,15 +51,7 @@ const LoaderStyles = styled.div`
       border: 3px solid transparent;
       border-top-color: #cccccc;
       border-radius: 50%;
-      animation: spin 1.5s linear infinite;
-    }
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+      animation: ${spin} 1.5s linear infinite;
     }
   }
 `

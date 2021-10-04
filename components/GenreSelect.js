@@ -1,53 +1,53 @@
 import React from 'react'
-import { css } from 'linaria'
+import styled from '@emotion/styled'
 import cn from 'classnames'
 import Downshift from 'downshift'
 import { array, func, bool, object } from 'prop-types'
-const wrapper = css`
+const Wrapper = styled.div`
   position: relative;
-`
-const input = css`
-  font-size: 2.1rem;
-  line-height: 1.4;
-`
-const hideList = css`
-  display: none !important;
-`
-const darkList = css`
-  background-color: var(--night-grey) !important;
-`
-const list = css`
-  font-size: 2.1rem;
-  line-height: 1.4;
-  font-family: var(--text-font);
-  position: absolute;
-  display: block;
-  margin-top: 12px;
-  border-radius: 4px;
-  width: 100%;
-  padding: 10px 0;
-  box-shadow: var(--box-shadow);
-  background-color: var(--white);
-`
-const listItem = css`
-  cursor: pointer;
-  padding: 10px;
-  margin: 0 10px;
-  background-color: var(--white);
-  color: var(--black);
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  &:hover {
-    background-color: var(--soft-violet);
-    color: var(--white);
+  .input {
+    font-size: 2.1rem;
+    line-height: 1.4;
   }
-`
-const darkListItem = css`
-  background-color: var(--night-grey);
-`
-const selectedListItem = css`
-  background-color: var(--soft-violet);
-  color: var(--white);
+  .list {
+    font-size: 2.1rem;
+    line-height: 1.4;
+    font-family: ${props => props.theme.textFont};
+    position: absolute;
+    display: block;
+    margin-top: 12px;
+    border-radius: 4px;
+    width: 100%;
+    padding: 10px 0;
+    box-shadow: ${props => props.theme.boxShadow};
+    background-color: ${props => props.theme.white};
+    &.hideList {
+      display: none !important;
+    }
+    &.darkList {
+      background-color: ${props => props.theme.nightGrey} !important;
+    }
+  }
+  .listItem {
+    cursor: pointer;
+    padding: 10px;
+    margin: 0 10px;
+    background-color: ${props => props.theme.white};
+    color: ${props => props.theme.black};
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    &:hover {
+      background-color: ${props => props.theme.softViolet};
+      color: ${props => props.theme.white};
+    }
+    &.darkListItem {
+      background-color: ${props => props.theme.nightGrey};
+    }
+    &.selectedListItem {
+      background-color: ${props => props.theme.softViolet};
+      color: ${props => props.theme.white};
+    }
+  }
 `
 const filterResult = (item, inputValue) =>
   !inputValue || item.name.toLowerCase().includes(inputValue.toLowerCase())
@@ -69,22 +69,23 @@ function GenreSelect({
         getInputProps,
         getItemProps,
         getMenuProps,
+        getRootProps,
         isOpen,
         inputValue,
         highlightedIndex,
       }) => (
-        <div className={wrapper}>
+        <Wrapper {...getRootProps()}>
           <input
             {...getInputProps({
-              className: input,
+              className: 'input',
               placeholder: 'Выберите жанр',
             })}
           />
           <ul
             {...getMenuProps({
-              className: cn(list, {
-                [hideList]: !isOpen || !getFilteredItems(inputValue).length,
-                [darkList]: isDarkMode,
+              className: cn('list', {
+                hideList: !isOpen || !getFilteredItems(inputValue).length,
+                darkList: isDarkMode,
               }),
             })}
           >
@@ -95,9 +96,9 @@ function GenreSelect({
                       key: item.name,
                       index,
                       item,
-                      className: cn(listItem, {
-                        [selectedListItem]: highlightedIndex === index,
-                        [darkListItem]: isDarkMode,
+                      className: cn('listItem', {
+                        selectedListItem: highlightedIndex === index,
+                        darkListItem: isDarkMode,
                       }),
                     })}
                   >
@@ -106,7 +107,7 @@ function GenreSelect({
                 ))
               : null}
           </ul>
-        </div>
+        </Wrapper>
       )}
     </Downshift>
   )
