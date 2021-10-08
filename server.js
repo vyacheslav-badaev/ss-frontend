@@ -1,7 +1,10 @@
 const express = require('express')
 const next = require('next')
+const spdy = require('spdy')
+const fs = require('fs')
 const { join } = require('path')
 const { parse } = require('url')
+const compression = require('compression')
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -15,25 +18,32 @@ const sourcemapsForSentryOnly = token => (req, res, next) => {
   }
   next()
 }
+const options = {
+  key: fs.readFileSync('./server.key'),
+  cert: fs.readFileSync('./server.crt'),
+}
 app.prepare().then(() => {
   const server = express()
   const { Sentry } = require('./lib/sentry')({ release: app.buildId }) 
+  server.use(compression())
   server
     .use(Sentry.Handlers.requestHandler())
     .get(/\.map$/, sourcemapsForSentryOnly(process.env.SENTRY_TOKEN))
-    .use((req, res) => {
-      const parsedUrl = parse(req.url, true)
-      const { pathname } = parsedUrl
-      if (pathname === '/service-worker.js') {
-        const filePath = join(__dirname, '.next', pathname)
-        app.serveStatic(req, res, filePath)
-      } else {
-        handle(req, res, parsedUrl)
-      }
-    })
     .use(Sentry.Handlers.errorHandler())
-    .listen(port, err => {
-      if (err) throw err
-      console.log(`> Ready on http:
-    })
+  server.get('*', (req, res) => {
+    const parsedUrl = parse(req.url, true)
+    const { pathname } = parsedUrl
+    if (pathname === '/service-worker.js') {
+      const filePath = join(__dirname, '.next', pathname)
+      app.serveStatic(req, res, filePath)
+    } else {
+      handle(req, res, parsedUrl)
+    }
+  })
+  spdy.createServer(options, server).listen(port, err => {
+    if (err) {
+      throw new Error(err)
+    }
+    console.log(`> Ready on http:
+  })
 })

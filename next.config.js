@@ -1,8 +1,8 @@
 require('dotenv').config()
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
-const path = require('path')
-const Dotenv = require('dotenv-webpack')
 const webpack = require('webpack') 
+const path = require('path')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const DotenvWebpackPlugin = require('dotenv-webpack')
 const withSourceMaps = require('@zeit/next-source-maps')()
 module.exports = withSourceMaps({
   publicRuntimeConfig: {
@@ -22,7 +22,7 @@ module.exports = withSourceMaps({
           },
         ],
       }),
-      new Dotenv({
+      new DotenvWebpackPlugin({
         path: path.join(__dirname, '.env'),
         systemvars: true,
       }),
