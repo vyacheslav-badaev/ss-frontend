@@ -19,8 +19,8 @@ const sourcemapsForSentryOnly = token => (req, res, next) => {
   next()
 }
 const options = {
-  key: fs.readFileSync('./server.key'),
-  cert: fs.readFileSync('./server.crt'),
+  key: fs.readFileSync('./shortstories.key'),
+  cert: fs.readFileSync('./shortstories.crt'),
 }
 app.prepare().then(() => {
   const server = express()
