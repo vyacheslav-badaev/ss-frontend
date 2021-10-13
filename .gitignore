@@ -6,5 +6,5 @@ node_modules/
 .env
 yarn-error.log
 
-server.key
-server.crt
+shortstories.key
+shortstories.crt
