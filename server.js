@@ -1,7 +1,5 @@
 const express = require('express')
 const next = require('next')
-const spdy = require('spdy')
-const fs = require('fs')
 const { join } = require('path')
 const { parse } = require('url')
 const compression = require('compression')
@@ -17,10 +15,6 @@ const sourcemapsForSentryOnly = token => (req, res, next) => {
     return
   }
   next()
-}
-const options = {
-  key: fs.readFileSync('./shortstories.key'),
-  cert: fs.readFileSync('./shortstories.crt'),
 }
 app.prepare().then(() => {
   const server = express()
@@ -40,10 +34,8 @@ app.prepare().then(() => {
       handle(req, res, parsedUrl)
     }
   })
-  spdy.createServer(options, server).listen(port, err => {
-    if (err) {
-      throw new Error(err)
-    }
+  server.listen(port, err => {
+    if (err) throw new Error(err)
     console.log(`> Ready on http:
   })
 })
