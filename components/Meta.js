@@ -70,6 +70,7 @@ function Meta() {
         src="/static/scripts/google-fonts-fast-render.js"
       />
       <script type="text/javascript" src="/static/scripts/yandex-metrika.js" />
+      <link rel="stylesheet" href="/static/styles/global.css" />
       <title>Shortstories</title>
     </Head>
   )
