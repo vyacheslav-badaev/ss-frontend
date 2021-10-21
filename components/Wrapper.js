@@ -23,7 +23,7 @@ const Styles = styled.main`
   }
   .inner {
     max-width: 1024px;
-    min-height: calc(100vh - 184px);
+    min-height: calc(100vh - 124px);
     margin: 0 auto;
     margin-top: 64px;
     padding: 20px;

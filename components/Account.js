@@ -105,6 +105,7 @@ const AccountStyles = styled.div`
         margin-right: 20px;
         width: 65px;
         button {
+          text-transform: initial;
           outline: none;
           cursor: pointer;
           border: none;
@@ -115,7 +116,7 @@ const AccountStyles = styled.div`
           font-weight: bold;
           background: transparent;
         }
-        &:first-child::after {
+        &:first-of-type::after {
           content: '';
           position: absolute;
           width: 100%;
