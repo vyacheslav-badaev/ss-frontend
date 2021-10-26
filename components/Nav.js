@@ -29,6 +29,7 @@ const MobileMenu = styled.div`
       width: 100%;
       a,
       button {
+        text-transform: uppercase;
         display: inline-flex;
         line-height: 22px;
         font-size: 15px;

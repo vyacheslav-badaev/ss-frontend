@@ -14,11 +14,7 @@ const Signout = () => (
     refetchQueries={[{ query: CURRENT_USER_QUERY }]}
   >
     {signout => (
-      <button
-        type="button"
-        onClick={signout}
-        style={{ textTransform: 'initial' }}
-      >
+      <button type="button" onClick={signout}>
         Выход
       </button>
     )}
