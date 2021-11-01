@@ -7,7 +7,7 @@ deploy_production:
     stage: deploy
     environment: Production
     only:
-        - tags
+        - master
     script:
         - sshpass -V
         - export SSHPASS=$USER_PASS
