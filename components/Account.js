@@ -4,13 +4,32 @@ import styled from '@emotion/styled'
 import ReactModal from 'react-modal'
 import { Query } from 'react-apollo'
 import User from './User'
-import PleaseSignIn from './PleaseSignIn'
 import DropAndCrop from './DropAndCrop'
 import BigLoader from './BigLoader'
 import StoriesGrid from './StoriesGrid'
 import Error from './ErrorMessage'
 import getPhoto from '../lib/get-photo'
 import { WRITTEN_STORIES_QUERY, LIKED_STORIES_QUERY } from '../lib/queries'
+import MeInfo from './me-info'
+const UserInfo = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: ${props => props.theme.white};
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  .username {
+    color: ${props => props.theme.black};
+    font-size: 2rem;
+    margin: 10px 0;
+  }
+  .email {
+    color: ${props => props.theme.black};
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+`
 const toWritten = keyframes`
   from {
     left: 85px;
@@ -32,62 +51,6 @@ const AccountStyles = styled.div`
   margin: 0 auto;
   > p {
     color: ${props => props.theme.white};
-  }
-  .photo-edit {
-    cursor: pointer;
-    position: relative;
-    border: none;
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    outline: none;
-    width: 100px;
-    height: 100px;
-    .photo-icon {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      top: 30px;
-      left: 30px;
-      right: 0;
-      bottom: 0;
-    }
-    .avatar {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      box-shadow: ${props => props.theme.boxShadow};
-    }
-    .blur {
-      width: 100%;
-      height: 100%;
-      background-color: #333;
-      opacity: 0.4;
-      border-radius: 50%;
-      position: absolute;
-      top: 0;
-      transition: opacity 0.25s ease-in-out;
-      &:hover {
-        opacity: 0.6;
-      }
-    }
-  }
-  .user-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .username {
-      color: ${props => props.theme.white};
-      font-size: 3.6rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    .email {
-      color: ${props => props.theme.white};
-      font-size: 1.4rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
   }
   nav {
     border-bottom: 1px solid rgb(255, 255, 255, 0.2);
@@ -211,87 +174,65 @@ class Account extends Component {
     return (
       <User>
         {({ data: { me } }) => (
-          <PleaseSignIn isAuth={!!me}>
-            <Query
-              query={
-                activeTab === 'written'
-                  ? WRITTEN_STORIES_QUERY
-                  : LIKED_STORIES_QUERY
-              }
-              variables={
-                activeTab === 'written' && me ? { userId: me.id } : undefined
-              }
-            >
-              {({ data: { stories }, loading, error, fetchMore }) => (
-                <>
-                  <AccountStyles>
-                    <div className="user-info">
-                      <button
-                        onClick={this.openModal}
-                        className="photo-edit"
-                        type="button"
-                      >
-                        <img
-                          className="avatar"
-                          src={getPhoto(me.photo)}
-                          alt={me.username}
-                        />
-                        <div className="blur">
-                          <img
-                            className="photo-icon"
-                            src="/static/images/icons/photo.svg"
-                            alt=""
-                          />
-                        </div>
-                      </button>
-                      <span className="username">{me.username}</span>
-                      <span className="email">{me.email}</span>
-                    </div>
-                    <nav>
-                      <ul>
-                        <li className={activeTab}>
-                          <span>
-                            <button
-                              type="button"
-                              role="tab"
-                              onClick={() => {
-                                this.changeTab('written')
-                              }}
-                            >
-                              Written
-                            </button>
-                          </span>
-                        </li>
-                        <li className={activeTab === 'favs' ? 'active' : ''}>
-                          <span>
-                            <button
-                              type="button"
-                              role="tab"
-                              onClick={() => {
-                                this.changeTab('favs')
-                              }}
-                            >
-                              Favs
-                            </button>
-                          </span>
-                        </li>
-                      </ul>
-                    </nav>
-                    {this.renderStories(me, loading, error, stories, fetchMore)}
-                  </AccountStyles>
-                  {isOpen && (
-                    <ReactModal
-                      onRequestClose={this.closeModal}
-                      isOpen={isOpen}
-                      style={customStyles}
-                    >
-                      <DropAndCrop userId={me.id} afterSave={this.closeModal} />
-                    </ReactModal>
-                  )}
-                </>
-              )}
-            </Query>
-          </PleaseSignIn>
+          <Query
+            query={
+              activeTab === 'written'
+                ? WRITTEN_STORIES_QUERY
+                : LIKED_STORIES_QUERY
+            }
+            variables={
+              activeTab === 'written' && me ? { userId: me.id } : undefined
+            }
+          >
+            {({ data: { stories }, loading, error, fetchMore }) => (
+              <>
+                <AccountStyles>
+                  <MeInfo me={me} />
+                  {}
+                  <nav>
+                    <ul>
+                      <li className={activeTab}>
+                        <span>
+                          <button
+                            type="button"
+                            role="tab"
+                            onClick={() => {
+                              this.changeTab('written')
+                            }}
+                          >
+                            Written
+                          </button>
+                        </span>
+                      </li>
+                      <li className={activeTab === 'favs' ? 'active' : ''}>
+                        <span>
+                          <button
+                            type="button"
+                            role="tab"
+                            onClick={() => {
+                              this.changeTab('favs')
+                            }}
+                          >
+                            Favs
+                          </button>
+                        </span>
+                      </li>
+                    </ul>
+                  </nav>
+                  {this.renderStories(me, loading, error, stories, fetchMore)}
+                </AccountStyles>
+                {isOpen && (
+                  <ReactModal
+                    onRequestClose={this.closeModal}
+                    isOpen={isOpen}
+                    style={customStyles}
+                  >
+                    <DropAndCrop userId={me.id} afterSave={this.closeModal} />
+                  </ReactModal>
+                )}
+              </>
+            )}
+          </Query>
         )}
       </User>
     )

@@ -67,9 +67,7 @@ const StyledDropzone = styled.div`
   outline: none;
   width: 480px;
   height: 400px;
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;

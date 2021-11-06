@@ -46,6 +46,7 @@
     "next-with-apollo": "^3.3.2",
     "nprogress": "^0.2.0",
     "polished": "^3.0.3",
+    "polka": "^0.5.2",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
     "react-adopt": "^0.6.0",
@@ -56,6 +57,7 @@
     "react-ga": "^2.5.7",
     "react-image-crop": "^6.0.14",
     "react-modal": "^3.8.1",
+    "react-onclickoutside": "^6.8.0",
     "react-textarea-autosize": "^7.1.0",
     "sentry-testkit": "^2.1.0",
     "sw-precache-webpack-plugin": "^0.11.5"
