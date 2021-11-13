@@ -10,8 +10,7 @@ deploy_production:
     - master
   script:
     - sshpass -V
-    - export SSHPASS=$USER_PASS
-    - sshpass root@46.101.109.16
+    - sshpass -p $USER_PASS ssh root@46.101.109.16
     - cd /srv/projects/shortstories-frontend/
     - git pull
     - yarn
