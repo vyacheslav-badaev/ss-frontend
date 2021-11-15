@@ -1,18 +1,14 @@
-cache:
-  paths:
-    - node_modules/
 before_script:
-  - apt-get update -qq && apt-get install -y -qq sshpass
-deploy_production:
-  stage: deploy
-  environment: Production
+  - apt-get update -qq
+  - apt-get install -qq git
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - 'echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+deploy_staging:
+  type: deploy
+  script:
+    - ssh root@46.101.109.16 "cd /srv/projects/shortstories-frontend && git checkout master && git pull origin master && exit"
   only:
     - master
-  script:
-    - sshpass -V
-    - sshpass -p $USER_PASS ssh root@46.101.109.16
-    - cd /srv/projects/shortstories-frontend/
-    - git pull
-    - yarn
-    - yarn build:prod
-    - pm2 restart all
