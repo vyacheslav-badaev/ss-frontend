@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
+import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import { Form, Field } from 'react-final-form'
-import Modal from './modal'
-import DropAndCrop from './DropAndCrop'
-import { UPDATE_ACCOUNT_MUTATION } from '../lib/mutations'
+import Textarea from 'react-textarea-autosize'
+import EditPhoto from './edit-photo'
+import {
+  UPDATE_ACCOUNT_MUTATION,
+  CHECK_USER_EXIST_MUTATION,
+} from '../lib/mutations'
 import { CURRENT_USER_QUERY } from '../lib/queries'
 import getPhoto from '../lib/get-photo'
-const Button = styled.button`
-  margin-left: 20px;
+const buttonStyles = css`
   background-color: #6d47d9;
   color: #fcfcfc;
   border-radius: 4px;
@@ -23,6 +26,52 @@ const Button = styled.button`
     background-color: #5c32d5;
   }
 `
+const SaveButton = styled.button`
+  ${buttonStyles};
+`
+const EditButton = styled.button`
+  ${buttonStyles};
+  margin-left: 28px;
+`
+const CancelButton = styled.button`
+  ${buttonStyles};
+  background-color: transparent;
+  color: ${props => props.theme.black};
+  margin-left: 14px;
+  &:hover {
+    background-color: transparent;
+  }
+`
+const EditForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+const EditUsername = styled.input`
+  color: ${props => props.theme.black};
+  font-size: 3rem;
+  font-weight: bold;
+  background: transparent;
+  padding: 10px 15px;
+  border: 1px solid ${props => (props.hasError ? props.theme.red : 'lightgray')};
+`
+const EditInfo = styled(Textarea)`
+  color: ${props => props.theme.black};
+  width: 100%;
+  resize: none;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  background: transparent;
+  padding: 10px 15px;
+  border: 1px solid ${props => (props.hasError ? props.theme.red : 'lightgray')};
+`
+const Edit = styled.div`
+  display: flex;
+  align-items: center;
+`
+const Buttons = styled.div`
+  display: flex;
+`
 const Wrapper = styled.section`
   position: relative;
   display: flex;
@@ -31,6 +80,38 @@ const Wrapper = styled.section`
   padding: 25px;
   border-radius: 8px;
   margin-bottom: 20px;
+  @media (max-width: 630px) {
+    flex-direction: column;
+    align-items: center;
+    > img,
+    > button {
+      order: -1;
+    }
+    ${Edit} {
+      flex-direction: column;
+    }
+    ${EditButton} {
+      margin: 0;
+    }
+    ${EditForm} {
+      width: 100%;
+      margin-top: 14px;
+    }
+    ${Buttons} {
+      width: 100%;
+      > button {
+        flex: 1;
+      }
+    }
+    .username,
+    .email,
+    .info {
+      text-align: center;
+    }
+    .username {
+      margin: 14px 0;
+    }
+  }
   .edit {
     position: absolute;
     top: 0;
@@ -68,135 +149,132 @@ const Wrapper = styled.section`
   .email {
     color: ${props => props.theme.black};
     font-size: 1.6rem;
-    margin-bottom: 20px;
+    margin: 14px 0;
   }
-  .photo-edit {
-    cursor: pointer;
-    position: relative;
-    border: none;
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    outline: none;
-    width: 120px;
-    height: 120px;
-    .photo-icon {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      top: 40px;
-      left: 40px;
-      right: 0;
-      bottom: 0;
-    }
-    .avatar {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-    }
-    .blur {
-      width: 100%;
-      height: 100%;
-      background-color: #333;
-      opacity: 0.4;
-      border-radius: 50%;
-      position: absolute;
-      top: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.25s ease-in-out;
-      &:hover {
-        opacity: 0.6;
-      }
-    }
+  .info {
+    line-height: 1.5;
+    max-width: 330px;
   }
 `
-const Edit = styled.div`
+const FieldWrapper = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  margin-bottom: 14px;
 `
+const ErrorMessage = styled.span`
+  font-size: 13px;
+  color: ${props => props.theme.red};
+  margin-top: 2px;
+`
+const usernameValidation = async (value, check, initialValue) => {
+  if (!value) return 'Введите псевдоним'
+  if (value !== initialValue) {
+    const { data } = await check({ variables: { login: value } })
+    if (data.checkUserExist) {
+      return 'Псевдоним уже занят'
+    }
+  }
+}
+const infoValidation = value => {
+  if (value.length < 8) return 'Слишком мало информации'
+}
 function MeInfo({ me }) {
   const [isEdit, setEdit] = useState(false)
-  const [isOpen, setOpen] = useState(false)
   return (
-    <Mutation mutation={UPDATE_ACCOUNT_MUTATION}>
+    <Mutation
+      mutation={UPDATE_ACCOUNT_MUTATION}
+      refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+    >
       {update => (
         <Wrapper>
           {isEdit ? (
             <>
-              <div>
-                <Edit>
-                  <div className="username">{me.username}</div>
-                  <Button
-                    onClick={() => {
-                      setEdit(true)
-                    }}
-                    type="button"
-                  >
-                    Сохранить
-                  </Button>
-                  <button
-                    onClick={() => {
-                      setEdit(false)
-                    }}
-                    type="button"
-                  >
-                    Отменить
-                  </button>
-                </Edit>
-                <div className="email">{me.email}</div>
-              </div>
-              <button
-                onClick={() => {
-                  setOpen(true)
+              <Form
+                onSubmit={async values => {
+                  await update({
+                    variables: { username: values.username, info: values.info },
+                  })
+                  setEdit(false)
                 }}
-                className="photo-edit"
-                type="button"
-              >
-                <img
-                  className="avatar"
-                  src={getPhoto(me.photo)}
-                  alt={me.username}
-                />
-                <div className="blur">
-                  <img
-                    className="photo-icon"
-                    src="/static/images/icons/photo.svg"
-                    alt=""
-                  />
-                </div>
-              </button>
-              {isOpen && (
-                <Modal
-                  onClose={() => {
-                    setOpen(false)
-                  }}
-                >
-                  <DropAndCrop
-                    userId={me.id}
-                    afterSave={() => {
-                      setOpen(false)
-                    }}
-                  />
-                </Modal>
-              )}
+                initialValues={{
+                  username: me.username,
+                  info: me.info || '',
+                }}
+                render={({ handleSubmit }) => (
+                  <EditForm onSubmit={handleSubmit}>
+                    <div>
+                      <Mutation mutation={CHECK_USER_EXIST_MUTATION}>
+                        {check => (
+                          <Field
+                            name="username"
+                            validate={value =>
+                              usernameValidation(value, check, me.username)
+                            }
+                          >
+                            {({ input, meta }) => (
+                              <FieldWrapper>
+                                <EditUsername
+                                  {...input}
+                                  type="text"
+                                  placeholder="Псевдоним"
+                                  hasError={meta.error && meta.touched}
+                                />
+                                {meta.error && meta.touched && (
+                                  <ErrorMessage>{meta.error}</ErrorMessage>
+                                )}
+                              </FieldWrapper>
+                            )}
+                          </Field>
+                        )}
+                      </Mutation>
+                      <Field name="info" validate={infoValidation}>
+                        {({ input, meta }) => (
+                          <FieldWrapper>
+                            <EditInfo
+                              {...input}
+                              maxLength={255}
+                              placeholder="Краткое био..."
+                              hasError={meta.error && meta.touched}
+                            />
+                            {meta.error && meta.touched && (
+                              <ErrorMessage>{meta.error}</ErrorMessage>
+                            )}
+                          </FieldWrapper>
+                        )}
+                      </Field>
+                    </div>
+                    <Buttons>
+                      <SaveButton type="submit">Сохранить</SaveButton>
+                      <CancelButton
+                        onClick={() => {
+                          setEdit(false)
+                        }}
+                        type="button"
+                      >
+                        Отменить
+                      </CancelButton>
+                    </Buttons>
+                  </EditForm>
+                )}
+              />
+              <EditPhoto me={me} />
             </>
           ) : (
             <>
               <div>
                 <Edit>
                   <div className="username">{me.username}</div>
-                  <Button
+                  <EditButton
                     onClick={() => {
                       setEdit(true)
                     }}
                     type="button"
                   >
                     Редактировать
-                  </Button>
+                  </EditButton>
                 </Edit>
                 <div className="email">{me.email}</div>
+                <div className="info">{me.info}</div>
               </div>
               <img
                 className="avatar"
