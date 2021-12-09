@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { node } from 'prop-types'
+import { node, bool } from 'prop-types'
 import Header from './Header'
 import Footer from './Footer'
 const Styles = styled.main`
@@ -10,7 +10,7 @@ const Styles = styled.main`
   &::before {
     content: '';
     background-image: url('/static/images/topography.svg'),
-      linear-gradient(20deg, rgb(20, 20, 20), rgb(20, 20, 20));
+      linear-gradient(20deg, rgb(20, 20, 40), rgb(20, 20, 20));
     background-size: 300px, auto;
     background-repeat: repeat;
     position: fixed;
@@ -25,14 +25,14 @@ const Styles = styled.main`
     max-width: 1024px;
     min-height: calc(100vh - 124px);
     margin: 0 auto;
-    margin-top: 64px;
+    margin-top: ${props => (props.isIndex ? '20px' : '64px')};
     padding: 20px;
     padding-bottom: 40px;
   }
 `
-function Wrapper({ children }) {
+function Wrapper({ children, isIndex = false }) {
   return (
-    <Styles>
+    <Styles isIndex={isIndex}>
       <Header />
       <div className="inner">{children}</div>
       <Footer />
@@ -41,5 +41,6 @@ function Wrapper({ children }) {
 }
 Wrapper.propTypes = {
   children: node.isRequired,
+  isIndex: bool,
 }
 export default Wrapper

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
+import Head from 'next/head'
 import styled from '@emotion/styled'
 import cn from 'classnames'
 import { Query, Mutation } from 'react-apollo'
@@ -166,6 +167,41 @@ function StoryCreator({ mode }) {
                   setFieldValue,
                 }) => (
                   <Wrapper className={cn({ dark: mode === 'dark' })}>
+                    <Head>
+                      <title>Shortstories - написать рассказ</title>
+                      <meta
+                        name="title"
+                        content="Shortstories - написать рассказ"
+                      />
+                      <meta
+                        name="description"
+                        content="Shortstories - написать рассказ"
+                      />
+                      <meta
+                        property="og:site_name"
+                        content="Shortstories - написать рассказ"
+                      />
+                      <meta
+                        property="og:title"
+                        content="Shortstories - написать рассказ"
+                      />
+                      <meta
+                        property="og:description"
+                        content="Shortstories - написать рассказ"
+                      />
+                      <meta
+                        name="twitter:title"
+                        content="Shortstories - написать рассказ"
+                      />
+                      <meta
+                        name="twitter:text:title"
+                        content="Shortstories - написать рассказ"
+                      />
+                      <meta
+                        name="twitter:description"
+                        content="Shortstories - написать рассказ"
+                      />
+                    </Head>
                     <FormStyles
                       className={cn({ dark: mode === 'dark' })}
                       onSubmit={handleSubmit}

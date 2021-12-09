@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { keyframes } from '@emotion/core'
 import styled from '@emotion/styled'
 import Head from 'next/head'
 import { Query } from 'react-apollo'
@@ -14,6 +15,14 @@ import DislikeButton from './DislikeButton'
 import ShareButton from './ShareButton'
 import Comments from './Comments'
 import User from './User'
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`
 const STORY_DATA_QUERY = gql`
   query STORY_DATA_QUERY($id: ID!, $cursor: String, $limit: Int) {
     story(id: $id) {
@@ -38,7 +47,7 @@ const STORY_DATA_QUERY = gql`
       storyId
     }
     comments(cursor: $cursor, limit: $limit, storyId: $id)
-      @connection(key: "CommentsConnection") {
+      @connection(key: "CommentsConnection", filter: ["storyId"]) {
       edges {
         id
         body
@@ -76,11 +85,15 @@ const SingleStoryStyles = styled.div`
     line-height: 5rem;
     font-weight: 600;
     margin: 20px 0;
+    opacity: 0;
+    animation: ${fadeIn} 1s ease 0.2s 1 normal forwards running;
   }
   .body-paragraph {
     margin-bottom: 2rem;
     font-size: 2.1rem;
     line-height: 1.4;
+    opacity: 0;
+    animation: ${fadeIn} 1s ease 0.7s 1 normal forwards running;
     &:last-child {
       margin-bottom: 0;
     }
@@ -126,6 +139,7 @@ const Toolbar = styled.aside`
     display: flex;
     margin: 20px auto;
     max-width: 732px;
+    padding: 0 24px;
     justify-content: space-between;
     .reactions,
     .sharing {
@@ -173,38 +187,47 @@ function SingleStory({ mode, id, viewStory }) {
               <Wrapper className={cn({ dark: mode === 'dark' })}>
                 <SingleStoryStyles className={cn({ dark: mode === 'dark' })}>
                   <Head>
-                    <title>Shortstories | {story.title}</title>
+                    <title>Shortstories - читать рассказ «{story.title}»</title>
                     <meta
                       name="title"
-                      content={`Shortstories | ${story.title}`}
+                      content={`Shortstories - читать рассказ «${story.title}»`}
                     />
                     <meta
                       name="description"
-                      content={`${story.body.slice(0, 100)}...`}
+                      content={`Читать рассказ «${story.body.slice(
+                        0,
+                        100
+                      )}...»`}
                     />
                     <meta
                       property="og:site_name"
-                      content={`Shortstories | ${story.title}`}
+                      content={`Shortstories - читать рассказ «${story.title}»`}
                     />
                     <meta
                       property="og:title"
-                      content={`Shortstories | ${story.title}`}
+                      content={`Shortstories - читать рассказ «${story.title}»`}
                     />
                     <meta
                       property="og:description"
-                      content={`${story.body.slice(0, 100)}...`}
+                      content={`Читать рассказ «${story.body.slice(
+                        0,
+                        100
+                      )}...»`}
                     />
                     <meta
                       name="twitter:title"
-                      content={`Shortstories | ${story.title}`}
+                      content={`Shortstories - читать рассказ «${story.title}»`}
                     />
                     <meta
                       name="twitter:text:title"
-                      content={`Shortstories | ${story.title}`}
+                      content={`Shortstories - читать рассказ «${story.title}»`}
                     />
                     <meta
                       name="twitter:description"
-                      content={`${story.body.slice(0, 100)}...`}
+                      content={`Читать рассказ «${story.body.slice(
+                        0,
+                        100
+                      )}...»`}
                     />
                   </Head>
                   <UserAndDate user={story.user} date={story.createdAt} />

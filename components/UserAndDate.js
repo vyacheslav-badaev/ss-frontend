@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import Router from 'next/router'
 import format from 'date-fns/format'
+import ru from 'date-fns/locale/ru'
 import getPhoto from '../lib/get-photo'
 const UserAndDateStyles = styled.div`
   display: flex;
@@ -67,7 +68,9 @@ function UserAndDate({ className = '', style = {}, user, date }) {
       <img className="avatar" src={getPhoto(user.photo)} alt={user.username} />
       <div className="name-and-date">
         <span className="name">{user.username}</span>
-        <span className="date">{format(date, 'MMM D, YYYY')}</span>
+        <span className="date">
+          {format(date, 'MMM D, YYYY', { locale: ru })}
+        </span>
       </div>
     </UserAndDateStyles>
   )
