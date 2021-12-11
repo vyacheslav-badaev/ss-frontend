@@ -20,7 +20,6 @@ const SEOBlock = styled.div`
   flex-basis: 100%;
   width: 100%;
   padding: 5vh 0;
-  z-index: 2;
   order: 0;
   display: flex;
   align-items: center;
