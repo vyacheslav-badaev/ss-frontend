@@ -8,7 +8,6 @@ import { AccountInfo, AccountEdit } from './users-info'
 import StoriesGrid from './StoriesGrid'
 import Error from './ErrorMessage'
 import { WRITTEN_STORIES_QUERY, LIKED_STORIES_QUERY } from '../lib/queries'
-import MeInfo from './me-info'
 const toWritten = keyframes`
   from {
     left: 85px;

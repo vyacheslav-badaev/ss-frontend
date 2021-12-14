@@ -25,7 +25,7 @@ const Styles = styled.main`
     max-width: 1024px;
     min-height: calc(100vh - 124px);
     margin: 0 auto;
-    margin-top: ${props => (props.isIndex ? '20px' : '64px')};
+    margin-top: ${props => (props.isIndex ? '0' : '64px')};
     padding: 20px;
     padding-bottom: 40px;
   }

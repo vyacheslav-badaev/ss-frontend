@@ -168,20 +168,19 @@ function SingleStory({ mode, id, viewStory }) {
   const [href, setHref] = useState(null)
   useEffect(() => {
     setHref(window.location.href)
-    viewStory()
+    const viewTimer = setTimeout(viewStory, 22000) 
+    return () => {
+      clearTimeout(viewTimer)
+    }
   }, [viewStory])
   return (
     <User>
       {({ data: { me } }) => (
-        <Query
-          query={STORY_DATA_QUERY}
-          variables={{ id, limit: 10 }}
-          fetchPolicy="cache-first"
-        >
+        <Query query={STORY_DATA_QUERY} variables={{ id, limit: 10 }}>
           {({ error, loading, data, fetchMore }) => {
             if (error) return <Error error={error} />
             if (loading) return <BigLoader />
-            if (!data.story) return <p>Story not found</p>
+            if (!data.story) return <p>Рассказа не существует</p>
             const { story, reactions, comments } = data
             return (
               <Wrapper className={cn({ dark: mode === 'dark' })}>

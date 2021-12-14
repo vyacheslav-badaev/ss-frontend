@@ -19,7 +19,6 @@ const buttonStyles = css`
   font-size: 12px;
   font-weight: bold;
   transition: background-color 0.25s ease;
-  letter-spacing: 0.5px;
   &:hover {
     background-color: #5c32d5;
   }

@@ -13,7 +13,7 @@ const fadeIn = keyframes`
   }
 `
 const SEOBlock = styled.div`
-  margin-top: 60px;
+  margin-top: 64px;
   background-color: ${props => props.theme.white};
   text-align: left;
   position: relative;
@@ -25,7 +25,6 @@ const SEOBlock = styled.div`
   align-items: center;
   justify-content: flex-start;
   border-top: 2px solid ${props => props.theme.lightGrey};
-  letter-spacing: 0.6px;
   .inner {
     width: 100%;
     max-width: 1024px;
@@ -41,6 +40,7 @@ const SEOBlock = styled.div`
       animation: ${fadeIn} 1s ease 0.2s 1 normal forwards running;
     }
     p {
+      color: slategrey;
       opacity: 0;
       margin-top: 20px;
       font-size: 2rem;

@@ -18,7 +18,7 @@ const StoriesList = styled.div`
   margin: 0 auto;
   > article {
     animation-name: ${fadeInUp};
-    animation-duration: 1s;
+    animation-duration: 0.8s;
     animation-fill-mode: backwards;
     animation-timing-function: ease;
     will-change: transform, opacity;
