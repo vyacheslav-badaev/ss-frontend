@@ -25,6 +25,23 @@ function update(cache, payload) {
     data,
   })
 }
+function getLength(l) {
+  if (l >= 1800 && l < 8000) return 'short'
+  if (l >= 8000 && l < 25000) return 'middle'
+  return 'long'
+}
+function rus(l) {
+  switch (l) {
+    case 'short':
+      return 'Короткий'
+    case 'middle':
+      return 'Средний'
+    case 'long':
+      return 'Длинный'
+    default:
+      break
+  }
+}
 function StoryItem({
   isStoryOwner = false,
   id,
@@ -34,6 +51,7 @@ function StoryItem({
   title,
   body,
   genre,
+  length,
 }) {
   return (
     <StoryStyles
@@ -85,7 +103,12 @@ function StoryItem({
         <UserAndDate user={user} date={createdAt} />
       )}
       <h2 className="title">{title}</h2>
-      {genre && <span className="genre">{genre.name}</span>}
+      <div className="labels">
+        {genre && <span className="genre">{genre.name}</span>}
+        <span className={`length ${getLength(length)}`}>
+          {rus(getLength(length))}
+        </span>
+      </div>
       <p className="body">{body}</p>
       <ToolsBar>
         <div className="buttons-container">

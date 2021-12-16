@@ -20,6 +20,7 @@ const USER_STORIES_QUERY = gql`
         id
         title
         body
+        length
         user {
           ...author
         }
@@ -45,6 +46,7 @@ const USER_STORIES_QUERY = gql`
     id
     username
     photo
+    info
   }
 `
 export const USER_QUERY = gql`
@@ -53,6 +55,7 @@ export const USER_QUERY = gql`
       id
       username
       photo
+      info
     }
   }
 `

@@ -21,19 +21,37 @@ const StoryStyles = styled.article`
     font-family: ${props => props.theme.textFont};
     line-height: 1.2;
   }
-  .genre {
-    color: ${props => props.theme.white};
-    border-radius: 8px;
-    background-color: ${props => props.theme.softViolet};
-    padding: 6px 8px;
-    display: inline-block;
-    font-weight: bold;
-    font-size: 1.2rem;
+  .labels {
     margin-bottom: 10px;
+    .genre,
+    .length {
+      color: ${props => props.theme.white};
+      border-radius: 8px;
+      padding: 6px 8px;
+      display: inline-block;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .length {
+      margin-left: 10px;
+    }
+    .genre {
+      background-color: ${props => props.theme.softViolet};
+    }
+    .short {
+      background-color: #0ab7a6;
+    }
+    .long {
+      background-color: #ba154d;
+    }
+    .middle {
+      background-color: #c6a5d8;
+    }
   }
   .body {
     font-size: 1.6rem;
     font-family: ${props => props.theme.textFont};
+    line-height: 1.35;
   }
   .edit-and-delete {
     display: flex;
