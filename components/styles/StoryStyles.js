@@ -42,7 +42,7 @@ const StoryStyles = styled.article`
       background-color: #0ab7a6;
     }
     .long {
-      background-color: #ba154d;
+      background-color: #edc951;
     }
     .middle {
       background-color: #c6a5d8;
