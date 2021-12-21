@@ -102,6 +102,9 @@ export const validate = values => {
   if (values.body.length > 40000) {
     errors.body = 'Слишком длинная история'
   }
+  if (values.genreId === null) {
+    errors.genreId = 'Выберите жанр'
+  }
   return errors
 }
 function StoryEditor({ mode, id }) {
