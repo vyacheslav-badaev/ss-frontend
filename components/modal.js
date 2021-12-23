@@ -16,6 +16,9 @@ const Wrapper = styled.div`
   background: rgba(0, 0, 0, 0.45);
   z-index: 2;
   animation: ${fadeIn} 0.25s ease-in-out;
+  @media (max-width: 768px) {
+    background: transparent;
+  }
 `
 const Content = styled.section`
   position: fixed;
@@ -27,6 +30,14 @@ const Content = styled.section`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    transform: initial;
+    top: 0;
+    left: 0;
+  }
   .close-button {
     position: absolute;
     top: 0;

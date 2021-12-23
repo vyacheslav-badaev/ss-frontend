@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import Link from 'next/link'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import BigLoader from './BigLoader'
@@ -12,9 +11,27 @@ export const STORIES_QUERY = gql`
     $limit: Int
     $userId: ID
     $isLiked: Boolean
+    $length: String
+    $genres: [ID]
+    $mostLiked: Boolean = false
+    $mostViewed: Boolean = false
+    $mostCommented: Boolean = false
   ) {
-    stories(cursor: $cursor, limit: $limit, userId: $userId, isLiked: $isLiked)
-      @connection(key: "AllStoriesConnection") {
+    stories(
+      cursor: $cursor
+      limit: $limit
+      userId: $userId
+      isLiked: $isLiked
+      length: $length
+      genres: $genres
+      mostLiked: $mostLiked
+      mostViewed: $mostViewed
+      mostCommented: $mostCommented
+    )
+      @connection(
+        key: "AllStoriesConnection"
+        filter: ["length", "genres", "mostLiked", "mostViewed", "mostCommented"]
+      ) {
       edges {
         id
         title
@@ -70,24 +87,24 @@ const NoStories = styled.div`
     }
   }
 `
-function Stories() {
+function Stories(props) {
+  const { sort = { genres: [], length: null, popular: null } } = props
+  const { genres, length, popular } = sort
+  const mostLiked = popular === 'mostLiked'
+  const mostViewed = popular === 'mostViewed'
+  const mostCommented = popular === 'mostCommented'
   return (
-    <Query query={STORIES_QUERY}>
+    <Query
+      query={STORIES_QUERY}
+      variables={{ genres, length, mostLiked, mostViewed, mostCommented }}
+    >
       {({ data: { stories }, loading, error, fetchMore }) => {
         if (loading) return <BigLoader />
         if (error) return <ErrorMessage error={error} />
         if (!stories.edges.length)
           return (
             <NoStories>
-              <h2>Пока что нет историй :(</h2>
-              <Link href="/create-story">
-                <a>
-                  Стань первым{' '}
-                  <span role="img" aria-label="fire">
-                    🔥
-                  </span>
-                </a>
-              </Link>
+              <h2>Нет историй, попробуйте изменить настройки ленты :(</h2>
             </NoStories>
           )
         return <StoriesGrid {...stories} fetchMore={fetchMore} />
