@@ -30,7 +30,15 @@ export const STORIES_QUERY = gql`
     )
       @connection(
         key: "AllStoriesConnection"
-        filter: ["length", "genres", "mostLiked", "mostViewed", "mostCommented"]
+        filter: [
+          "length"
+          "genres"
+          "mostLiked"
+          "mostViewed"
+          "mostCommented"
+          "cursor"
+          "limit"
+        ]
       ) {
       edges {
         id
