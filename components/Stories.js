@@ -101,11 +101,9 @@ function Stories(props) {
   const mostLiked = popular === 'mostLiked'
   const mostViewed = popular === 'mostViewed'
   const mostCommented = popular === 'mostCommented'
+  const variables = { genres, length, mostLiked, mostViewed, mostCommented }
   return (
-    <Query
-      query={STORIES_QUERY}
-      variables={{ genres, length, mostLiked, mostViewed, mostCommented }}
-    >
+    <Query query={STORIES_QUERY} variables={variables}>
       {({ data: { stories }, loading, error, fetchMore }) => {
         if (loading) return <BigLoader />
         if (error) return <ErrorMessage error={error} />
@@ -115,7 +113,13 @@ function Stories(props) {
               <h2>Нет историй, попробуйте изменить настройки ленты :(</h2>
             </NoStories>
           )
-        return <StoriesGrid {...stories} fetchMore={fetchMore} />
+        return (
+          <StoriesGrid
+            {...stories}
+            variables={variables}
+            fetchMore={fetchMore}
+          />
+        )
       }}
     </Query>
   )
