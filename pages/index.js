@@ -256,57 +256,7 @@ function Home() {
                     Длинные
                   </Length>
                 </div>
-                <h3>Отсортируйте по популярности</h3>
-                <div className="settings">
-                  <Popular
-                    selected={selectedSort.popular === 'mostLiked'}
-                    onClick={() => {
-                      selectSort({
-                        ...selectedSort,
-                        popular:
-                          selectedSort.popular === 'mostLiked'
-                            ? null
-                            : 'mostLiked',
-                      })
-                    }}
-                  >
-                    По лайкам{' '}
-                    <img src="/static/images/icons/like-fill-grey.svg" alt="" />
-                  </Popular>
-                  <Popular
-                    selected={selectedSort.popular === 'mostViewed'}
-                    onClick={() => {
-                      selectSort({
-                        ...selectedSort,
-                        popular:
-                          selectedSort.popular === 'mostViewed'
-                            ? null
-                            : 'mostViewed',
-                      })
-                    }}
-                  >
-                    По просмотрам{' '}
-                    <img src="/static/images/icons/eye.svg" alt="" />
-                  </Popular>
-                  <Popular
-                    selected={selectedSort.popular === 'mostCommented'}
-                    onClick={() => {
-                      selectSort({
-                        ...selectedSort,
-                        popular:
-                          selectedSort.popular === 'mostCommented'
-                            ? null
-                            : 'mostCommented',
-                      })
-                    }}
-                  >
-                    По комментам{' '}
-                    <img
-                      src="/static/images/icons/comment-fill-grey.svg"
-                      alt=""
-                    />
-                  </Popular>
-                </div>
+                {}
                 <button
                   onClick={() => {
                     setSort(selectedSort)
