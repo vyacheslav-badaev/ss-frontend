@@ -9,12 +9,12 @@ import StoriesGrid from './StoriesGrid'
 import { UserInfo } from './users-info'
 const USER_STORIES_QUERY = gql`
   query USER_STORIES_QUERY(
-    $cursor: String
-    $limit: Int
+    $offset: Int = 0
+    $limit: Int = 20
     $userId: ID
     $isLiked: Boolean
   ) {
-    stories(cursor: $cursor, limit: $limit, userId: $userId, isLiked: $isLiked)
+    stories(offset: $offset, limit: $limit, userId: $userId, isLiked: $isLiked)
       @connection(key: "UserStoriesConnection", filter: ["userId"]) {
       edges {
         id
@@ -37,8 +37,8 @@ const USER_STORIES_QUERY = gql`
         createdAt
       }
       pageInfo {
-        hasNextPage
-        endCursor
+        offset
+        limit
       }
     }
   }

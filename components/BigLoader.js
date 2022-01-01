@@ -28,7 +28,7 @@ const LoaderStyles = styled.div`
     border: 3px solid transparent;
     border-top-color: #ffffff;
     border-radius: 50%;
-    animation: spin 2s linear infinite;
+    animation: ${spin} 2s linear infinite;
     &::before {
       content: '';
       position: absolute;

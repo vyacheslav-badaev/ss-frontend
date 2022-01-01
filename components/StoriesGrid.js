@@ -4,9 +4,9 @@ import StoryItem from './StoryItem'
 import Button from './Button'
 import StoriesList from './styles/StoriesList'
 import story from '../types/story'
-function loadMoreStories(fetchMore, cursor, variables) {
+function loadMoreStories(fetchMore, offset) {
   fetchMore({
-    variables: { ...variables, cursor },
+    variables: { offset },
     updateQuery: (previousResult, { fetchMoreResult }) =>
       !fetchMoreResult
         ? previousResult
@@ -21,7 +21,7 @@ function loadMoreStories(fetchMore, cursor, variables) {
           },
   })
 }
-function StoriesGrid({ edges, pageInfo, fetchMore, userId, variables }) {
+function StoriesGrid({ edges, pageInfo, fetchMore, userId }) {
   return (
     <Fragment>
       <StoriesList>
@@ -33,7 +33,7 @@ function StoriesGrid({ edges, pageInfo, fetchMore, userId, variables }) {
           />
         ))}
       </StoriesList>
-      {pageInfo.hasNextPage && (
+      {edges.length === pageInfo.limit && (
         <Button
           style={{
             width: '320px',
@@ -41,7 +41,7 @@ function StoriesGrid({ edges, pageInfo, fetchMore, userId, variables }) {
             display: 'block',
           }}
           onClick={() => {
-            loadMoreStories(fetchMore, pageInfo.endCursor, variables)
+            loadMoreStories(fetchMore, edges.length)
           }}
         >
           Далее

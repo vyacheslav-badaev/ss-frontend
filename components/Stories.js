@@ -7,8 +7,8 @@ import StoriesGrid from './StoriesGrid'
 import ErrorMessage from './ErrorMessage'
 export const STORIES_QUERY = gql`
   query STORIES_QUERY(
-    $cursor: String
-    $limit: Int
+    $offset: Int = 0
+    $limit: Int = 20
     $userId: ID
     $isLiked: Boolean
     $length: String
@@ -18,7 +18,7 @@ export const STORIES_QUERY = gql`
     $mostCommented: Boolean = false
   ) {
     stories(
-      cursor: $cursor
+      offset: $offset
       limit: $limit
       userId: $userId
       isLiked: $isLiked
@@ -30,15 +30,7 @@ export const STORIES_QUERY = gql`
     )
       @connection(
         key: "AllStoriesConnection"
-        filter: [
-          "length"
-          "genres"
-          "mostLiked"
-          "mostViewed"
-          "mostCommented"
-          "cursor"
-          "limit"
-        ]
+        filter: ["length", "genres", "mostLiked", "mostViewed", "mostCommented"]
       ) {
       edges {
         id
@@ -61,8 +53,8 @@ export const STORIES_QUERY = gql`
         createdAt
       }
       pageInfo {
-        hasNextPage
-        endCursor
+        offset
+        limit
       }
     }
   }
@@ -101,7 +93,13 @@ function Stories(props) {
   const mostLiked = popular === 'mostLiked'
   const mostViewed = popular === 'mostViewed'
   const mostCommented = popular === 'mostCommented'
-  const variables = { genres, length, mostLiked, mostViewed, mostCommented }
+  const variables = {
+    genres,
+    length,
+    mostLiked,
+    mostViewed,
+    mostCommented,
+  }
   return (
     <Query query={STORIES_QUERY} variables={variables}>
       {({ data: { stories }, loading, error, fetchMore }) => {
@@ -113,13 +111,7 @@ function Stories(props) {
               <h2>Нет историй, попробуйте изменить настройки ленты :(</h2>
             </NoStories>
           )
-        return (
-          <StoriesGrid
-            {...stories}
-            variables={variables}
-            fetchMore={fetchMore}
-          />
-        )
+        return <StoriesGrid {...stories} fetchMore={fetchMore} />
       }}
     </Query>
   )
