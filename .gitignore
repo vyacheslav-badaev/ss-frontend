@@ -1,6 +1,7 @@
 node_modules/
 .next/
 .linaria-cache/
+bundles/
 
 .DS_Store
 .env

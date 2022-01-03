@@ -2,10 +2,10 @@
   "name": "Shortstories",
   "short_name": "Shortstories",
   "start_url": "/",
-  "display": "standalone",
+  "display": "minimal-ui",
   "background_color": "#766ac3",
   "theme_color": "#766ac3",
-  "description": "Write your story",
+  "description": "Читать любительские рассказы, писать рассказы и стать лучшим автором можно только на Shortstories",
   "icons": [
     {
       "src": "/static/images/icons/favicon.png",

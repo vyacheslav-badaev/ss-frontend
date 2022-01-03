@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { shape, string } from 'prop-types'
-import StoryEditor from '../components/StoryEditor'
-import checkLoggedIn from '../lib/check-logged-in'
-import redirect from '../lib/redirect'
+import { StoryEditor } from '../src/components'
+import { checkLoggedIn, redirect } from '../src/lib/helpers'
 class EditStoryPage extends Component {
   static async getInitialProps(ctx) {
     const { loggedInUser } = await checkLoggedIn(ctx.apolloClient)
@@ -10,11 +8,6 @@ class EditStoryPage extends Component {
       redirect(ctx, `/signin?return=edit-story?id=${ctx.query.id}`)
     }
     return { loggedInUser }
-  }
-  static propTypes = {
-    query: shape({
-      id: string.isRequired,
-    }).isRequired,
   }
   render() {
     const { query } = this.props

@@ -55,6 +55,7 @@
     "import/extensions": "off",
     "no-underscore-dangle": "off",
     "consistent-return": "off",
+    "react/destructuring-assignment": "off",
     "react/display-name": "warn",
     "react/no-array-index-key": "off",
     "react/react-in-jsx-scope": "off",
@@ -62,6 +63,9 @@
     "react/forbid-prop-types": "off",
     "react/no-unescaped-entities": "off",
     "react/require-default-props": "off",
+    "react/button-has-type": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/label-has-associated-control": "warn",
     "react/jsx-filename-extension": [
       "warn",
       {
@@ -84,6 +88,7 @@
       }
     ],
     "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/anchor-is-valid": [
       "warn",
       {

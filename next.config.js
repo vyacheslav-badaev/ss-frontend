@@ -4,7 +4,7 @@ const path = require('path')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const DotenvWebpackPlugin = require('dotenv-webpack')
 const withSourceMaps = require('@zeit/next-source-maps')()
-module.exports = withSourceMaps({
+const nextConfig = {
   publicRuntimeConfig: {
     SENTRY_DSN: process.env.SENTRY_DSN,
     NODE_ENV: process.env.NODE_ENV,
@@ -35,4 +35,5 @@ module.exports = withSourceMaps({
     }
     return config
   },
-})
+}
+module.exports = withSourceMaps(nextConfig)

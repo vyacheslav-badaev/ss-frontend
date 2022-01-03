@@ -1,10 +1,9 @@
 import React from 'react'
-import CenterWrapper from '../components/CenterWrapper'
-import RequestReset from '../components/RequestReset'
+import { CenterWrapper, RequestResetForm } from '../src/components'
 function RequestResetPage() {
   return (
     <CenterWrapper>
-      <RequestReset />
+      <RequestResetForm />
     </CenterWrapper>
   )
 }

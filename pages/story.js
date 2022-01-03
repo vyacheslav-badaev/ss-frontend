@@ -1,18 +1,12 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
-import { shape, string } from 'prop-types'
-import SingleStory from '../components/SingleStory'
-import { VIEW_MUTATION } from '../lib/mutations'
+import { StoryReader } from '../src/components'
+import { VIEW_STORY_MUTATION } from '../src/lib/mutations'
 function Story({ query }) {
   return (
-    <Mutation mutation={VIEW_MUTATION} variables={{ id: query.id }}>
-      {viewStory => <SingleStory id={query.id} viewStory={viewStory} />}
+    <Mutation mutation={VIEW_STORY_MUTATION} variables={{ id: query.id }}>
+      {viewStory => <StoryReader id={query.id} viewStory={viewStory} />}
     </Mutation>
   )
-}
-Story.propTypes = {
-  query: shape({
-    id: string.isRequired,
-  }).isRequired,
 }
 export default Story

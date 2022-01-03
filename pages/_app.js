@@ -1,10 +1,10 @@
 import App, { Container } from 'next/app'
 import Router from 'next/router'
 import { ApolloProvider } from 'react-apollo'
-import Page from '../components/Page'
-import { initGA, logPageView } from '../lib/google-analytics'
-import withApollo from '../lib/with-apollo'
-import withSentry from '../lib/sentry'
+import { Page } from '../src/components'
+import withApollo from '../src/hoc/with-apollo'
+import withSentry from '../src/lib/with-sentry'
+import { initGA, logPageView } from '../src/lib/google-analytics'
 const { captureException } = withSentry({ release: process.env.SENTRY_RELEASE })
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {

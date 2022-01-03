@@ -18,12 +18,30 @@ const sourcemapsForSentryOnly = token => (req, res, next) => {
 }
 app.prepare().then(() => {
   const server = express()
-  const { Sentry } = require('./lib/sentry')({ release: app.buildId }) 
+  const { Sentry } = require('./src/lib/with-sentry')({ release: app.buildId }) 
   server.use(compression())
   server
     .use(Sentry.Handlers.requestHandler())
     .get(/\.map$/, sourcemapsForSentryOnly(process.env.SENTRY_TOKEN))
     .use(Sentry.Handlers.errorHandler())
+  server.get('/user/:id', (req, res) => {
+    const actualPage = '/user'
+    const [userId] = req.params.id.split('-')
+    const queryParams = { id: userId }
+    app.render(req, res, actualPage, queryParams)
+  })
+  server.get('/story/:id', (req, res) => {
+    const actualPage = '/story'
+    const [storyId] = req.params.id.split('-')
+    const queryParams = { id: storyId }
+    app.render(req, res, actualPage, queryParams)
+  })
+  server.get('/edit-story/:id', (req, res) => {
+    const actualPage = '/edit-story'
+    const [storyId] = req.params.id.split('-')
+    const queryParams = { id: storyId }
+    app.render(req, res, actualPage, queryParams)
+  })
   server.get('*', (req, res) => {
     const parsedUrl = parse(req.url, true)
     const { pathname } = parsedUrl

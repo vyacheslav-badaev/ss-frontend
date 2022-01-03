@@ -1,17 +1,10 @@
 import React from 'react'
-import { shape, string } from 'prop-types'
-import CenterWrapper from '../components/CenterWrapper'
-import Signin from '../components/Signin'
+import { CenterWrapper, SigninForm } from '../src/components'
 function SigninPage({ query }) {
   return (
     <CenterWrapper>
-      <Signin returnUrl={query.return} />
+      <SigninForm returnUrl={query.return} />
     </CenterWrapper>
   )
-}
-SigninPage.propTypes = {
-  query: shape({
-    return: string,
-  }).isRequired,
 }
 export default SigninPage
