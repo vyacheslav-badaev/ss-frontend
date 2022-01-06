@@ -32,13 +32,16 @@ const SEOBlock = styled.div`
     flex: 2;
     h1 {
       opacity: 0;
+      font-size: 3.6rem;
+      line-height: 3.6rem;
+      color: ${props => props.theme.black};
       animation: ${fadeIn} 1s ease 0.2s 1 normal forwards running;
     }
     p {
       color: slategrey;
       opacity: 0;
       margin-top: 20px;
-      font-size: 2rem;
+      font-size: 1.8rem;
       line-height: 1.3;
       animation: ${fadeIn} 1s ease 0.7s 1 normal forwards running;
     }

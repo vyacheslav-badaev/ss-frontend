@@ -14,38 +14,25 @@ const acceptedFileTypesArray = acceptedFileTypes
   .split(',')
   .map(type => type.trim())
 const percentToPx = (a, b) => a * (b / 100)
+const Wrapper = styled.section`
+  min-width: 400px;
+`
+const OtherPhotoButton = styled(Button)`
+  background-color: transparent;
+  color: ${props => props.theme.black};
+  &:hover {
+    background-color: transparent;
+  }
+`
 const CropStyles = styled.div`
   display: flex;
   flex-direction: column;
   .buttons {
     display: flex;
     width: 100%;
-    button {
-      font-weight: bold;
-      font-size: 14px;
-      text-transform: uppercase;
-      height: 40px;
-      color: #f5f5f5;
-      background-color: #272727;
-      transition: all 0.25s ease-out;
-      &:hover {
-        background-color: #6d47d9;
-      }
-      &:active {
-        transform: scale(0.95);
-      }
-      &.loading {
-        cursor: not-allowed;
-        opacity: 0.7;
-        pointer-events: none;
-      }
-      width: 50%;
-      &:last-child {
-        background-color: #32cd32;
-        &:hover {
-          background-color: #228b22;
-        }
-      }
+    margin-top: 24px;
+    > button {
+      flex: 1;
     }
   }
 `
@@ -62,24 +49,6 @@ const StyledDropzone = styled.div`
   img {
     width: 80px;
     height: 80px;
-  }
-  > input {
-    width: 100%;
-  }
-  > p {
-    margin: 0;
-    text-shadow: none;
-  }
-  > svg {
-    > circle {
-      fill: #f93d66;
-    }
-    > path {
-      fill: #6d47d9;
-      &:last-child {
-        fill: #f93d66;
-      }
-    }
   }
 `
 function validateFiles(files) {
@@ -125,12 +94,12 @@ function PhotoCropper({ cb, userId }) {
           },
           false
         )
-        reader.readAsDataURL(file)
+        reader.readAsDataURL(firstFile)
       }
     }
   }
   return (
-    <section>
+    <Wrapper>
       {img === null ? (
         <Dropzone
           multiple={false}
@@ -190,14 +159,17 @@ function PhotoCropper({ cb, userId }) {
                 keepSelection
               />
               <div className="buttons">
-                <Button
+                <OtherPhotoButton
+                  type="button"
                   onClick={() => {
                     setImg(null)
                   }}
                 >
                   Другое фото
-                </Button>
+                </OtherPhotoButton>
                 <Button
+                  violet
+                  type="button"
                   onClick={async () => {
                     await postPhoto()
                     cb()
@@ -210,7 +182,7 @@ function PhotoCropper({ cb, userId }) {
           )}
         </Mutation>
       )}
-    </section>
+    </Wrapper>
   )
 }
 export default PhotoCropper

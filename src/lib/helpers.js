@@ -2,7 +2,7 @@ import Router from 'next/router'
 import { CHECK_LOGGED_IN_QUERY } from './queries'
 export function getPhoto(url) {
   if (typeof url === 'string') return url
-  return '/static/images/user-placeholder.png'
+  return '/static/images/user-placeholder.svg'
 }
 export function redirect(ctx, target) {
   if (ctx.res) {

@@ -55,6 +55,7 @@
     "import/extensions": "off",
     "no-underscore-dangle": "off",
     "consistent-return": "off",
+    "react/prop-types": "off",
     "react/destructuring-assignment": "off",
     "react/display-name": "warn",
     "react/no-array-index-key": "off",

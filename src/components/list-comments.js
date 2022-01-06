@@ -8,20 +8,6 @@ import {
   UPDATE_COMMENT_MUTATION,
   DELETE_COMMENT_MUTATION,
 } from '../lib/mutations'
-const Textarea = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  textarea {
-    border: 1px solid ${props => props.theme.lightGrey};
-    background-color: ${props => props.theme.white};
-    font-family: ${props => props.theme.uiFont};
-    resize: none;
-    min-height: 63px;
-    padding: 20px;
-    font-size: 1.6rem;
-  }
-`
 const List = styled.ul`
   margin: 0;
   margin-top: 20px;
@@ -49,7 +35,6 @@ const List = styled.ul`
     button {
       cursor: pointer;
       outline: none;
-      background-color: ${props => props.theme.white};
       border: none;
       width: 50px;
       height: 50px;
@@ -63,18 +48,36 @@ const List = styled.ul`
         height: 20px;
       }
       &:hover {
-        background-color: ${props => props.theme.lightGrey};
+        background-color: ${({ theme, isDarkMode }) =>
+          isDarkMode ? 'initial' : theme.lightGrey};
       }
+    }
+  }
+  .edit-comment {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    > textarea {
+      background-color: transparent;
+      border: none;
+      font-family: ${props => props.theme.uiFont};
+      resize: none;
+      min-height: 63px;
+      padding: 20px;
+      font-size: 1.6rem;
+      color: ${({ theme, isDarkMode }) =>
+        isDarkMode ? theme.nightGrey : theme.black};
     }
   }
   li {
     position: relative;
-    background-color: ${props => props.theme.white};
     margin-bottom: 20px;
     border-radius: 4px;
     padding: 20px;
-    border: 1px solid var(--grey);
     overflow: hidden;
+    color: ${({ theme, isDarkMode }) =>
+      isDarkMode ? theme.nightGrey : theme.black};
+    box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
     a {
       display: flex;
       width: 100%;
@@ -169,7 +172,7 @@ function CommentEditor({
       }}
     >
       {(updateComment, { loading, error }) => (
-        <Textarea>
+        <div className="edit-comment">
           <ErrorMessage error={error} />
           <ReactTextareaAutosize
             placeholder="Измените комментарий..."
@@ -180,6 +183,7 @@ function CommentEditor({
             maxLength={300}
           />
           <Button
+            black
             disabled={commentBody.length === 0}
             loading={loading}
             type="button"
@@ -188,9 +192,9 @@ function CommentEditor({
               resetAfterUpdate()
             }}
           >
-            Изменить
+            Редактировать
           </Button>
-        </Textarea>
+        </div>
       )}
     </Mutation>
   )
@@ -206,10 +210,11 @@ function ListComments({
   fetchMore,
   resetAfterUpdate,
   activateEditMode,
+  isDarkMode,
 }) {
   return edges.length > 0 ? (
     <Fragment>
-      <List>
+      <List isDarkMode={isDarkMode}>
         {edges.map(comment =>
           me && editId === comment.id ? (
             <CommentEditor
@@ -236,7 +241,14 @@ function ListComments({
                         activateEditMode(comment)
                       }}
                     >
-                      <img src="/static/images/icons/edit.svg" alt="Edit" />
+                      <img
+                        src={
+                          isDarkMode
+                            ? '/static/icons/dark/edit.svg'
+                            : '/static/icons/light/edit.svg'
+                        }
+                        alt="Редактировать"
+                      />
                     </button>
                     <Mutation
                       mutation={DELETE_COMMENT_MUTATION}
@@ -261,8 +273,12 @@ function ListComments({
                           }}
                         >
                           <img
-                            src="/static/images/icons/cross.svg"
-                            alt="Delete"
+                            src={
+                              isDarkMode
+                                ? '/static/icons/dark/cross.svg'
+                                : '/static/icons/light/cross.svg'
+                            }
+                            alt="Удалить"
                           />
                         </button>
                       )}
@@ -277,6 +293,7 @@ function ListComments({
       </List>
       {pageInfo.hasNextPage && (
         <Button
+          black
           className="more-button"
           onClick={() => {
             fetchMore({

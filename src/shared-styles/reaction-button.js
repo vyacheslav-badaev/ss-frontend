@@ -3,7 +3,7 @@ import { pulse } from './animations'
 const ReactionButton = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 8px;
   width: 60px;
   button {
     background-color: ${props => props.theme.white};
@@ -12,7 +12,7 @@ const ReactionButton = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    padding: 10px;
+    padding: 8px;
     cursor: pointer;
     outline: none;
     box-shadow: 0 0 0 rgba(109, 71, 217, 0.4);
@@ -27,8 +27,8 @@ const ReactionButton = styled.div`
       transform: scale(0.88);
     }
     img {
-      width: 24px;
-      height: 24px;
+      width: 16px;
+      height: 16px;
     }
   }
   span {

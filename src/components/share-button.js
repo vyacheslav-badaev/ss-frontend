@@ -25,7 +25,7 @@ const StyledShareButton = styled(ShareButton)`
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background-color: ${props => props.theme.black};
+  background-color: #454545;
   transition: all 0.25s ease-out;
   div {
     display: flex;

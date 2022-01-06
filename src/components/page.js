@@ -12,9 +12,9 @@ const theme = {
   lightGrey: '#eee',
   darkGrey: '#aaa',
   nightGrey: '#b8b8b8',
-  uiFont: 'Montserrat, sans-serif',
-  textFont: 'Alegreya, serif',
-  logoFont: 'Pacifico, cursive',
+  uiFont: 'PT Sans, sans-serif',
+  textFont: 'PT Serif, serif',
+  logoFont: 'Kaushan Script, cursive',
   boxShadow: '0 1px 16px rgba(0, 0, 0, 0.25)',
 }
 function Page({ children }) {
@@ -56,7 +56,8 @@ function Page({ children }) {
           .ReactCrop__image {
             display: block;
             max-width: 100%;
-            max-height: fill-available;
+            max-height: 600px;
+            margin: 0 auto;
           }
           .ReactCrop--crop-invisible .ReactCrop__image {
             opacity: 0.5;

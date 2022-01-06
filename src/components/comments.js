@@ -7,23 +7,26 @@ import nanoid from 'nanoid'
 import { Button, ErrorMessage, ListComments } from '.'
 import { ALL_STORIES_QUERY, STORY_DATA_QUERY } from '../lib/queries'
 import { CREATE_COMMENT_MUTATION } from '../lib/mutations'
-const Textarea = styled.div`
-  display: flex;
-  flex-direction: column;
-  textarea {
-    font-family: ${props => props.theme.uiFont};
-    border: 1px solid var(--grey);
-    background-color: ${props => props.theme.white};
-    resize: none;
-    min-height: 63px;
-    padding: 20px;
-    font-size: 1.6rem;
-  }
-`
 const CommentsStyles = styled.div`
   max-width: 732px;
   padding: 0 24px;
   margin: 0 auto;
+  border-top: 1px solid ${props => props.theme.lightGrey};
+  .create-comment {
+    display: flex;
+    flex-direction: column;
+    > textarea {
+      background: transparent;
+      font-family: ${props => props.theme.uiFont};
+      border: none;
+      resize: none;
+      min-height: 63px;
+      padding: 20px;
+      font-size: 1.6rem;
+      color: ${({ theme, isDarkMode }) =>
+        isDarkMode ? theme.nightGrey : theme.black};
+    }
+  }
   .no-comments {
     padding: 24px 0;
   }
@@ -59,12 +62,12 @@ function update(cache, payload, id) {
   } catch (e) {
   }
 }
-function Comments({ edges, pageInfo, fetchMore, id, me }) {
+function Comments({ edges, pageInfo, fetchMore, id, me, isDarkMode }) {
   const [body, setBody] = useState('')
   const [editId, setEditId] = useState(null)
   const [commentBody, setCommentBody] = useState('')
   return (
-    <CommentsStyles>
+    <CommentsStyles isDarkMode={isDarkMode}>
       {me && (
         <Mutation
           mutation={CREATE_COMMENT_MUTATION}
@@ -85,7 +88,7 @@ function Comments({ edges, pageInfo, fetchMore, id, me }) {
           }}
         >
           {(createComment, { loading, error }) => (
-            <Textarea>
+            <div className="create-comment">
               <ErrorMessage error={error} />
               <ReactTextareaAutosize
                 placeholder="Оставьте комментарий..."
@@ -98,6 +101,7 @@ function Comments({ edges, pageInfo, fetchMore, id, me }) {
                 maxLength={300}
               />
               <Button
+                black
                 disabled={body.length === 0}
                 loading={loading}
                 type="button"
@@ -108,11 +112,12 @@ function Comments({ edges, pageInfo, fetchMore, id, me }) {
               >
                 Написать
               </Button>
-            </Textarea>
+            </div>
           )}
         </Mutation>
       )}
       <ListComments
+        isDarkMode={isDarkMode}
         edges={edges}
         editId={editId}
         commentBody={commentBody}

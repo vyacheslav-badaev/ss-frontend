@@ -42,15 +42,16 @@ const FormStyles = styled.form`
   }
   .title-block {
     input {
-      font-size: 3rem;
-      font-weight: bold;
+      font-size: 3.2rem;
+      line-height: 3.2rem;
+      font-weight: 700;
       margin-bottom: 4px;
     }
   }
   .body-block {
     textarea {
-      font-size: 2.1rem;
-      line-height: 1.4;
+      font-size: 1.8rem;
+      line-height: 2.8rem;
       resize: none;
     }
   }
@@ -67,7 +68,8 @@ const FormStyles = styled.form`
   }
   &.dark {
     input,
-    textarea {
+    textarea,
+    button {
       color: ${props => props.theme.nightGrey};
     }
     button[type='submit'] {

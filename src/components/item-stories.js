@@ -37,7 +37,7 @@ const Wrapper = styled.article`
   }
   .title {
     margin-bottom: 12px;
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: bold;
     font-family: ${props => props.theme.textFont};
     line-height: 1;
@@ -70,9 +70,10 @@ const Wrapper = styled.article`
     }
   }
   .body {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-family: ${props => props.theme.textFont};
-    line-height: 1.3;
+    font-weight: 400;
+    line-height: 1.45;
   }
   .edit-and-delete {
     display: flex;
@@ -132,7 +133,6 @@ const BottomBar = styled.div`
       }
       span {
         font-size: 1rem;
-        font-weight: bold;
       }
     }
   }

@@ -28,7 +28,7 @@ const blackStyles = props => css`
   font-size: 1.4rem;
   height: 40px;
   color: ${props.theme.white};
-  background-color: ${props.theme.black};
+  background-color: #454545;
   box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
   &:hover {
     background-color: ${props.theme.softViolet};

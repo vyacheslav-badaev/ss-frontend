@@ -28,17 +28,17 @@ const SingleStoryStyles = styled.div`
     text-overflow: ellipsis;
   }
   .title {
-    font-size: 5rem;
-    line-height: 5rem;
-    font-weight: 600;
+    font-size: 3.2rem;
+    line-height: 3.2rem;
+    font-weight: 700;
     margin: 20px 0;
     opacity: 0;
     animation: ${fadeIn} 1s ease 0.2s 1 normal forwards running;
   }
   .body-paragraph {
     margin-bottom: 2rem;
-    font-size: 2.1rem;
-    line-height: 1.4;
+    font-size: 1.8rem;
+    line-height: 2.8rem;
     opacity: 0;
     animation: ${fadeIn} 1s ease 0.7s 1 normal forwards running;
     &:last-child {
@@ -93,12 +93,12 @@ const Toolbar = styled.aside`
       display: flex;
     }
     .share {
-      width: 46px;
-      height: 46px;
-      margin-left: 12px;
+      width: 34px;
+      height: 34px;
+      margin-left: 8px;
       img {
-        width: 22px;
-        height: 22px;
+        width: 16px;
+        height: 16px;
       }
     }
   }
@@ -243,7 +243,13 @@ function SingleStory({ mode, id, viewStory }) {
                     </div>
                   </Toolbar>
                 )}
-                <Comments {...comments} id={id} me={me} fetchMore={fetchMore} />
+                <Comments
+                  {...comments}
+                  id={id}
+                  me={me}
+                  fetchMore={fetchMore}
+                  isDarkMode={mode === 'dark'}
+                />
               </Wrapper>
             )
           }}

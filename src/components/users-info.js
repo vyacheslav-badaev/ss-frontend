@@ -20,7 +20,6 @@ const buttonStyles = css`
   height: 28px;
   line-height: 28px;
   font-size: 12px;
-  font-weight: bold;
   transition: background-color 0.25s ease;
   &:hover {
     background-color: #5c32d5;
