@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Global, css } from '@emotion/core'
+import { Global, css, jsx } from '@emotion/core'
 import { ThemeProvider } from 'emotion-theming'
 import Meta from './meta'
 const theme = {
@@ -32,218 +32,114 @@ function Page({ children }) {
   })
   return (
     <>
+      <Global
+        styles={css`
+          @import 'https:
+          :root {
+            font-size: 10px;
+          }
+          html {
+            cursor: default;
+            box-sizing: border-box;
+            height: 100%;
+            line-height: 1.15;
+            tab-size: 4;
+            font-family: 'PT Sans', system-ui, -apple-system, Segoe UI, Roboto,
+              Ubuntu, Cantarell, Noto Sans, sans-serif, 'Apple Color Emoji',
+              'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+            word-break: break-word;
+          }
+          *,
+          *::before,
+          *::after {
+            box-sizing: inherit;
+            outline: 0;
+            background-repeat: no-repeat;
+          }
+          body {
+            font-size: 1.5rem;
+            margin: 0;
+          }
+          main {
+            display: block;
+            position: relative;
+            min-height: 100%;
+            color: #272727;
+          }
+          a {
+            background-color: transparent;
+            text-decoration: none;
+            color: #6d47d9;
+            font-weight: 700;
+          }
+          button,
+          input,
+          textarea {
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+          }
+          textarea {
+            margin: 0;
+            overflow: auto;
+            resize: none;
+          }
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6,
+          p {
+            margin: 0;
+          }
+          h1 {
+            font-size: 4.8rem;
+            line-height: 4.8rem;
+          }
+          h2 {
+            font-size: 4rem;
+            line-height: 4rem;
+          }
+          h3 {
+            font-size: 3.2rem;
+            line-height: 3.2rem;
+          }
+          h4 {
+            font-size: 2.4rem;
+            line-height: 2.4rem;
+          }
+          h5 {
+            font-size: 1.6rem;
+            line-height: 1.6rem;
+          }
+          h6 {
+            font-size: 0.8rem;
+            line-height: 0.8rem;
+          }
+          button,
+          ul {
+            padding: 0;
+            margin: 0;
+          }
+          ul {
+            list-style-type: none;
+          }
+          button {
+            cursor: pointer;
+            background-color: transparent;
+            border: 0;
+          }
+          button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+          }
+        `}
+      />
       <ThemeProvider theme={theme}>
         <Meta />
         {children}
       </ThemeProvider>
-      <Global
-        styles={css`
-          .ReactCrop {
-            position: relative;
-            display: inline-block;
-            cursor: crosshair;
-            overflow: hidden;
-            max-width: 100%;
-            background-color: #000;
-          }
-          .ReactCrop:focus {
-            outline: none;
-          }
-          .ReactCrop--disabled,
-          .ReactCrop--locked {
-            cursor: inherit;
-          }
-          .ReactCrop__image {
-            display: block;
-            max-width: 100%;
-            max-height: 600px;
-            margin: 0 auto;
-          }
-          .ReactCrop--crop-invisible .ReactCrop__image {
-            opacity: 0.5;
-          }
-          .ReactCrop__crop-selection {
-            position: absolute;
-            top: 0;
-            left: 0;
-            transform: translate3d(0, 0, 0);
-            box-sizing: border-box;
-            cursor: move;
-            box-shadow: 0 0 0 9999em rgba(0, 0, 0, 0.5);
-            border: 1px solid;
-            border-image-source: url(data:image/gif;base64,R0lGODlhCgAKAJECAAAAAP
-            border-image-slice: 1;
-            border-image-repeat: repeat;
-          }
-          .ReactCrop--disabled .ReactCrop__crop-selection {
-            cursor: inherit;
-          }
-          .ReactCrop__drag-handle {
-            position: absolute;
-            width: 9px;
-            height: 9px;
-            background-color: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-sizing: border-box;
-            outline: 1px solid transparent;
-          }
-          .ReactCrop .ord-nw {
-            top: 0;
-            left: 0;
-            margin-top: -5px;
-            margin-left: -5px;
-            cursor: nw-resize;
-          }
-          .ReactCrop .ord-n {
-            top: 0;
-            left: 50%;
-            margin-top: -5px;
-            margin-left: -5px;
-            cursor: n-resize;
-          }
-          .ReactCrop .ord-ne {
-            top: 0;
-            right: 0;
-            margin-top: -5px;
-            margin-right: -5px;
-            cursor: ne-resize;
-          }
-          .ReactCrop .ord-e {
-            top: 50%;
-            right: 0;
-            margin-top: -5px;
-            margin-right: -5px;
-            cursor: e-resize;
-          }
-          .ReactCrop .ord-se {
-            bottom: 0;
-            right: 0;
-            margin-bottom: -5px;
-            margin-right: -5px;
-            cursor: se-resize;
-          }
-          .ReactCrop .ord-s {
-            bottom: 0;
-            left: 50%;
-            margin-bottom: -5px;
-            margin-left: -5px;
-            cursor: s-resize;
-          }
-          .ReactCrop .ord-sw {
-            bottom: 0;
-            left: 0;
-            margin-bottom: -5px;
-            margin-left: -5px;
-            cursor: sw-resize;
-          }
-          .ReactCrop .ord-w {
-            top: 50%;
-            left: 0;
-            margin-top: -5px;
-            margin-left: -5px;
-            cursor: w-resize;
-          }
-          .ReactCrop__disabled .ReactCrop__drag-handle {
-            cursor: inherit;
-          }
-          .ReactCrop__drag-bar {
-            position: absolute;
-          }
-          .ReactCrop__drag-bar.ord-n {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            margin-top: -3px;
-          }
-          .ReactCrop__drag-bar.ord-e {
-            right: 0;
-            top: 0;
-            width: 6px;
-            height: 100%;
-            margin-right: -3px;
-          }
-          .ReactCrop__drag-bar.ord-s {
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            margin-bottom: -3px;
-          }
-          .ReactCrop__drag-bar.ord-w {
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
-            margin-left: -3px;
-          }
-          .ReactCrop--new-crop .ReactCrop__drag-bar,
-          .ReactCrop--new-crop .ReactCrop__drag-handle,
-          .ReactCrop--fixed-aspect .ReactCrop__drag-bar {
-            display: none;
-          }
-          .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-n,
-          .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-e,
-          .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-s,
-          .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-w {
-            display: none;
-          }
-          @media (max-width: 768px), (pointer: coarse) {
-            .ReactCrop__drag-handle {
-              width: 17px;
-              height: 17px;
-            }
-            .ReactCrop .ord-nw {
-              margin-top: -9px;
-              margin-left: -9px;
-            }
-            .ReactCrop .ord-n {
-              margin-top: -9px;
-              margin-left: -9px;
-            }
-            .ReactCrop .ord-ne {
-              margin-top: -9px;
-              margin-right: -9px;
-            }
-            .ReactCrop .ord-e {
-              margin-top: -9px;
-              margin-right: -9px;
-            }
-            .ReactCrop .ord-se {
-              margin-bottom: -9px;
-              margin-right: -9px;
-            }
-            .ReactCrop .ord-s {
-              margin-bottom: -9px;
-              margin-left: -9px;
-            }
-            .ReactCrop .ord-sw {
-              margin-bottom: -9px;
-              margin-left: -9px;
-            }
-            .ReactCrop .ord-w {
-              margin-top: -9px;
-              margin-left: -9px;
-            }
-            .ReactCrop__drag-bar.ord-n {
-              height: 14px;
-              margin-top: -7px;
-            }
-            .ReactCrop__drag-bar.ord-e {
-              width: 14px;
-              margin-right: -7px;
-            }
-            .ReactCrop__drag-bar.ord-s {
-              height: 14px;
-              margin-bottom: -7px;
-            }
-            .ReactCrop__drag-bar.ord-w {
-              width: 14px;
-              margin-left: -7px;
-            }
-          }
-        `}
-      />
     </>
   )
 }

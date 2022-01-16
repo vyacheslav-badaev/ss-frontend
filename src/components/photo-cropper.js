@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
+import { Global, css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import ReactCrop, { makeAspectCrop } from 'react-image-crop'
@@ -99,90 +100,300 @@ function PhotoCropper({ cb, userId }) {
     }
   }
   return (
-    <Wrapper>
-      {img === null ? (
-        <Dropzone
-          multiple={false}
-          maxSize={imageMaxSize}
-          accept={acceptedFileTypes}
-          onDrop={onDrop}
-        >
-          {({ getRootProps, getInputProps }) => (
-            <StyledDropzone {...getRootProps({ refKey: 'ref' })}>
-              <input {...getInputProps()} />
-              <img
-                src="/static/images/icons/upload.svg"
-                alt="Загрузите изображение"
-              />
-              <p>Загрузите изображение</p>
-            </StyledDropzone>
-          )}
-        </Dropzone>
-      ) : (
-        <Mutation
-          mutation={POST_PHOTO_MUTATION}
-          refetchQueries={[
-            { query: USER_QUERY, variables: { id: userId } },
-            { query: CURRENT_USER_QUERY },
-          ]}
-          variables={{
-            file,
-            width: percentToPx(previewImg.naturalWidth, crop.width),
-            height: percentToPx(previewImg.naturalHeight, crop.height),
-            x: percentToPx(previewImg.naturalWidth, crop.x),
-            y: percentToPx(previewImg.naturalHeight, crop.y),
-          }}
-        >
-          {postPhoto => (
-            <CropStyles>
-              <ReactCrop
-                src={img}
-                crop={crop}
-                onImageLoaded={image => {
-                  setCrop(
-                    makeAspectCrop(
-                      {
-                        x: 0,
-                        y: 0,
-                        aspect: 1 / 1,
-                        width: 50,
-                        height: 50,
-                      },
-                      image.naturalWidth / image.naturalHeight
+    <>
+      <Wrapper>
+        {img === null ? (
+          <Dropzone
+            multiple={false}
+            maxSize={imageMaxSize}
+            accept={acceptedFileTypes}
+            onDrop={onDrop}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <StyledDropzone {...getRootProps({ refKey: 'ref' })}>
+                <input {...getInputProps()} />
+                <img
+                  src="/static/images/icons/upload.svg"
+                  alt="Загрузите изображение"
+                />
+                <p>Загрузите изображение</p>
+              </StyledDropzone>
+            )}
+          </Dropzone>
+        ) : (
+          <Mutation
+            mutation={POST_PHOTO_MUTATION}
+            refetchQueries={[
+              { query: USER_QUERY, variables: { id: userId } },
+              { query: CURRENT_USER_QUERY },
+            ]}
+            variables={{
+              file,
+              width: percentToPx(previewImg.naturalWidth, crop.width),
+              height: percentToPx(previewImg.naturalHeight, crop.height),
+              x: percentToPx(previewImg.naturalWidth, crop.x),
+              y: percentToPx(previewImg.naturalHeight, crop.y),
+            }}
+          >
+            {postPhoto => (
+              <CropStyles>
+                <ReactCrop
+                  src={img}
+                  crop={crop}
+                  onImageLoaded={image => {
+                    setCrop(
+                      makeAspectCrop(
+                        {
+                          x: 0,
+                          y: 0,
+                          aspect: 1 / 1,
+                          width: 50,
+                          height: 50,
+                        },
+                        image.naturalWidth / image.naturalHeight
+                      )
                     )
-                  )
-                  setPreviewImg(image)
-                }}
-                onChange={cropObj => {
-                  setCrop(cropObj)
-                }}
-                keepSelection
-              />
-              <div className="buttons">
-                <OtherPhotoButton
-                  type="button"
-                  onClick={() => {
-                    setImg(null)
+                    setPreviewImg(image)
                   }}
-                >
-                  Другое фото
-                </OtherPhotoButton>
-                <Button
-                  violet
-                  type="button"
-                  onClick={async () => {
-                    await postPhoto()
-                    cb()
+                  onChange={cropObj => {
+                    setCrop(cropObj)
                   }}
-                >
-                  Сохранить
-                </Button>
-              </div>
-            </CropStyles>
-          )}
-        </Mutation>
-      )}
-    </Wrapper>
+                  keepSelection
+                />
+                <div className="buttons">
+                  <OtherPhotoButton
+                    type="button"
+                    onClick={() => {
+                      setImg(null)
+                    }}
+                  >
+                    Другое фото
+                  </OtherPhotoButton>
+                  <Button
+                    violet
+                    type="button"
+                    onClick={async () => {
+                      await postPhoto()
+                      cb()
+                    }}
+                  >
+                    Сохранить
+                  </Button>
+                </div>
+              </CropStyles>
+            )}
+          </Mutation>
+        )}
+      </Wrapper>
+      <Global
+        styles={css`
+          .ReactCrop {
+            position: relative;
+            display: inline-block;
+            cursor: crosshair;
+            overflow: hidden;
+            max-width: 100%;
+            background-color: #000;
+          }
+          .ReactCrop:focus {
+            outline: none;
+          }
+          .ReactCrop--disabled,
+          .ReactCrop--locked {
+            cursor: inherit;
+          }
+          .ReactCrop__image {
+            display: block;
+            max-width: 100%;
+            max-height: 600px;
+            margin: 0 auto;
+          }
+          .ReactCrop--crop-invisible .ReactCrop__image {
+            opacity: 0.5;
+          }
+          .ReactCrop__crop-selection {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translate3d(0, 0, 0);
+            box-sizing: border-box;
+            cursor: move;
+            box-shadow: 0 0 0 9999em rgba(0, 0, 0, 0.5);
+            border: 1px solid;
+            border-image-source: url(data:image/gif;base64,R0lGODlhCgAKAJECAAAAAP
+            border-image-slice: 1;
+            border-image-repeat: repeat;
+          }
+          .ReactCrop--disabled .ReactCrop__crop-selection {
+            cursor: inherit;
+          }
+          .ReactCrop__drag-handle {
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-sizing: border-box;
+            outline: 1px solid transparent;
+          }
+          .ReactCrop .ord-nw {
+            top: 0;
+            left: 0;
+            margin-top: -5px;
+            margin-left: -5px;
+            cursor: nw-resize;
+          }
+          .ReactCrop .ord-n {
+            top: 0;
+            left: 50%;
+            margin-top: -5px;
+            margin-left: -5px;
+            cursor: n-resize;
+          }
+          .ReactCrop .ord-ne {
+            top: 0;
+            right: 0;
+            margin-top: -5px;
+            margin-right: -5px;
+            cursor: ne-resize;
+          }
+          .ReactCrop .ord-e {
+            top: 50%;
+            right: 0;
+            margin-top: -5px;
+            margin-right: -5px;
+            cursor: e-resize;
+          }
+          .ReactCrop .ord-se {
+            bottom: 0;
+            right: 0;
+            margin-bottom: -5px;
+            margin-right: -5px;
+            cursor: se-resize;
+          }
+          .ReactCrop .ord-s {
+            bottom: 0;
+            left: 50%;
+            margin-bottom: -5px;
+            margin-left: -5px;
+            cursor: s-resize;
+          }
+          .ReactCrop .ord-sw {
+            bottom: 0;
+            left: 0;
+            margin-bottom: -5px;
+            margin-left: -5px;
+            cursor: sw-resize;
+          }
+          .ReactCrop .ord-w {
+            top: 50%;
+            left: 0;
+            margin-top: -5px;
+            margin-left: -5px;
+            cursor: w-resize;
+          }
+          .ReactCrop__disabled .ReactCrop__drag-handle {
+            cursor: inherit;
+          }
+          .ReactCrop__drag-bar {
+            position: absolute;
+          }
+          .ReactCrop__drag-bar.ord-n {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            margin-top: -3px;
+          }
+          .ReactCrop__drag-bar.ord-e {
+            right: 0;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            margin-right: -3px;
+          }
+          .ReactCrop__drag-bar.ord-s {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            margin-bottom: -3px;
+          }
+          .ReactCrop__drag-bar.ord-w {
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            margin-left: -3px;
+          }
+          .ReactCrop--new-crop .ReactCrop__drag-bar,
+          .ReactCrop--new-crop .ReactCrop__drag-handle,
+          .ReactCrop--fixed-aspect .ReactCrop__drag-bar {
+            display: none;
+          }
+          .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-n,
+          .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-e,
+          .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-s,
+          .ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-w {
+            display: none;
+          }
+          @media (max-width: 768px), (pointer: coarse) {
+            .ReactCrop__drag-handle {
+              width: 17px;
+              height: 17px;
+            }
+            .ReactCrop .ord-nw {
+              margin-top: -9px;
+              margin-left: -9px;
+            }
+            .ReactCrop .ord-n {
+              margin-top: -9px;
+              margin-left: -9px;
+            }
+            .ReactCrop .ord-ne {
+              margin-top: -9px;
+              margin-right: -9px;
+            }
+            .ReactCrop .ord-e {
+              margin-top: -9px;
+              margin-right: -9px;
+            }
+            .ReactCrop .ord-se {
+              margin-bottom: -9px;
+              margin-right: -9px;
+            }
+            .ReactCrop .ord-s {
+              margin-bottom: -9px;
+              margin-left: -9px;
+            }
+            .ReactCrop .ord-sw {
+              margin-bottom: -9px;
+              margin-left: -9px;
+            }
+            .ReactCrop .ord-w {
+              margin-top: -9px;
+              margin-left: -9px;
+            }
+            .ReactCrop__drag-bar.ord-n {
+              height: 14px;
+              margin-top: -7px;
+            }
+            .ReactCrop__drag-bar.ord-e {
+              width: 14px;
+              margin-right: -7px;
+            }
+            .ReactCrop__drag-bar.ord-s {
+              height: 14px;
+              margin-bottom: -7px;
+            }
+            .ReactCrop__drag-bar.ord-w {
+              width: 14px;
+              margin-left: -7px;
+            }
+          }
+        `}
+      />
+    </>
   )
 }
 export default PhotoCropper

@@ -11,6 +11,7 @@ const CommentsStyles = styled.div`
   max-width: 732px;
   padding: 0 24px;
   margin: 0 auto;
+  margin-top: 12px;
   border-top: 1px solid ${props => props.theme.lightGrey};
   .create-comment {
     display: flex;
