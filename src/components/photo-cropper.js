@@ -101,90 +101,6 @@ function PhotoCropper({ cb, userId }) {
   }
   return (
     <>
-      <Wrapper>
-        {img === null ? (
-          <Dropzone
-            multiple={false}
-            maxSize={imageMaxSize}
-            accept={acceptedFileTypes}
-            onDrop={onDrop}
-          >
-            {({ getRootProps, getInputProps }) => (
-              <StyledDropzone {...getRootProps({ refKey: 'ref' })}>
-                <input {...getInputProps()} />
-                <img
-                  src="/static/images/icons/upload.svg"
-                  alt="Загрузите изображение"
-                />
-                <p>Загрузите изображение</p>
-              </StyledDropzone>
-            )}
-          </Dropzone>
-        ) : (
-          <Mutation
-            mutation={POST_PHOTO_MUTATION}
-            refetchQueries={[
-              { query: USER_QUERY, variables: { id: userId } },
-              { query: CURRENT_USER_QUERY },
-            ]}
-            variables={{
-              file,
-              width: percentToPx(previewImg.naturalWidth, crop.width),
-              height: percentToPx(previewImg.naturalHeight, crop.height),
-              x: percentToPx(previewImg.naturalWidth, crop.x),
-              y: percentToPx(previewImg.naturalHeight, crop.y),
-            }}
-          >
-            {postPhoto => (
-              <CropStyles>
-                <ReactCrop
-                  src={img}
-                  crop={crop}
-                  onImageLoaded={image => {
-                    setCrop(
-                      makeAspectCrop(
-                        {
-                          x: 0,
-                          y: 0,
-                          aspect: 1 / 1,
-                          width: 50,
-                          height: 50,
-                        },
-                        image.naturalWidth / image.naturalHeight
-                      )
-                    )
-                    setPreviewImg(image)
-                  }}
-                  onChange={cropObj => {
-                    setCrop(cropObj)
-                  }}
-                  keepSelection
-                />
-                <div className="buttons">
-                  <OtherPhotoButton
-                    type="button"
-                    onClick={() => {
-                      setImg(null)
-                    }}
-                  >
-                    Другое фото
-                  </OtherPhotoButton>
-                  <Button
-                    violet
-                    type="button"
-                    onClick={async () => {
-                      await postPhoto()
-                      cb()
-                    }}
-                  >
-                    Сохранить
-                  </Button>
-                </div>
-              </CropStyles>
-            )}
-          </Mutation>
-        )}
-      </Wrapper>
       <Global
         styles={css`
           .ReactCrop {
@@ -393,6 +309,90 @@ function PhotoCropper({ cb, userId }) {
           }
         `}
       />
+      <Wrapper>
+        {img === null ? (
+          <Dropzone
+            multiple={false}
+            maxSize={imageMaxSize}
+            accept={acceptedFileTypes}
+            onDrop={onDrop}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <StyledDropzone {...getRootProps({ refKey: 'ref' })}>
+                <input {...getInputProps()} />
+                <img
+                  src="/static/images/icons/upload.svg"
+                  alt="Загрузите изображение"
+                />
+                <p>Загрузите изображение</p>
+              </StyledDropzone>
+            )}
+          </Dropzone>
+        ) : (
+          <Mutation
+            mutation={POST_PHOTO_MUTATION}
+            refetchQueries={[
+              { query: USER_QUERY, variables: { id: userId } },
+              { query: CURRENT_USER_QUERY },
+            ]}
+            variables={{
+              file,
+              width: percentToPx(previewImg.naturalWidth, crop.width),
+              height: percentToPx(previewImg.naturalHeight, crop.height),
+              x: percentToPx(previewImg.naturalWidth, crop.x),
+              y: percentToPx(previewImg.naturalHeight, crop.y),
+            }}
+          >
+            {postPhoto => (
+              <CropStyles>
+                <ReactCrop
+                  src={img}
+                  crop={crop}
+                  onImageLoaded={image => {
+                    setCrop(
+                      makeAspectCrop(
+                        {
+                          x: 0,
+                          y: 0,
+                          aspect: 1 / 1,
+                          width: 50,
+                          height: 50,
+                        },
+                        image.naturalWidth / image.naturalHeight
+                      )
+                    )
+                    setPreviewImg(image)
+                  }}
+                  onChange={cropObj => {
+                    setCrop(cropObj)
+                  }}
+                  keepSelection
+                />
+                <div className="buttons">
+                  <OtherPhotoButton
+                    type="button"
+                    onClick={() => {
+                      setImg(null)
+                    }}
+                  >
+                    Другое фото
+                  </OtherPhotoButton>
+                  <Button
+                    violet
+                    type="button"
+                    onClick={async () => {
+                      await postPhoto()
+                      cb()
+                    }}
+                  >
+                    Сохранить
+                  </Button>
+                </div>
+              </CropStyles>
+            )}
+          </Mutation>
+        )}
+      </Wrapper>
     </>
   )
 }

@@ -79,16 +79,16 @@ function Modal({ onClose, children }) {
   return (
     <Portal selector="#modal">
       <Wrapper>
-        <ModalContentWithOutsideClick onClose={onClose}>
-          {children}
-        </ModalContentWithOutsideClick>
         <Global
           styles={css`
             body {
-              overflow-y: hidden;
+              overflow: hidden;
             }
           `}
         />
+        <ModalContentWithOutsideClick onClose={onClose}>
+          {children}
+        </ModalContentWithOutsideClick>
       </Wrapper>
     </Portal>
   )

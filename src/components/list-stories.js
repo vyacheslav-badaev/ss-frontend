@@ -17,26 +17,26 @@ const StoriesList = styled.div`
     will-change: transform, opacity;
   }
   @media (min-width: 980px) {
-    > article:nth-child(3n + 1) {
+    > article:nth-of-type(3n + 1) {
       animation-delay: 0.2s;
     }
-    > article:nth-child(3n + 2) {
+    > article:nth-of-type(3n + 2) {
       animation-delay: 0.4s;
     }
-    > article:nth-child(3n + 3) {
+    > article:nth-of-type(3n + 3) {
       animation-delay: 0.6s;
     }
   }
   @media (min-width: 660px) and (max-width: 979px) {
-    > article:nth-child(2n + 1) {
+    > article:nth-of-type(2n + 1) {
       animation-delay: 0.2s;
     }
-    > article:nth-child(2n + 2) {
+    > article:nth-of-type(2n + 2) {
       animation-delay: 0.4s;
     }
   }
   @media (max-width: 659px) {
-    > article:nth-child(1n + 1) {
+    > article:nth-of-type(1n + 1) {
       animation-delay: 0.2s;
     }
   }
