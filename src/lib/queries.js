@@ -1,4 +1,35 @@
 import gql from 'graphql-tag'
+const authorFragment = gql`
+  fragment author on User {
+    id
+    username
+    photo
+    info
+  }
+`
+const storyFragment = gql`
+  fragment story on Story {
+    id
+    title
+    body
+    length
+    genre {
+      id
+      name
+    }
+    user {
+      ...author
+    }
+    stats {
+      likes
+      dislikes
+      comments
+      views
+    }
+    createdAt
+  }
+  ${authorFragment}
+`
 export const CURRENT_USER_QUERY = gql`
   query CURRENT_USER_QUERY {
     me {
@@ -14,23 +45,7 @@ export const CURRENT_USER_QUERY = gql`
 export const STORY_DATA_QUERY = gql`
   query STORY_DATA_QUERY($id: ID!, $cursor: String, $limit: Int) {
     story(id: $id) {
-      id
-      title
-      body
-      genre {
-        id
-        name
-      }
-      stats {
-        likes
-        dislikes
-        comments
-        views
-      }
-      user {
-        ...author
-      }
-      createdAt
+      ...story
     }
     reactions(storyId: $id) {
       id
@@ -54,11 +69,8 @@ export const STORY_DATA_QUERY = gql`
       }
     }
   }
-  fragment author on User {
-    id
-    username
-    photo
-  }
+  ${storyFragment}
+  ${authorFragment}
 `
 export const USER_QUERY = gql`
   query USER_QUERY($id: ID!) {
@@ -98,24 +110,7 @@ export const ALL_STORIES_QUERY = gql`
         filter: ["length", "genres", "mostLiked", "mostViewed", "mostCommented"]
       ) {
       edges {
-        id
-        title
-        body
-        length
-        genre {
-          id
-          name
-        }
-        user {
-          ...author
-        }
-        stats {
-          likes
-          dislikes
-          comments
-          views
-        }
-        createdAt
+        ...story
       }
       pageInfo {
         offset
@@ -123,11 +118,8 @@ export const ALL_STORIES_QUERY = gql`
       }
     }
   }
-  fragment author on User {
-    id
-    username
-    photo
-  }
+  ${storyFragment}
+  ${authorFragment}
 `
 export const GENRES_QUERY = gql`
   query GENRES_QUERY {
@@ -142,24 +134,7 @@ export const WRITTEN_STORIES_QUERY = gql`
     stories(offset: $offset, limit: $limit, userId: $userId, isLiked: false)
       @connection(key: "WrittenStoriesConnection") {
       edges {
-        id
-        title
-        body
-        length
-        user {
-          ...author
-        }
-        genre {
-          id
-          name
-        }
-        stats {
-          likes
-          dislikes
-          comments
-          views
-        }
-        createdAt
+        ...story
       }
       pageInfo {
         offset
@@ -167,35 +142,14 @@ export const WRITTEN_STORIES_QUERY = gql`
       }
     }
   }
-  fragment author on User {
-    id
-    username
-    photo
-  }
+  ${storyFragment}
 `
 export const LIKED_STORIES_QUERY = gql`
   query LIKED_STORIES_QUERY($offset: Int = 0, $limit: Int = 20) {
     stories(offset: $offset, limit: $limit, userId: null, isLiked: true)
       @connection(key: "LikedStoriesConnection") {
       edges {
-        id
-        title
-        body
-        length
-        user {
-          ...author
-        }
-        genre {
-          id
-          name
-        }
-        stats {
-          likes
-          dislikes
-          comments
-          views
-        }
-        createdAt
+        ...story
       }
       pageInfo {
         offset
@@ -203,11 +157,7 @@ export const LIKED_STORIES_QUERY = gql`
       }
     }
   }
-  fragment author on User {
-    id
-    username
-    photo
-  }
+  ${storyFragment}
 `
 export const USER_STORIES_QUERY = gql`
   query USER_STORIES_QUERY(
@@ -219,24 +169,7 @@ export const USER_STORIES_QUERY = gql`
     stories(offset: $offset, limit: $limit, userId: $userId, isLiked: $isLiked)
       @connection(key: "UserStoriesConnection", filter: ["userId"]) {
       edges {
-        id
-        title
-        body
-        length
-        user {
-          ...author
-        }
-        genre {
-          id
-          name
-        }
-        stats {
-          likes
-          dislikes
-          comments
-          views
-        }
-        createdAt
+        ...story
       }
       pageInfo {
         offset
@@ -244,12 +177,7 @@ export const USER_STORIES_QUERY = gql`
       }
     }
   }
-  fragment author on User {
-    id
-    username
-    photo
-    info
-  }
+  ${storyFragment}
 `
 export const CHECK_LOGGED_IN_QUERY = gql`
   query CHECK_LOGGED_IN_QUERY {

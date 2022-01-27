@@ -25,16 +25,16 @@ function MainStories(props) {
   }
   return (
     <Query query={ALL_STORIES_QUERY} variables={variables}>
-      {({ data: { stories }, loading, error, fetchMore }) => {
+      {({ data, loading, error, fetchMore }) => {
         if (loading) return <BigLoader />
         if (error) return <ErrorMessage error={error} />
-        if (!stories.edges.length)
+        if (!data.stories.edges.length)
           return (
             <NoStories>
               <h2>Нет рассказов :(</h2>
             </NoStories>
           )
-        return <ListStories {...stories} fetchMore={fetchMore} />
+        return <ListStories {...data.stories} fetchMore={fetchMore} />
       }}
     </Query>
   )

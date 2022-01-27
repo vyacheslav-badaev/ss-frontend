@@ -3,7 +3,12 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
-import { SettingsSort, Wrapper, MainStories } from '../src/components'
+import {
+  SettingsSort,
+  Wrapper,
+  MainStories,
+  ErrorMessage,
+} from '../src/components'
 import { GENRES_QUERY } from '../src/lib/queries'
 import { fadeIn } from '../src/shared-styles/animations'
 const Modal = dynamic(() => import('../src/components/modal'), { ssr: false })
@@ -68,56 +73,59 @@ function Home() {
   const [sort, setSort] = useState(undefined)
   return (
     <Query query={GENRES_QUERY}>
-      {({ data: { genres } }) => (
-        <>
-          <SEOBlock>
-            <div className="inner">
-              <div className="text">
-                <h1>Здесь вы можете читать рассказы авторов из народа.</h1>
-                <p>
-                  Откройте для себя новых авторов или{' '}
-                  <Link href="/create-story">
-                    <a>продемонстрируйте</a>
-                  </Link>{' '}
-                  писательский талант и станьте лучшим.
-                </p>
-                <p>
-                  Для удобства чтения{' '}
-                  <button
-                    onClick={() => {
-                      setOpen(true)
-                    }}
-                    className="settings-button"
-                    type="button"
-                  >
-                    настройте
-                  </button>{' '}
-                  ленту.
-                </p>
+      {({ data, error }) => {
+        if (error) return <ErrorMessage error={error} />
+        return (
+          <>
+            <SEOBlock>
+              <div className="inner">
+                <div className="text">
+                  <h1>Здесь вы можете читать рассказы авторов из народа.</h1>
+                  <p>
+                    Откройте для себя новых авторов или{' '}
+                    <Link href="/create-story">
+                      <a>продемонстрируйте</a>
+                    </Link>{' '}
+                    писательский талант и станьте лучшим.
+                  </p>
+                  <p>
+                    Для удобства чтения{' '}
+                    <button
+                      onClick={() => {
+                        setOpen(true)
+                      }}
+                      className="settings-button"
+                      type="button"
+                    >
+                      настройте
+                    </button>{' '}
+                    ленту.
+                  </p>
+                </div>
+                <span className="write" role="img" aria-label="emoji">
+                  ✍️
+                </span>
               </div>
-              <span className="write" role="img" aria-label="emoji">
-                ✍️
-              </span>
-            </div>
-          </SEOBlock>
-          <Wrapper isIndex>
-            <MainStories sort={sort} />
-          </Wrapper>
-          {isOpen && (
-            <Modal
-              onClose={() => {
-                setOpen(false)
-              }}
-            >
-              <SettingsSort
-                genres={genres}
-                setOpen={setOpen}
-                setSort={setSort}
-              />
-            </Modal>
-          )}
-        </>
-      )}
+            </SEOBlock>
+            <Wrapper isIndex>
+              <MainStories sort={sort} />
+            </Wrapper>
+            {isOpen && (
+              <Modal
+                onClose={() => {
+                  setOpen(false)
+                }}
+              >
+                <SettingsSort
+                  genres={data.genres}
+                  setOpen={setOpen}
+                  setSort={setSort}
+                />
+              </Modal>
+            )}
+          </>
+        )
+      }}
     </Query>
   )
 }
