@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Wrapper, Me } from '../src/components'
-import { checkLoggedIn, redirect } from '../src/lib/helpers'
+import { Wrapper } from '../../src/components'
+import Info from './info'
+import { checkLoggedIn, redirect } from '../../src/lib/helpers'
 class MePage extends Component {
   static async getInitialProps(ctx) {
     const { loggedInUser } = await checkLoggedIn(ctx.apolloClient)
@@ -12,7 +13,7 @@ class MePage extends Component {
   render() {
     return (
       <Wrapper>
-        <Me />
+        <Info />
       </Wrapper>
     )
   }

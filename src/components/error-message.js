@@ -10,7 +10,7 @@ function ErrorMessage({ error, className }) {
     return error.networkError.result.errors.map((error, index) => (
       <div key={index} className={className}>
         <p>
-          <strong>Shoot!</strong>
+          <strong>Ошибка!</strong>
           {error.message.replace('GraphQL error: ', '')}
         </p>
       </div>
@@ -19,7 +19,7 @@ function ErrorMessage({ error, className }) {
   return (
     <div className={className}>
       <p>
-        <strong>Shoot!</strong>
+        <strong>Ошибка!</strong>
         {error.message.replace('GraphQL error: ', '')}
       </p>
     </div>

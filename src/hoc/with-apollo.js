@@ -3,7 +3,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
 import { createUploadLink } from 'apollo-upload-client'
 import withApollo from 'next-with-apollo'
-import { API_URL } from '../../config'
 function createClient({ headers, initialState = {} }) {
   if (typeof headers === 'object') {
     delete headers[':method']
@@ -18,7 +17,7 @@ function createClient({ headers, initialState = {} }) {
         id && __typename ? __typename + id : null,
     }).restore(initialState),
     link: createUploadLink({
-      uri: API_URL,
+      uri: process.env.API_URL,
       credentials: 'include',
       headers,
     }),

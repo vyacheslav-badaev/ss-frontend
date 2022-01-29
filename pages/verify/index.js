@@ -1,9 +1,10 @@
 import React from 'react'
-import { CenterWrapper, VerifyBlock } from '../src/components'
+import { CenterWrapper } from '../../src/components'
+import Result from './result'
 function VerifyPage({ query }) {
   return (
     <CenterWrapper>
-      <VerifyBlock token={query.verifyToken} />
+      <Result token={query.verifyToken} />
     </CenterWrapper>
   )
 }

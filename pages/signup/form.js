@@ -4,17 +4,20 @@ import Link from 'next/link'
 import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 import { adopt } from 'react-adopt'
-import { Form } from 'react-final-form'
-import { Input, FinalFormField, ErrorMessage, Button, Logo } from '.'
-import AuthForm from '../shared-styles/auth-form'
-import { CURRENT_USER_QUERY } from '../lib/queries'
-import { SIGN_UP_MUTATION, CHECK_USER_EXIST_MUTATION } from '../lib/mutations'
+import { Form, Field } from 'react-final-form'
+import { Input, ErrorMessage, Button, Logo } from '../../src/components'
+import AuthForm from '../../src/shared-styles/auth-form'
+import { CURRENT_USER_QUERY } from '../../src/lib/queries'
+import {
+  SIGN_UP_MUTATION,
+  CHECK_USER_EXIST_MUTATION,
+} from '../../src/lib/mutations'
 import {
   isEmail,
   username,
   password,
   confirmationPassword,
-} from '../lib/validators'
+} from '../../src/lib/validators'
 const Username = styled(Input)`
   margin-top: 36px;
   margin-bottom: 24px;
@@ -63,7 +66,7 @@ function SignupForm() {
               </button>
               <Logo />
               <ErrorMessage error={signUpMutation.result.error} />
-              <FinalFormField
+              <Field
                 name="username"
                 validate={value =>
                   username(value, checkUserExistMutation.mutation)
@@ -78,8 +81,8 @@ function SignupForm() {
                     error={meta.error && meta.touched && meta.error}
                   />
                 )}
-              </FinalFormField>
-              <FinalFormField
+              </Field>
+              <Field
                 name="email"
                 validate={value =>
                   isEmail(value, checkUserExistMutation.mutation)
@@ -94,8 +97,8 @@ function SignupForm() {
                     error={meta.error && meta.touched && meta.error}
                   />
                 )}
-              </FinalFormField>
-              <FinalFormField name="password" validate={password}>
+              </Field>
+              <Field name="password" validate={password}>
                 {({ input, meta }) => (
                   <InputWithMargin
                     {...input}
@@ -105,8 +108,8 @@ function SignupForm() {
                     error={meta.error && meta.touched && meta.error}
                   />
                 )}
-              </FinalFormField>
-              <FinalFormField
+              </Field>
+              <Field
                 name="passwordConfirmation"
                 validate={value => confirmationPassword(value, values.password)}
               >
@@ -119,7 +122,7 @@ function SignupForm() {
                     error={meta.error && meta.touched && meta.error}
                   />
                 )}
-              </FinalFormField>
+              </Field>
               <div className="button-with-error">
                 <Button
                   black

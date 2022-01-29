@@ -2,12 +2,12 @@ import React, { Fragment } from 'react'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
-import { Button, ErrorMessage, UserWithDate } from '.'
-import { ALL_STORIES_QUERY, STORY_DATA_QUERY } from '../lib/queries'
+import { Button, ErrorMessage, UserWithDate } from '../../src/components'
+import { ALL_STORIES_QUERY, STORY_DATA_QUERY } from '../../src/lib/queries'
 import {
   UPDATE_COMMENT_MUTATION,
   DELETE_COMMENT_MUTATION,
-} from '../lib/mutations'
+} from '../../src/lib/mutations'
 const List = styled.ul`
   margin: 0;
   margin-top: 20px;
@@ -22,9 +22,6 @@ const List = styled.ul`
   .comment-header {
     display: flex;
     align-items: center;
-    .user-and-date {
-      width: 100%;
-    }
   }
   .edit-and-delete {
     display: flex;
@@ -33,9 +30,6 @@ const List = styled.ul`
     top: -20px;
     right: -20px;
     button {
-      cursor: pointer;
-      outline: none;
-      border: none;
       width: 50px;
       height: 50px;
       padding: 0;
@@ -58,10 +52,8 @@ const List = styled.ul`
     flex-direction: column;
     margin-bottom: 20px;
     > textarea {
-      background-color: transparent;
       border: none;
       font-family: ${props => props.theme.uiFont};
-      resize: none;
       min-height: 63px;
       padding: 20px;
       font-size: 1.6rem;
@@ -78,27 +70,6 @@ const List = styled.ul`
     color: ${({ theme, isDarkMode }) =>
       isDarkMode ? theme.nightGrey : theme.black};
     box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
-    a {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      height: 40px;
-      > div {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        margin-left: 10px;
-        .username {
-          font-size: 1.2rem;
-        }
-        .created-at {
-          font-size: 1rem;
-          font-weight: normal;
-          color: #aaa;
-        }
-      }
-    }
     .body {
       margin-top: 18px;
     }

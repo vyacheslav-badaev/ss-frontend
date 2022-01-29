@@ -4,9 +4,10 @@ import { Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
 import compareDesc from 'date-fns/compare_desc'
 import nanoid from 'nanoid'
-import { Button, ErrorMessage, ListComments } from '.'
-import { ALL_STORIES_QUERY, STORY_DATA_QUERY } from '../lib/queries'
-import { CREATE_COMMENT_MUTATION } from '../lib/mutations'
+import { Button, ErrorMessage } from '../../src/components'
+import ListComments from './list-comments'
+import { ALL_STORIES_QUERY, STORY_DATA_QUERY } from '../../src/lib/queries'
+import { CREATE_COMMENT_MUTATION } from '../../src/lib/mutations'
 const CommentsStyles = styled.div`
   max-width: 732px;
   padding: 0 24px;
@@ -17,10 +18,8 @@ const CommentsStyles = styled.div`
     display: flex;
     flex-direction: column;
     > textarea {
-      background: transparent;
       font-family: ${props => props.theme.uiFont};
       border: none;
-      resize: none;
       min-height: 63px;
       padding: 20px;
       font-size: 1.6rem;

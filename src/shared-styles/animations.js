@@ -44,19 +44,3 @@ export const fadeInUp = keyframes`
     transform: translateZ(0);
   }
 `
-export const toWritten = keyframes`
-  from {
-    left: 85px;
-  }
-  to {
-    left: 0px;
-  }
-`
-export const toLiked = keyframes`
-  from {
-    left: 0px;
-  }
-  to {
-    left: 85px;
-  }
-`

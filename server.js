@@ -10,27 +10,16 @@ const Fastify = require('fastify')({
   },
   logger: { level: 'error' },
 })
+const compress = require('fastify-compress')
 const Next = require('next')
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
-const sourcemapsForSentryOnly = token => (req, res, next) => {
-  if (!dev && !!token && req.headers['x-sentry-token'] !== token) {
-    res
-      .status(401)
-      .send('Authentication access token is required to access the source map.')
-    return
-  }
-  next()
-}
 Fastify.register((fastify, opts, next) => {
   const app = Next({ dev })
   app
     .prepare()
     .then(() => {
-      const { Sentry } = require('./src/lib/with-sentry')({ 
-        release: app.buildId,
-      })
-      fastify.register(require('fastify-compress')) 
+      fastify.register(compress)
       if (dev) {
         fastify.get('/_next/*', (req, reply) =>
           app.handleRequest(req.req, reply.res).then(() => {
@@ -38,13 +27,6 @@ Fastify.register((fastify, opts, next) => {
           })
         )
       }
-      fastify.get(/\.map$/, (req, reply, next) => {
-        sourcemapsForSentryOnly(process.env.SENTRY_TOKEN)(
-          req.req,
-          reply.res,
-          next
-        )
-      })
       fastify.get('/user/:id', (req, reply) => {
         const actualPage = '/user'
         const [userId] = req.params.id.split('-')

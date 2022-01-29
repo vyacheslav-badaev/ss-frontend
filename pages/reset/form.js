@@ -2,12 +2,12 @@ import React from 'react'
 import styled from '@emotion/styled'
 import Router from 'next/router'
 import { Mutation } from 'react-apollo'
-import { Form } from 'react-final-form'
-import { Input, FinalFormField, ErrorMessage, Button, Logo } from '.'
-import AuthForm from '../shared-styles/auth-form'
-import { CURRENT_USER_QUERY } from '../lib/queries'
-import { RESET_PASSWORD_MUTATION } from '../lib/mutations'
-import { password, confirmationPassword } from '../lib/validators'
+import { Form, Field } from 'react-final-form'
+import { Input, ErrorMessage, Button, Logo } from '../../src/components'
+import AuthForm from '../../src/shared-styles/auth-form'
+import { CURRENT_USER_QUERY } from '../../src/lib/queries'
+import { RESET_PASSWORD_MUTATION } from '../../src/lib/mutations'
+import { password, confirmationPassword } from '../../src/lib/validators'
 const Password = styled(Input)`
   margin-top: 36px;
   margin-bottom: 24px;
@@ -40,7 +40,7 @@ function ResetPasswordForm({ token }) {
               </button>
               <Logo />
               <ErrorMessage error={error} />
-              <FinalFormField name="password" validate={password}>
+              <Field name="password" validate={password}>
                 {({ input, meta }) => (
                   <Password
                     {...input}
@@ -50,8 +50,8 @@ function ResetPasswordForm({ token }) {
                     error={meta.error && meta.touched && meta.error}
                   />
                 )}
-              </FinalFormField>
-              <FinalFormField
+              </Field>
+              <Field
                 name="passwordConfirmation"
                 validate={value => confirmationPassword(value, values.password)}
               >
@@ -64,7 +64,7 @@ function ResetPasswordForm({ token }) {
                     error={meta.error && meta.touched && meta.error}
                   />
                 )}
-              </FinalFormField>
+              </Field>
               <div className="button-with-error">
                 <Button
                   black

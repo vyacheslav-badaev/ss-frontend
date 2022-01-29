@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
-import { ErrorMessage, Loader, Logo } from '.'
-import { VERIFY_MUTATION } from '../lib/mutations'
+import { ErrorMessage, Loader, Logo } from '../../src/components'
+import { VERIFY_MUTATION } from '../../src/lib/mutations'
 const Block = styled.div`
   min-height: 204px;
   background-color: ${props => props.theme.white};
@@ -45,7 +45,7 @@ function Success({ verify, loading, data, error }) {
     </div>
   )
 }
-function VerifyBlock({ token }) {
+function Result({ token }) {
   return (
     <Block>
       <Logo />
@@ -59,4 +59,4 @@ function VerifyBlock({ token }) {
     </Block>
   )
 }
-export default VerifyBlock
+export default Result

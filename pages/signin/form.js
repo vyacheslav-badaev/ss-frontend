@@ -4,12 +4,15 @@ import Link from 'next/link'
 import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 import { adopt } from 'react-adopt'
-import { Form } from 'react-final-form'
-import { Input, FinalFormField, ErrorMessage, Button, Logo } from '.'
-import AuthForm from '../shared-styles/auth-form'
-import { CURRENT_USER_QUERY } from '../lib/queries'
-import { SIGN_IN_MUTATION, CHECK_USER_EXIST_MUTATION } from '../lib/mutations'
-import { password, login } from '../lib/validators'
+import { Form, Field } from 'react-final-form'
+import { Input, ErrorMessage, Button, Logo } from '../../src/components'
+import AuthForm from '../../src/shared-styles/auth-form'
+import { CURRENT_USER_QUERY } from '../../src/lib/queries'
+import {
+  SIGN_IN_MUTATION,
+  CHECK_USER_EXIST_MUTATION,
+} from '../../src/lib/mutations'
+import { password, login } from '../../src/lib/validators'
 const Login = styled(Input)`
   margin-top: 36px;
   margin-bottom: 24px;
@@ -62,7 +65,7 @@ function SigninForm({ returnUrl }) {
               </button>
               <Logo />
               <ErrorMessage error={signInMutation.result.error} />
-              <FinalFormField
+              <Field
                 name="login"
                 validate={value =>
                   login(value, checkUserExistMutation.mutation)
@@ -77,8 +80,8 @@ function SigninForm({ returnUrl }) {
                     error={meta.error && meta.touched && meta.error}
                   />
                 )}
-              </FinalFormField>
-              <FinalFormField name="password" validate={password}>
+              </Field>
+              <Field name="password" validate={password}>
                 {({ input, meta }) => (
                   <Password
                     {...input}
@@ -88,7 +91,7 @@ function SigninForm({ returnUrl }) {
                     error={meta.error && meta.touched && meta.error}
                   />
                 )}
-              </FinalFormField>
+              </Field>
               <div className="button-with-error">
                 <Button
                   black

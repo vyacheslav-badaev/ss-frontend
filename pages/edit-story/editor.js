@@ -4,12 +4,13 @@ import styled from '@emotion/styled'
 import cn from 'classnames'
 import { Query, Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
-import { Form } from 'react-final-form'
-import withDarkMode from '../hoc/with-dark-mode'
-import { GenreSelect, ErrorMessage, Button, FinalFormField } from '.'
-import { GENRES_QUERY, STORY_DATA_QUERY } from '../lib/queries'
-import { EDIT_STORY_MUTATION } from '../lib/mutations'
-import { isEmpty, storyLength, withoutGenre } from '../lib/validators'
+import { Form, Field } from 'react-final-form'
+import withDarkMode from '../../src/hoc/with-dark-mode'
+import { GenreSelect, ErrorMessage, Button } from '../../src/components'
+import { storyStyles, formStoryStyles } from '../../src/shared-styles/story'
+import { GENRES_QUERY, STORY_DATA_QUERY } from '../../src/lib/queries'
+import { EDIT_STORY_MUTATION } from '../../src/lib/mutations'
+import { isEmpty, storyLength, withoutGenre } from '../../src/lib/validators'
 const Wrapper = styled.div`
   background-color: #fff;
   transition: background-color 0.45s ease-in-out;
@@ -19,64 +20,8 @@ const Wrapper = styled.div`
   }
 `
 const FormStyles = styled.form`
-  max-width: 700px;
-  padding: 24px;
-  padding-top: 104px;
-  margin: 0 auto;
-  display: grid;
-  .title-block,
-  .body-block {
-    margin-bottom: 20px;
-  }
-  input,
-  textarea {
-    width: 100%;
-    font-family: ${props => props.theme.textFont};
-    border: none;
-    outline: none;
-    color: ${props => props.theme.black};
-    background: transparent;
-    &::placeholder {
-      color: #aaa;
-    }
-  }
-  .title-block {
-    input {
-      font-size: 3.2rem;
-      line-height: 3.2rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-  }
-  .body-block {
-    textarea {
-      font-size: 1.8rem;
-      line-height: 2.8rem;
-      resize: none;
-    }
-  }
-  .error-message {
-    color: ${props => props.theme.red};
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  button[type='submit'] {
-    position: static;
-    width: auto;
-    margin: 30px 0;
-    padding: 1px 0;
-  }
-  &.dark {
-    input,
-    textarea,
-    button {
-      color: ${props => props.theme.nightGrey};
-    }
-    button[type='submit'] {
-      color: ${props => props.theme.black};
-      background-color: ${props => props.theme.nightGrey};
-    }
-  }
+  ${props => storyStyles(props)};
+  ${props => formStoryStyles(props)};
 `
 function StoryEditor({ mode, id }) {
   return (
@@ -105,14 +50,14 @@ function StoryEditor({ mode, id }) {
                           onSubmit={handleSubmit}
                         >
                           <ErrorMessage error={error} />
-                          <FinalFormField
+                          <Field
                             name="title"
                             validate={value =>
                               isEmpty(value, 'Введите заголовок')
                             }
                           >
                             {({ input, meta }) => (
-                              <div className="title-block">
+                              <div className="title">
                                 <input
                                   {...input}
                                   autoCapitalize="true"
@@ -129,10 +74,10 @@ function StoryEditor({ mode, id }) {
                                 )}
                               </div>
                             )}
-                          </FinalFormField>
-                          <FinalFormField name="genre" validate={withoutGenre}>
+                          </Field>
+                          <Field name="genre" validate={withoutGenre}>
                             {({ input, meta }) => (
-                              <div className="title-block">
+                              <div className="genres">
                                 <GenreSelect
                                   input={input}
                                   isDarkMode={mode === 'dark'}
@@ -148,10 +93,10 @@ function StoryEditor({ mode, id }) {
                                 )}
                               </div>
                             )}
-                          </FinalFormField>
-                          <FinalFormField name="body" validate={storyLength}>
+                          </Field>
+                          <Field name="body" validate={storyLength}>
                             {({ input, meta }) => (
-                              <div className="body-block">
+                              <div className="body">
                                 <ReactTextareaAutosize
                                   {...input}
                                   placeholder="Расскажите историю..."
@@ -166,7 +111,7 @@ function StoryEditor({ mode, id }) {
                                 )}
                               </div>
                             )}
-                          </FinalFormField>
+                          </Field>
                           <Button
                             black
                             loading={loading}

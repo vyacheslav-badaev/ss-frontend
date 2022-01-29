@@ -1,9 +1,10 @@
 import React from 'react'
-import { Wrapper, UserProfile } from '../src/components'
+import { Wrapper } from '../../src/components'
+import Profile from './profile'
 function User({ query }) {
   return (
     <Wrapper>
-      <UserProfile id={query.id} />
+      <Profile id={query.id} />
     </Wrapper>
   )
 }

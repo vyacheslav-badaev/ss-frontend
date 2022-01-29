@@ -1,9 +1,10 @@
 import React from 'react'
-import { CenterWrapper, SigninForm } from '../src/components'
+import { CenterWrapper } from '../../src/components'
+import Form from './form'
 function SigninPage({ query }) {
   return (
     <CenterWrapper>
-      <SigninForm returnUrl={query.return} />
+      <Form returnUrl={query.return} />
     </CenterWrapper>
   )
 }

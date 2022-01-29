@@ -1,13 +1,8 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
-import { BigLoader, ErrorMessage, ListStories } from '.'
-import { UserInfo } from './users-info'
-import { USER_QUERY, USER_STORIES_QUERY } from '../lib/queries'
-const UserProfileStyles = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-`
+import { BigLoader, ErrorMessage, ListStories } from '../../src/components'
+import { UserInfo } from '../../src/components/users-info'
+import { USER_QUERY, USER_STORIES_QUERY } from '../../src/lib/queries'
 function UserProfile({ id }) {
   return (
     <Query query={USER_QUERY} variables={{ id }} partialRefetch>
@@ -15,7 +10,7 @@ function UserProfile({ id }) {
         if (error) return <ErrorMessage error={error} />
         if (loading) return <BigLoader />
         return (
-          <UserProfileStyles>
+          <div>
             <UserInfo user={data.user} />
             <Query query={USER_STORIES_QUERY} variables={{ userId: id }}>
               {({
@@ -33,7 +28,7 @@ function UserProfile({ id }) {
                 )
               }}
             </Query>
-          </UserProfileStyles>
+          </div>
         )
       }}
     </Query>

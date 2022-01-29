@@ -52,11 +52,21 @@ class MyDocument extends Document {
               font-family: inherit;
               font-size: inherit;
               line-height: inherit;
+              background: transparent;
             }
             textarea {
               margin: 0;
               overflow: auto;
               resize: none;
+            }
+            input::placeholder {
+              color: #aaa;
+            }
+            textarea::placeholder {
+              color: #aaa;
+            }
+            img {
+              max-width: 100%;
             }
             h1,
             h2,
@@ -107,6 +117,32 @@ class MyDocument extends Document {
             button:disabled {
               cursor: not-allowed;
               opacity: 0.7;
+            }
+            #nprogress .bar {
+              background: #6d47d9;
+              position: fixed;
+              z-index: 1031;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 2px;
+            }
+            #nprogress .peg {
+              display: block;
+              position: absolute;
+              right: 0;
+              width: 100px;
+              height: 100%;
+              box-shadow: 0 0 10px #6d47d9, 0 0 5px #6d47d9;
+              opacity: 1;
+              transform: rotate(3deg) translate(0, -4px);
+            }
+            .nprogress-custom-parent {
+              overflow: hidden;
+              position: relative;
+            }
+            .nprogress-custom-parent #nprogress .bar {
+              position: absolute;
             }
           `}
         />

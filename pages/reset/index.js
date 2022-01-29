@@ -1,9 +1,10 @@
 import React from 'react'
-import { CenterWrapper, ResetPasswordForm } from '../src/components'
+import { CenterWrapper } from '../../src/components'
+import Form from './form'
 function ResetPage({ query }) {
   return (
     <CenterWrapper>
-      <ResetPasswordForm token={query.resetToken} />
+      <Form token={query.resetToken} />
     </CenterWrapper>
   )
 }

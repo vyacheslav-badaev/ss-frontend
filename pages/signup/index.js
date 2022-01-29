@@ -1,9 +1,10 @@
 import React from 'react'
-import { CenterWrapper, SignupForm } from '../src/components'
+import { CenterWrapper } from '../../src/components'
+import Form from './form'
 function SignupPage() {
   return (
     <CenterWrapper>
-      <SignupForm />
+      <Form />
     </CenterWrapper>
   )
 }

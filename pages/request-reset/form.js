@@ -3,14 +3,14 @@ import styled from '@emotion/styled'
 import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 import { adopt } from 'react-adopt'
-import { Form } from 'react-final-form'
-import { Input, FinalFormField, ErrorMessage, Button, Logo } from '.'
-import AuthForm from '../shared-styles/auth-form'
+import { Form, Field } from 'react-final-form'
+import { Input, ErrorMessage, Button, Logo } from '../../src/components'
+import AuthForm from '../../src/shared-styles/auth-form'
 import {
   REQUEST_RESET_MUTATION,
   CHECK_USER_EXIST_MUTATION,
-} from '../lib/mutations'
-import { login } from '../lib/validators'
+} from '../../src/lib/mutations'
+import { login } from '../../src/lib/validators'
 const Login = styled(Input)`
   margin-top: 36px;
   margin-bottom: 24px;
@@ -72,7 +72,7 @@ function RequestResetForm() {
                 </div>
               ) : (
                 <>
-                  <FinalFormField
+                  <Field
                     name="login"
                     validate={value =>
                       login(value, checkUserExistMutation.mutation)
@@ -87,7 +87,7 @@ function RequestResetForm() {
                         error={meta.error && meta.touched && meta.error}
                       />
                     )}
-                  </FinalFormField>
+                  </Field>
                   <div className="button-wrapper">
                     <BackButton type="button" onClick={Router.back}>
                       Назад

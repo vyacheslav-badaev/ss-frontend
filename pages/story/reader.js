@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import Head from 'next/head'
 import { Query } from 'react-apollo'
 import cn from 'classnames'
-import withDarkMode from '../hoc/with-dark-mode'
+import withDarkMode from '../../src/hoc/with-dark-mode'
 import {
   ErrorMessage,
   User,
@@ -11,72 +11,16 @@ import {
   Reaction,
   BigLoader,
   ShareButton,
-} from '.'
+} from '../../src/components'
 import Comments from './comments'
-import { STORY_DATA_QUERY } from '../lib/queries'
-import { fadeIn } from '../shared-styles/animations'
+import { STORY_DATA_QUERY } from '../../src/lib/queries'
+import { storyStyles } from '../../src/shared-styles/story'
 const SingleStoryStyles = styled.div`
-  max-width: 732px;
-  margin: 0 auto;
-  padding: 0 24px;
-  padding-top: 104px;
-  .title,
-  .body-paragraph {
-    font-family: ${props => props.theme.textFont};
-    color: ${props => props.theme.black};
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .title {
-    font-size: 3.2rem;
-    line-height: 3.2rem;
-    font-weight: 700;
-    margin: 20px 0;
-    opacity: 0;
-    animation: ${fadeIn} 1s ease 0.2s 1 normal forwards running;
-  }
-  .body-paragraph {
-    margin-bottom: 2rem;
-    font-size: 1.8rem;
-    line-height: 2.8rem;
-    opacity: 0;
-    animation: ${fadeIn} 1s ease 0.7s 1 normal forwards running;
+  ${props => storyStyles(props)};
+  .body {
+    margin-bottom: 14px;
     &:last-child {
       margin-bottom: 0;
-    }
-  }
-  .author {
-    display: flex;
-    .avatar {
-      width: 60px;
-      height: 60px;
-      display: block;
-      margin-right: 15px;
-      > img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
-    }
-    > div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      p,
-      a {
-        font-size: 1.6rem;
-        margin: 0;
-      }
-    }
-    .created-at {
-      color: #aaa;
-      font-size: 1.2rem;
-    }
-  }
-  &.dark {
-    .title,
-    .body-paragraph {
-      color: ${props => props.theme.nightGrey};
     }
   }
 `
@@ -182,7 +126,7 @@ function SingleStory({ mode, id, viewStory }) {
                     .split('\n')
                     .filter(paragraph => paragraph !== '')
                     .map((paragraph, index) => (
-                      <p key={index} className="body-paragraph">
+                      <p key={index} className="body">
                         {paragraph}
                       </p>
                     ))}

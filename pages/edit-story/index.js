@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StoryEditor } from '../src/components'
-import { checkLoggedIn, redirect } from '../src/lib/helpers'
+import Editor from './editor'
+import { checkLoggedIn, redirect } from '../../src/lib/helpers'
 class EditStoryPage extends Component {
   static async getInitialProps(ctx) {
     const { loggedInUser } = await checkLoggedIn(ctx.apolloClient)
@@ -11,7 +11,7 @@ class EditStoryPage extends Component {
   }
   render() {
     const { query } = this.props
-    return <StoryEditor id={query.id} />
+    return <Editor id={query.id} />
   }
 }
 export default EditStoryPage

@@ -75,7 +75,6 @@ function Meta({ router }) {
         type="text/javascript"
         src="/static/scripts/yandex-metrika.js"
       />
-      <link rel="stylesheet" href="/static/styles/nprogress.css" />
     </Head>
   )
 }

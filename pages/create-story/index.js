@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StoryCreator } from '../src/components'
-import { checkLoggedIn, redirect } from '../src/lib/helpers'
+import Creator from './creator'
+import { checkLoggedIn, redirect } from '../../src/lib/helpers'
 class CreateStoryPage extends Component {
   static async getInitialProps(ctx) {
     const { loggedInUser } = await checkLoggedIn(ctx.apolloClient)
@@ -10,7 +10,7 @@ class CreateStoryPage extends Component {
     return { loggedInUser }
   }
   render() {
-    return <StoryCreator />
+    return <Creator />
   }
 }
 export default CreateStoryPage

@@ -27,6 +27,7 @@ const Header = styled.header`
     height: 48px;
     background-size: 50%;
     background-position: center;
+    background-repeat: no-repeat;
     opacity: 1;
     transition: opacity 0.2s ease;
     &:hover {
