@@ -40,7 +40,7 @@ const Wrapper = styled.article`
     font-size: 1.6rem;
     font-weight: bold;
     font-family: ${props => props.theme.textFont};
-    line-height: 1;
+    line-height: 1.3;
   }
   .labels {
     margin: 12px 0;
