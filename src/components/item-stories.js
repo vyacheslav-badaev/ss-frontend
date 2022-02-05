@@ -16,7 +16,6 @@ const AuthorBlock = styled(UserWithDate)`
 `
 const Wrapper = styled.article`
   cursor: pointer;
-  opacity: 0.95;
   height: 450px;
   overflow: hidden;
   background: ${props => props.theme.white};
@@ -24,11 +23,9 @@ const Wrapper = styled.article`
   border-radius: 8px;
   transform: translateZ(0);
   box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease-out, transform 0.3s ease-out,
-    opacity 0.2s ease-out;
+  transition: box-shadow 0.3s ease-out, transform 0.3s ease-out;
   transition-delay: 0.1s;
   &:hover {
-    opacity: 1;
     transform: translate(0, -4px);
     box-shadow: rgba(45, 45, 45, 0.05) 0px 2px 2px,
       rgba(49, 49, 49, 0.05) 0px 4px 4px, rgba(42, 42, 42, 0.05) 0px 8px 8px,

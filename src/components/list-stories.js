@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import ItemStories from './item-stories'
 import Button from './button'
-import { fadeInUp } from '../shared-styles/animations'
+import { fadeIn } from '../shared-styles/animations'
 const StoriesList = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -10,11 +10,11 @@ const StoriesList = styled.div`
   max-width: 1300px;
   margin: 0 auto;
   > article {
-    animation-name: ${fadeInUp};
-    animation-duration: 0.8s;
-    animation-fill-mode: backwards;
-    animation-timing-function: ease;
-    will-change: transform, opacity;
+    animation-name: ${fadeIn};
+    animation-duration: 0.75s;
+    animation-fill-mode: both;
+    animation-timing-function: ease-in;
+    will-change: opacity;
   }
   @media (min-width: 980px) {
     > article:nth-of-type(3n + 1) {
