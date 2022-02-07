@@ -40,7 +40,14 @@ function StoryEditor({ mode, id }) {
                       genre: data.story.genre,
                     }}
                     onSubmit={async values => {
-                      await editStory({ variables: { ...values, id } })
+                      await editStory({
+                        variables: {
+                          title: values.title,
+                          body: values.body,
+                          genreId: values.genre.id,
+                          id,
+                        },
+                      })
                       Router.push('/me')
                     }}
                     render={({ handleSubmit, form, submitting }) => (

@@ -11,9 +11,9 @@ const StoriesList = styled.div`
   margin: 0 auto;
   > article {
     animation-name: ${fadeIn};
-    animation-duration: 0.75s;
+    animation-duration: 0.7s;
     animation-fill-mode: both;
-    animation-timing-function: ease-in;
+    animation-timing-function: ease-in-out;
     will-change: opacity;
   }
   @media (min-width: 980px) {
