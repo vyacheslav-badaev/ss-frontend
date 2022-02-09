@@ -75,7 +75,7 @@ function ListStories({ edges, pageInfo, fetchMore, userId }) {
           />
         ))}
       </StoriesList>
-      {edges.length === pageInfo.limit && (
+      {edges.length === pageInfo.limit + pageInfo.offset && (
         <LoadMoreButton
           black
           style={{
