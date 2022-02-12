@@ -143,6 +143,7 @@ const EditForm = styled.form`
   }
 `
 export function UserInfo({ user }) {
+  console.log(user, getPhoto(user.photo))
   return (
     <Wrapper>
       <div>
