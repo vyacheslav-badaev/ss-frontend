@@ -9,7 +9,7 @@ import ListComments from './list-comments'
 import { ALL_STORIES_QUERY, STORY_DATA_QUERY } from '../../src/lib/queries'
 import { CREATE_COMMENT_MUTATION } from '../../src/lib/mutations'
 const CommentsStyles = styled.div`
-  max-width: 732px;
+  max-width: 700px;
   padding: 0 24px;
   margin: 0 auto;
   margin-top: 12px;

@@ -29,7 +29,7 @@ const Toolbar = styled.aside`
   > .reaction-buttons {
     display: flex;
     margin: 20px auto;
-    max-width: 732px;
+    max-width: 700px;
     padding: 0 24px;
     justify-content: space-between;
     .reactions,

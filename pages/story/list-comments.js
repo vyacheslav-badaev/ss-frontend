@@ -22,11 +22,15 @@ const List = styled.ul`
   .comment-header {
     display: flex;
     align-items: center;
+    .author {
+      width: 100%;
+    }
   }
   .edit-and-delete {
     display: flex;
     justify-content: flex-end;
     position: relative;
+    width: 100%;
     top: -20px;
     right: -20px;
     button {

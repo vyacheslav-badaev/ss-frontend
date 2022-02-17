@@ -40,6 +40,9 @@ const Tabs = styled.div`
     }
   }
 `
+const NoStories = styled.p`
+  color: ${props => props.theme.white};
+`
 function Info() {
   const [tab, setTab] = useState('written')
   const [isEdit, setEdit] = useState(false)
@@ -47,7 +50,7 @@ function Info() {
     if (loading || !stories) return <BigLoader />
     if (error) return <ErrorMessage error={error} />
     return !stories.edges.length ? (
-      <p>Нет рассказов</p>
+      <NoStories>Нет рассказов</NoStories>
     ) : (
       <ListStories
         {...stories}
