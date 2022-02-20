@@ -10,7 +10,12 @@ import nanoid from 'nanoid'
 import withDarkMode from '../../src/hoc/with-dark-mode'
 import { GenreSelect, ErrorMessage, Button } from '../../src/components'
 import { storyStyles, formStoryStyles } from '../../src/shared-styles/story'
-import { GENRES_QUERY, ALL_STORIES_QUERY } from '../../src/lib/queries'
+import {
+  GENRES_QUERY,
+  ALL_STORIES_QUERY,
+  WRITTEN_STORIES_QUERY,
+  USER_STORIES_QUERY,
+} from '../../src/lib/queries'
 import { CREATE_STORY_MUTATION } from '../../src/lib/mutations'
 import { isEmpty, storyLength, withoutGenre } from '../../src/lib/validators'
 const Wrapper = styled.div`
@@ -25,18 +30,7 @@ const FormStyles = styled.form`
   ${props => storyStyles(props)};
   ${props => formStoryStyles(props)};
 `
-function update(cache, payload) {
-  try {
-    const stories = cache.readQuery({ query: ALL_STORIES_QUERY })
-    stories.stories.edges = [...stories.stories.edges, payload.data.createStory]
-    cache.writeQuery({
-      query: ALL_STORIES_QUERY,
-      data: stories,
-    })
-  } catch (e) {
-  }
-}
-function StoryCreator({ mode }) {
+function StoryCreator({ mode, userId }) {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [genreId, setGenreId] = useState(null)
@@ -47,7 +41,14 @@ function StoryCreator({ mode }) {
         return (
           <Mutation
             mutation={CREATE_STORY_MUTATION}
-            update={update}
+            refetchQueries={[
+              {
+                query: ALL_STORIES_QUERY,
+                variables: { genres: [], length: null },
+              },
+              { query: WRITTEN_STORIES_QUERY, variables: { userId } },
+              { query: USER_STORIES_QUERY, variables: { userId } },
+            ]}
             optimisticResponse={{
               __typename: 'Mutation',
               createStory: {
@@ -69,7 +70,7 @@ function StoryCreator({ mode }) {
                       genreId: values.genre.id,
                     },
                   })
-                  Router.push('/me')
+                  Router.push('/')
                 }}
                 render={({ handleSubmit, form, submitting }) => (
                   <Wrapper className={cn({ dark: mode === 'dark' })}>

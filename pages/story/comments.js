@@ -21,7 +21,7 @@ const CommentsStyles = styled.div`
       font-family: ${props => props.theme.uiFont};
       border: none;
       min-height: 63px;
-      padding: 20px;
+      padding: 20px 20px 20px 0;
       font-size: 1.6rem;
       color: ${({ theme, isDarkMode }) =>
         isDarkMode ? theme.nightGrey : theme.black};

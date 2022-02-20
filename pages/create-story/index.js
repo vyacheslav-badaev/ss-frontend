@@ -10,7 +10,7 @@ class CreateStoryPage extends Component {
     return { loggedInUser }
   }
   render() {
-    return <Creator />
+    return <Creator userId={this.props.loggedInUser.me.id} />
   }
 }
 export default CreateStoryPage

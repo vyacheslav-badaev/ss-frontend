@@ -22,28 +22,24 @@ const List = styled.ul`
   .comment-header {
     display: flex;
     align-items: center;
-    .author {
-      width: 100%;
-    }
   }
   .edit-and-delete {
     display: flex;
     justify-content: flex-end;
-    position: relative;
-    width: 100%;
-    top: -20px;
-    right: -20px;
+    position: absolute;
+    top: 0;
+    right: 0;
     button {
-      width: 50px;
-      height: 50px;
+      width: 46px;
+      height: 46px;
       padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background-color 0.25s ease-in-out;
       img {
-        width: 20px;
-        height: 20px;
+        width: 16px;
+        height: 16px;
       }
       &:hover {
         background-color: ${({ theme, isDarkMode }) =>
@@ -78,6 +74,10 @@ const List = styled.ul`
       margin-top: 18px;
     }
   }
+`
+const NoComments = styled.p`
+  color: ${({ theme, isDarkMode }) =>
+    isDarkMode ? theme.nightGrey : theme.black};
 `
 function editUpdate(cache, payload, id) {
   const data = cache.readQuery({ query: STORY_DATA_QUERY, variables: { id } })
@@ -297,7 +297,9 @@ function ListComments({
       )}
     </Fragment>
   ) : (
-    <p className="no-comments">Пока что нет комментариев</p>
+    <NoComments isDarkMode={isDarkMode} className="no-comments">
+      Пока что нет комментариев
+    </NoComments>
   )
 }
 export default ListComments

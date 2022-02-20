@@ -4,7 +4,12 @@ import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 import slugify from '@sindresorhus/slugify'
 import UserWithDate from './user-with-date'
-import { ALL_STORIES_QUERY } from '../lib/queries'
+import {
+  ALL_STORIES_QUERY,
+  LIKED_STORIES_QUERY,
+  WRITTEN_STORIES_QUERY,
+  USER_STORIES_QUERY,
+} from '../lib/queries'
 import { DELETE_STORY_MUTATION } from '../lib/mutations'
 const AuthorBlock = styled(UserWithDate)`
   .name-with-date {
@@ -75,21 +80,20 @@ const Wrapper = styled.article`
   .edit-and-delete {
     display: flex;
     justify-content: flex-end;
-    position: relative;
-    margin-top: -20px;
-    margin-right: -20px;
-    margin-left: -20px;
+    position: absolute;
+    top: 0;
+    right: 0;
     button {
       background-color: ${props => props.theme.white};
-      width: 50px;
-      height: 50px;
+      width: 46px;
+      height: 46px;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background-color 0.25s ease-in-out;
       img {
-        width: 20px;
-        height: 20px;
+        width: 16px;
+        height: 16px;
       }
       &:hover {
         background-color: ${props => props.theme.lightGrey};
@@ -134,16 +138,6 @@ const BottomBar = styled.div`
     }
   }
 `
-function update(cache, payload) {
-  const data = cache.readQuery({ query: ALL_STORIES_QUERY })
-  data.stories.edges = data.stories.edges.filter(
-    story => story.id !== payload.data.deleteStory.id
-  )
-  cache.writeQuery({
-    query: ALL_STORIES_QUERY,
-    data,
-  })
-}
 function getLength(l) {
   if (l >= 1800 && l < 8000) return 'short'
   if (l >= 8000 && l < 25000) return 'middle'
@@ -196,19 +190,20 @@ function StoryItem({
               })
             }}
           >
-            <img src="/static/images/icons/edit.svg" alt="Edit" />
+            <img src="/static/images/icons/edit.svg" alt="Редактировать" />
           </button>
           <Mutation
             mutation={DELETE_STORY_MUTATION}
             variables={{ id }}
-            update={update}
-            optimisticResponse={{
-              __typename: 'Mutation',
-              deleteStory: {
-                __typename: 'Story',
-                id,
+            refetchQueries={[
+              {
+                query: ALL_STORIES_QUERY,
+                variables: { genres: [], length: null },
               },
-            }}
+              { query: WRITTEN_STORIES_QUERY, variables: { userId: user.id } },
+              { query: LIKED_STORIES_QUERY, variables: { isLiked: true } },
+              { query: USER_STORIES_QUERY, variables: { userId: user.id } },
+            ]}
           >
             {deleteStory => (
               <button
@@ -218,7 +213,7 @@ function StoryItem({
                   deleteStory()
                 }}
               >
-                <img src="/static/images/icons/cross.svg" alt="Delete" />
+                <img src="/static/images/icons/cross.svg" alt="Удалить" />
               </button>
             )}
           </Mutation>
@@ -237,7 +232,7 @@ function StoryItem({
       <BottomBar>
         <div className="buttons-container">
           <div>
-            <img src="/static/images/icons/eye.svg" alt="Просмотры" />
+            <img src="/static/images/icons/watch.svg" alt="Просмотры" />
             <span>{stats.views}</span>
           </div>
           <div>

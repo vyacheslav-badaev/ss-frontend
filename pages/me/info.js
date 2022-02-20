@@ -66,7 +66,11 @@ function Info() {
           query={
             tab === 'written' ? WRITTEN_STORIES_QUERY : LIKED_STORIES_QUERY
           }
-          variables={tab === 'written' && me ? { userId: me.id } : undefined}
+          variables={
+            tab === 'written' && me
+              ? { userId: me.id, isLiked: false }
+              : { userId: null, isLiked: true }
+          }
         >
           {({ data: { stories }, loading, error, fetchMore }) => (
             <div>

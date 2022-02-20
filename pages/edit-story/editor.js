@@ -8,7 +8,13 @@ import { Form, Field } from 'react-final-form'
 import withDarkMode from '../../src/hoc/with-dark-mode'
 import { GenreSelect, ErrorMessage, Button } from '../../src/components'
 import { storyStyles, formStoryStyles } from '../../src/shared-styles/story'
-import { GENRES_QUERY, STORY_DATA_QUERY } from '../../src/lib/queries'
+import {
+  GENRES_QUERY,
+  STORY_DATA_QUERY,
+  ALL_STORIES_QUERY,
+  WRITTEN_STORIES_QUERY,
+  USER_STORIES_QUERY,
+} from '../../src/lib/queries'
 import { EDIT_STORY_MUTATION } from '../../src/lib/mutations'
 import { isEmpty, storyLength, withoutGenre } from '../../src/lib/validators'
 const Wrapper = styled.div`
@@ -23,7 +29,7 @@ const FormStyles = styled.form`
   ${props => storyStyles(props)};
   ${props => formStoryStyles(props)};
 `
-function StoryEditor({ mode, id }) {
+function StoryEditor({ mode, id, userId }) {
   return (
     <Query query={GENRES_QUERY}>
       {genresData => {
@@ -31,7 +37,17 @@ function StoryEditor({ mode, id }) {
         return (
           <Query query={STORY_DATA_QUERY} variables={{ id }}>
             {({ data }) => (
-              <Mutation mutation={EDIT_STORY_MUTATION}>
+              <Mutation
+                mutation={EDIT_STORY_MUTATION}
+                refetchQueries={[
+                  {
+                    query: ALL_STORIES_QUERY,
+                    variables: { genres: [], length: null },
+                  },
+                  { query: WRITTEN_STORIES_QUERY, variables: { userId } },
+                  { query: USER_STORIES_QUERY, variables: { userId } },
+                ]}
+              >
                 {(editStory, { loading, error }) => (
                   <Form
                     initialValues={{

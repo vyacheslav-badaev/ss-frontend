@@ -15,16 +15,17 @@ const ReactionButton = styled.div`
     padding: 8px;
     cursor: pointer;
     outline: none;
+    will-change: box-shadow, transform;
     box-shadow: 0 0 0 rgba(109, 71, 217, 0.4);
     animation: ${pulse} 2s infinite;
     transform: scale(1);
-    transition: transform 0.25s ease-in-out;
+    transition: transform 0.2s ease;
     &:hover {
       animation: none;
-      transform: scale(1.06);
+      transform: scale(1.08);
     }
     &:active {
-      transform: scale(0.88);
+      transform: scale(1);
     }
     img {
       width: 16px;

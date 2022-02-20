@@ -36,9 +36,14 @@ const blackStyles = props => css`
   &:active {
     transform: scale(0.98);
   }
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
+  }
   &.loading {
     cursor: wait;
-    opacity: 0.7;
+    opacity: 0.5;
     pointer-events: none;
   }
 `

@@ -11,7 +11,7 @@ class EditStoryPage extends Component {
   }
   render() {
     const { query } = this.props
-    return <Editor id={query.id} />
+    return <Editor userId={this.props.loggedInUser.me.id} id={query.id} />
   }
 }
 export default EditStoryPage

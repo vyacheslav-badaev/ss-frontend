@@ -30,6 +30,18 @@ const storyFragment = gql`
   }
   ${authorFragment}
 `
+export const storiesFragment = gql`
+  fragment stories on StoryConnection {
+    edges {
+      ...story
+    }
+    pageInfo {
+      offset
+      limit
+    }
+  }
+  ${storyFragment}
+`
 export const CURRENT_USER_QUERY = gql`
   query CURRENT_USER_QUERY {
     me {
@@ -109,17 +121,10 @@ export const ALL_STORIES_QUERY = gql`
         key: "AllStoriesConnection"
         filter: ["length", "genres", "mostLiked", "mostViewed", "mostCommented"]
       ) {
-      edges {
-        ...story
-      }
-      pageInfo {
-        offset
-        limit
-      }
+      ...stories
     }
   }
-  ${storyFragment}
-  ${authorFragment}
+  ${storiesFragment}
 `
 export const GENRES_QUERY = gql`
   query GENRES_QUERY {
@@ -130,34 +135,38 @@ export const GENRES_QUERY = gql`
   }
 `
 export const WRITTEN_STORIES_QUERY = gql`
-  query WRITTEN_STORIES_QUERY($offset: Int = 0, $limit: Int = 20, $userId: ID) {
-    stories(offset: $offset, limit: $limit, userId: $userId, isLiked: false)
-      @connection(key: "WrittenStoriesConnection") {
-      edges {
-        ...story
-      }
-      pageInfo {
-        offset
-        limit
-      }
+  query WRITTEN_STORIES_QUERY(
+    $offset: Int = 0
+    $limit: Int = 20
+    $userId: ID
+    $isLiked: Boolean
+  ) {
+    stories(offset: $offset, limit: $limit, userId: $userId, isLiked: $isLiked)
+      @connection(
+        key: "WrittenStoriesConnection"
+        filter: ["userId", "isLiked"]
+      ) {
+      ...stories
     }
   }
-  ${storyFragment}
+  ${storiesFragment}
 `
 export const LIKED_STORIES_QUERY = gql`
-  query LIKED_STORIES_QUERY($offset: Int = 0, $limit: Int = 20) {
-    stories(offset: $offset, limit: $limit, userId: null, isLiked: true)
-      @connection(key: "LikedStoriesConnection") {
-      edges {
-        ...story
-      }
-      pageInfo {
-        offset
-        limit
-      }
+  query LIKED_STORIES_QUERY(
+    $offset: Int = 0
+    $limit: Int = 20
+    $userId: ID
+    $isLiked: Boolean
+  ) {
+    stories(offset: $offset, limit: $limit, userId: $userId, isLiked: $isLiked)
+      @connection(
+        key: "LikedStoriesConnection"
+        filter: ["userId", "isLiked"]
+      ) {
+      ...stories
     }
   }
-  ${storyFragment}
+  ${storiesFragment}
 `
 export const USER_STORIES_QUERY = gql`
   query USER_STORIES_QUERY(
@@ -168,16 +177,10 @@ export const USER_STORIES_QUERY = gql`
   ) {
     stories(offset: $offset, limit: $limit, userId: $userId, isLiked: $isLiked)
       @connection(key: "UserStoriesConnection", filter: ["userId"]) {
-      edges {
-        ...story
-      }
-      pageInfo {
-        offset
-        limit
-      }
+      ...stories
     }
   }
-  ${storyFragment}
+  ${storiesFragment}
 `
 export const CHECK_LOGGED_IN_QUERY = gql`
   query CHECK_LOGGED_IN_QUERY {
