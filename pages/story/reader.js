@@ -139,7 +139,7 @@ function SingleStory({ mode, id, viewStory }) {
                           dark={mode === 'dark'}
                           state="like"
                           id={id}
-                          qty={story.stats.likes}
+                          qty={story.stats.likes.length}
                           active={reactions.some(
                             reaction =>
                               reaction.userId === me.id &&
@@ -150,7 +150,7 @@ function SingleStory({ mode, id, viewStory }) {
                           dark={mode === 'dark'}
                           state="dislike"
                           id={id}
-                          qty={story.stats.dislikes}
+                          qty={story.stats.dislikes.length}
                           active={reactions.some(
                             reaction =>
                               reaction.userId === me.id &&

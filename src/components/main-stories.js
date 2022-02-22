@@ -34,7 +34,9 @@ function MainStories(props) {
               <h2>Нет рассказов :(</h2>
             </NoStories>
           )
-        return <ListStories {...data.stories} fetchMore={fetchMore} />
+        return (
+          <ListStories {...data.stories} me={data.me} fetchMore={fetchMore} />
+        )
       }}
     </Query>
   )

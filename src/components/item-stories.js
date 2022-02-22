@@ -165,7 +165,12 @@ function StoryItem({
   body,
   genre,
   length,
+  me,
 }) {
+  const meId = me && me.id
+  const hasLike = !!stats.likes.find(l => l.id === meId)
+  const hasDislike = !!stats.dislikes.find(d => d.id === meId)
+  const hasView = !!stats.views.find(v => v && v.id === meId)
   return (
     <Wrapper
       onClick={() => {
@@ -232,19 +237,37 @@ function StoryItem({
       <BottomBar>
         <div className="buttons-container">
           <div>
-            <img src="/static/images/icons/watch.svg" alt="Просмотры" />
-            <span>{stats.views}</span>
-          </div>
-          <div>
-            <img src="/static/images/icons/like-fill-grey.svg" alt="Лайки" />
-            <span>{stats.likes}</span>
+            <img
+              src={
+                hasView
+                  ? '/static/images/icons/watched.svg'
+                  : '/static/images/icons/watch.svg'
+              }
+              alt="Просмотры"
+            />
+            <span>{stats.views.length}</span>
           </div>
           <div>
             <img
-              src="/static/images/icons/dislike-fill-grey.svg"
+              src={
+                hasLike
+                  ? '/static/images/icons/like-fill-black.svg'
+                  : '/static/images/icons/like-fill-grey.svg'
+              }
+              alt="Лайки"
+            />
+            <span>{stats.likes.length}</span>
+          </div>
+          <div>
+            <img
+              src={
+                hasDislike
+                  ? '/static/images/icons/dislike-fill-black.svg'
+                  : '/static/images/icons/dislike-fill-grey.svg'
+              }
               alt="Дизлайки"
             />
-            <span>{stats.dislikes}</span>
+            <span>{stats.dislikes.length}</span>
           </div>
           <div>
             <img

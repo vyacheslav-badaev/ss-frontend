@@ -63,12 +63,13 @@ function loadMoreStories(fetchMore, offset) {
           },
   })
 }
-function ListStories({ edges, pageInfo, fetchMore, userId }) {
+function ListStories({ edges, pageInfo, fetchMore, userId, me }) {
   return (
     <>
       <StoriesList>
         {edges.map(story => (
           <ItemStories
+            me={me}
             isStoryOwner={userId === story.user.id}
             key={story.id}
             {...story}

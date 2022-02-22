@@ -21,10 +21,16 @@ const storyFragment = gql`
       ...author
     }
     stats {
-      likes
-      dislikes
+      likes {
+        id
+      }
+      dislikes {
+        id
+      }
+      views {
+        id
+      }
       comments
-      views
     }
     createdAt
   }
@@ -122,6 +128,9 @@ export const ALL_STORIES_QUERY = gql`
         filter: ["length", "genres", "mostLiked", "mostViewed", "mostCommented"]
       ) {
       ...stories
+    }
+    me {
+      id
     }
   }
   ${storiesFragment}
