@@ -4,12 +4,6 @@ import { ApolloClient } from 'apollo-client'
 import { createUploadLink } from 'apollo-upload-client'
 import withApollo from 'next-with-apollo'
 function createClient({ headers, initialState = {} }) {
-  if (typeof headers === 'object') {
-    delete headers[':method']
-    delete headers[':authority']
-    delete headers[':scheme']
-    delete headers[':path']
-  }
   return new ApolloClient({
     ssrMode: !process.browser,
     cache: new InMemoryCache({

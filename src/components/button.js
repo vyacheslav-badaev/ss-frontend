@@ -17,7 +17,6 @@ const Button = ({
     className={cn(className, { loading })}
     onClick={onClick}
     disabled={disabled || loading}
-    loading={loading}
     type={type}
     style={style}
   >
