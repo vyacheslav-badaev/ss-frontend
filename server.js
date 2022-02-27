@@ -21,7 +21,6 @@ function getId(req) {
 }
 app.prepare().then(() => {
   const server = polka()
-  server.use(compression())
   server.get('/', (req, res) => ssrCache({ req, res, pagePath: '/' }))
   server.get('/user/:id', (req, res) =>
     ssrCache({ req, res, pagePath: '/user', queryParams: { id: getId(req) } })
@@ -46,6 +45,7 @@ app.prepare().then(() => {
     }
     return handle(req, res, parsedUrl)
   })
+  server.use(compression({ threshold: 0 }))
   server.listen(port, err => {
     if (err) throw err
     console.log(`> Ready on http:
