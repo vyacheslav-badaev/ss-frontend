@@ -1,4 +1,4 @@
-const polka = require('polka')
+const express = require('express')
 const cacheableResponse = require('cacheable-response')
 const compression = require('compression')
 const next = require('next')
@@ -13,14 +13,15 @@ const ssrCache = cacheableResponse({
   get: async ({ req, res, pagePath, queryParams }) => ({
     data: await app.renderToHTML(req, res, pagePath, queryParams),
   }),
-  send: ({ data, res }) => res.end(data),
+  send: ({ data, res }) => res.send(data),
 })
 function getId(req) {
   const [id] = req.params.id.split('-')
   return id
 }
 app.prepare().then(() => {
-  const server = polka()
+  const server = express()
+  server.use(compression())
   server.get('/', (req, res) => ssrCache({ req, res, pagePath: '/' }))
   server.get('/user/:id', (req, res) =>
     ssrCache({ req, res, pagePath: '/user', queryParams: { id: getId(req) } })
@@ -45,7 +46,6 @@ app.prepare().then(() => {
     }
     return handle(req, res, parsedUrl)
   })
-  server.use(compression({ threshold: 0 }))
   server.listen(port, err => {
     if (err) throw err
     console.log(`> Ready on http:
