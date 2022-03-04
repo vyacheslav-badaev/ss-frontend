@@ -1,20 +1,13 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 import { Form, Field } from 'react-final-form'
 import { Input, ErrorMessage, Button, Logo } from '../../src/components'
-import AuthForm from '../../src/shared-styles/auth-form'
 import { CURRENT_USER_QUERY } from '../../src/lib/queries'
 import { RESET_PASSWORD_MUTATION } from '../../src/lib/mutations'
 import { password, confirmationPassword } from '../../src/lib/validators'
-const Password = styled(Input)`
-  margin-top: 36px;
-  margin-bottom: 24px;
-`
-const InputWithMargin = styled(Input)`
-  margin-bottom: 24px;
-`
+import styles from './styles.css'
+import authFormStyles from '../../src/shared-styles/auth-form.css'
 function ResetPasswordForm({ token }) {
   return (
     <Mutation
@@ -28,10 +21,10 @@ function ResetPasswordForm({ token }) {
             Router.push('/')
           }}
           render={({ handleSubmit, submitting, values }) => (
-            <AuthForm onSubmit={handleSubmit}>
+            <form className={authFormStyles.form} onSubmit={handleSubmit}>
               <button
                 type="button"
-                className="back"
+                className={authFormStyles.back}
                 onClick={() => {
                   Router.back()
                 }}
@@ -42,11 +35,12 @@ function ResetPasswordForm({ token }) {
               <ErrorMessage error={error} />
               <Field name="password" validate={password}>
                 {({ input, meta }) => (
-                  <Password
+                  <Input
                     {...input}
                     name="password"
                     type="password"
                     label="Пароль"
+                    rootClassName={styles.password}
                     error={meta.error && meta.touched && meta.error}
                   />
                 )}
@@ -56,16 +50,17 @@ function ResetPasswordForm({ token }) {
                 validate={value => confirmationPassword(value, values.password)}
               >
                 {({ input, meta }) => (
-                  <InputWithMargin
+                  <Input
                     {...input}
                     name="passwordConfirmation"
                     type="password"
                     label="Подтвердите пароль"
+                    rootClassName={styles['with-margin']}
                     error={meta.error && meta.touched && meta.error}
                   />
                 )}
               </Field>
-              <div className="button-with-error">
+              <div className={authFormStyles['button-with-error']}>
                 <Button
                   black
                   loading={loading}
@@ -75,7 +70,7 @@ function ResetPasswordForm({ token }) {
                   Сбросить
                 </Button>
               </div>
-            </AuthForm>
+            </form>
           )}
         />
       )}

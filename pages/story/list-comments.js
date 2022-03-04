@@ -1,84 +1,14 @@
 import React, { Fragment } from 'react'
-import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
+import cn from 'classnames'
 import { Button, ErrorMessage, UserWithDate } from '../../src/components'
 import { ALL_STORIES_QUERY, STORY_DATA_QUERY } from '../../src/lib/queries'
 import {
   UPDATE_COMMENT_MUTATION,
   DELETE_COMMENT_MUTATION,
 } from '../../src/lib/mutations'
-const List = styled.ul`
-  margin: 0;
-  margin-top: 20px;
-  padding: 0;
-  list-style-type: none;
-  padding-bottom: 40px;
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  .comment-header {
-    display: flex;
-    align-items: center;
-  }
-  .edit-and-delete {
-    display: flex;
-    justify-content: flex-end;
-    position: absolute;
-    top: 0;
-    right: 0;
-    button {
-      width: 46px;
-      height: 46px;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.25s ease-in-out;
-      img {
-        width: 16px;
-        height: 16px;
-      }
-      &:hover {
-        background-color: ${({ theme, isDarkMode }) =>
-          isDarkMode ? 'initial' : theme.lightGrey};
-      }
-    }
-  }
-  .edit-comment {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    > textarea {
-      border: none;
-      font-family: ${props => props.theme.uiFont};
-      min-height: 63px;
-      padding: 20px;
-      font-size: 1.6rem;
-      color: ${({ theme, isDarkMode }) =>
-        isDarkMode ? theme.nightGrey : theme.black};
-    }
-  }
-  li {
-    position: relative;
-    margin-bottom: 20px;
-    border-radius: 4px;
-    padding: 20px;
-    overflow: hidden;
-    color: ${({ theme, isDarkMode }) =>
-      isDarkMode ? theme.nightGrey : theme.black};
-    box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
-    .body {
-      margin-top: 18px;
-    }
-  }
-`
-const NoComments = styled.p`
-  color: ${({ theme, isDarkMode }) =>
-    isDarkMode ? theme.nightGrey : theme.black};
-`
+import styles from './styles.css'
 function editUpdate(cache, payload, id) {
   const data = cache.readQuery({ query: STORY_DATA_QUERY, variables: { id } })
   data.comments.edges = data.comments.edges.map(comment =>
@@ -126,6 +56,7 @@ function CommentEditor({
   onChange,
   me,
   resetAfterUpdate,
+  isDarkMode,
 }) {
   return (
     <Mutation
@@ -147,7 +78,7 @@ function CommentEditor({
       }}
     >
       {(updateComment, { loading, error }) => (
-        <div className="edit-comment">
+        <div className={styles['edit-comment']}>
           <ErrorMessage error={error} />
           <ReactTextareaAutosize
             placeholder="Измените комментарий..."
@@ -156,12 +87,12 @@ function CommentEditor({
             value={commentBody}
             onChange={onChange}
             maxLength={300}
+            className={cn({ [styles.dark]: isDarkMode })}
           />
           <Button
             black
             disabled={commentBody.length === 0}
             loading={loading}
-            type="button"
             onClick={async () => {
               await updateComment()
               resetAfterUpdate()
@@ -189,7 +120,7 @@ function ListComments({
 }) {
   return edges.length > 0 ? (
     <Fragment>
-      <List isDarkMode={isDarkMode}>
+      <ul className={styles['list-comments']}>
         {edges.map(comment =>
           me && editId === comment.id ? (
             <CommentEditor
@@ -197,20 +128,22 @@ function ListComments({
               comment={comment}
               commentBody={commentBody}
               onChange={onChange}
+              isDarkMode={isDarkMode}
               id={id}
               me={me}
             />
           ) : (
-            <li key={comment.id}>
-              <div className="comment-header">
+            <li key={comment.id} className={cn({ [styles.dark]: isDarkMode })}>
+              <div className={styles['comment-header']}>
                 <UserWithDate
-                  className="user-and-date"
+                  className={styles['user-and-date']}
                   user={comment.user}
                   date={comment.createdAt}
                 />
                 {me && me.id === comment.user.id && (
-                  <div className="edit-and-delete">
+                  <div className={styles['edit-and-delete']}>
                     <button
+                      className={cn({ [styles.dark]: isDarkMode })}
                       type="button"
                       onClick={() => {
                         activateEditMode(comment)
@@ -261,15 +194,15 @@ function ListComments({
                   </div>
                 )}
               </div>
-              <p className="body">{comment.body}</p>
+              <p className={styles.body}>{comment.body}</p>
             </li>
           )
         )}
-      </List>
+      </ul>
       {pageInfo.hasNextPage && (
         <Button
           black
-          className="more-button"
+          className={styles['more-button']}
           onClick={() => {
             fetchMore({
               variables: {
@@ -297,9 +230,13 @@ function ListComments({
       )}
     </Fragment>
   ) : (
-    <NoComments isDarkMode={isDarkMode} className="no-comments">
+    <p
+      className={cn(styles['no-comments'], {
+        [styles.dark]: isDarkMode,
+      })}
+    >
       Пока что нет комментариев
-    </NoComments>
+    </p>
   )
 }
 export default ListComments

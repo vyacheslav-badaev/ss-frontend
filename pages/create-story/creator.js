@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
 import Head from 'next/head'
-import styled from '@emotion/styled'
 import cn from 'classnames'
 import { Query, Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
@@ -9,7 +8,6 @@ import { Form, Field } from 'react-final-form'
 import nanoid from 'nanoid'
 import withDarkMode from '../../src/hoc/with-dark-mode'
 import { GenreSelect, ErrorMessage, Button } from '../../src/components'
-import { storyStyles, formStoryStyles } from '../../src/shared-styles/story'
 import {
   GENRES_QUERY,
   ALL_STORIES_QUERY,
@@ -18,18 +16,8 @@ import {
 } from '../../src/lib/queries'
 import { CREATE_STORY_MUTATION } from '../../src/lib/mutations'
 import { isEmpty, storyLength, withoutGenre } from '../../src/lib/validators'
-const Wrapper = styled.div`
-  background-color: #fff;
-  transition: background-color 0.45s ease-in-out;
-  min-height: 100vh;
-  &.dark {
-    background-color: #111;
-  }
-`
-const FormStyles = styled.form`
-  ${props => storyStyles(props)};
-  ${props => formStoryStyles(props)};
-`
+import styles from './styles.css'
+import storyStyles from '../../src/shared-styles/story.css'
 function StoryCreator({ mode, userId }) {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
@@ -73,7 +61,9 @@ function StoryCreator({ mode, userId }) {
                   Router.push('/')
                 }}
                 render={({ handleSubmit, form, submitting }) => (
-                  <Wrapper className={cn({ dark: mode === 'dark' })}>
+                  <div
+                    className={cn(styles.wrapper, { dark: mode === 'dark' })}
+                  >
                     <Head>
                       <title>Shortstories - написать рассказ</title>
                       <meta
@@ -109,8 +99,14 @@ function StoryCreator({ mode, userId }) {
                         content="Shortstories - написать рассказ"
                       />
                     </Head>
-                    <FormStyles
-                      className={cn({ dark: mode === 'dark' })}
+                    <form
+                      className={cn(
+                        storyStyles.story,
+                        storyStyles['form-story'],
+                        {
+                          dark: mode === 'dark',
+                        }
+                      )}
                       onSubmit={handleSubmit}
                     >
                       <ErrorMessage error={error} />
@@ -119,7 +115,7 @@ function StoryCreator({ mode, userId }) {
                         validate={value => isEmpty(value, 'Введите заголовок')}
                       >
                         {({ input, meta }) => (
-                          <div className="title">
+                          <div className={storyStyles.title}>
                             <input
                               {...input}
                               autoCapitalize="true"
@@ -134,7 +130,7 @@ function StoryCreator({ mode, userId }) {
                               }}
                             />
                             {meta.error && meta.touched && (
-                              <span className="error-message">
+                              <span className={storyStyles['error-message']}>
                                 {meta.error}
                               </span>
                             )}
@@ -143,7 +139,7 @@ function StoryCreator({ mode, userId }) {
                       </Field>
                       <Field name="genre" validate={withoutGenre}>
                         {({ input, meta }) => (
-                          <div className="genres">
+                          <div className={storyStyles.genres}>
                             <GenreSelect
                               input={input}
                               isDarkMode={mode === 'dark'}
@@ -154,7 +150,7 @@ function StoryCreator({ mode, userId }) {
                               }}
                             />
                             {meta.error && meta.touched && (
-                              <span className="error-message">
+                              <span className={storyStyles['error-message']}>
                                 {meta.error}
                               </span>
                             )}
@@ -163,7 +159,7 @@ function StoryCreator({ mode, userId }) {
                       </Field>
                       <Field name="body" validate={storyLength}>
                         {({ input, meta }) => (
-                          <div className="body">
+                          <div className={storyStyles.body}>
                             <ReactTextareaAutosize
                               {...input}
                               placeholder="Расскажите историю..."
@@ -176,7 +172,7 @@ function StoryCreator({ mode, userId }) {
                               }}
                             />
                             {meta.error && meta.touched && (
-                              <span className="error-message">
+                              <span className={storyStyles['error-message']}>
                                 {meta.error}
                               </span>
                             )}
@@ -191,8 +187,8 @@ function StoryCreator({ mode, userId }) {
                       >
                         Опубликовать
                       </Button>
-                    </FormStyles>
-                  </Wrapper>
+                    </form>
+                  </div>
                 )}
               />
             )}

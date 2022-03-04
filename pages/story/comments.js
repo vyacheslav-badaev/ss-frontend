@@ -1,39 +1,14 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
 import compareDesc from 'date-fns/compare_desc'
 import nanoid from 'nanoid'
+import cn from 'classnames'
 import { Button, ErrorMessage } from '../../src/components'
 import ListComments from './list-comments'
 import { ALL_STORIES_QUERY, STORY_DATA_QUERY } from '../../src/lib/queries'
 import { CREATE_COMMENT_MUTATION } from '../../src/lib/mutations'
-const CommentsStyles = styled.div`
-  max-width: 700px;
-  padding: 0 24px;
-  margin: 0 auto;
-  margin-top: 12px;
-  border-top: 1px solid ${props => props.theme.lightGrey};
-  .create-comment {
-    display: flex;
-    flex-direction: column;
-    > textarea {
-      font-family: ${props => props.theme.uiFont};
-      border: none;
-      min-height: 63px;
-      padding: 20px 20px 20px 0;
-      font-size: 1.6rem;
-      color: ${({ theme, isDarkMode }) =>
-        isDarkMode ? theme.nightGrey : theme.black};
-    }
-  }
-  .no-comments {
-    padding: 24px 0;
-  }
-  .more-button {
-    width: 100%;
-  }
-`
+import styles from './styles.css'
 function update(cache, payload, id) {
   const story = cache.readQuery({ query: STORY_DATA_QUERY, variables: { id } })
   story.comments.edges = [
@@ -67,7 +42,7 @@ function Comments({ edges, pageInfo, fetchMore, id, me, isDarkMode }) {
   const [editId, setEditId] = useState(null)
   const [commentBody, setCommentBody] = useState('')
   return (
-    <CommentsStyles isDarkMode={isDarkMode}>
+    <div className={styles.comments}>
       {me && (
         <Mutation
           mutation={CREATE_COMMENT_MUTATION}
@@ -88,13 +63,14 @@ function Comments({ edges, pageInfo, fetchMore, id, me, isDarkMode }) {
           }}
         >
           {(createComment, { loading, error }) => (
-            <div className="create-comment">
+            <div className={styles['create-comment']}>
               <ErrorMessage error={error} />
               <ReactTextareaAutosize
                 placeholder="Оставьте комментарий..."
                 name="body"
                 id="body"
                 value={body}
+                className={cn({ [styles.dark]: isDarkMode })}
                 onChange={e => {
                   setBody(e.target.value)
                 }}
@@ -104,7 +80,6 @@ function Comments({ edges, pageInfo, fetchMore, id, me, isDarkMode }) {
                 black
                 disabled={body.length === 0}
                 loading={loading}
-                type="button"
                 onClick={async () => {
                   await createComment()
                   setBody('')
@@ -137,7 +112,7 @@ function Comments({ edges, pageInfo, fetchMore, id, me, isDarkMode }) {
           setCommentBody(comment.body)
         }}
       />
-    </CommentsStyles>
+    </div>
   )
 }
 export default Comments

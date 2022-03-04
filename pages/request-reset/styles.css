@@ -1,0 +1,14 @@
+.login {
+  margin-top: 36px;
+  margin-bottom: 24px;
+}
+.back-button {
+  height: 40px;
+  background-color: #eee;
+  color: #272727;
+  font-weight: 400;
+  font-size: 1.4rem;
+  &:hover {
+    background-color: #ddd;
+  }
+}

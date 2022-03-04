@@ -1,3 +1,4 @@
+import '../src/shared-styles/global.css'
 import App, { Container } from 'next/app'
 import Router from 'next/router'
 import { ApolloProvider } from 'react-apollo'

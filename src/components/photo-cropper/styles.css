@@ -1,0 +1,37 @@
+.wrapper {
+  min-width: 400px;
+}
+.dropzone {
+  outline: none;
+  width: 480px;
+  height: 400px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+  img {
+    width: 80px;
+    height: 80px;
+  }
+}
+.crop {
+  display: flex;
+  flex-direction: column;
+  .buttons {
+    display: flex;
+    width: 100%;
+    margin-top: 24px;
+    > button {
+      flex: 1;
+    }
+  }
+}
+.other-photo-button {
+  background-color: transparent;
+  color: #272727;
+  &:hover {
+    background-color: transparent;
+  }
+}

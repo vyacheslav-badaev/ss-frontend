@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
 import {
   User,
@@ -12,37 +11,7 @@ import {
   WRITTEN_STORIES_QUERY,
   LIKED_STORIES_QUERY,
 } from '../../src/lib/queries'
-const Tabs = styled.div`
-  margin-bottom: 24px;
-  border-bottom: 1px solid rgb(255, 255, 255, 0.2);
-  button[role='tab'] {
-    opacity: 0.8;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 8px;
-    margin-right: 20px;
-    color: ${props => props.theme.white};
-    font-size: 1.4rem;
-    transition: opacity 0.2s ease;
-    &:hover {
-      opacity: 1;
-    }
-    &.active {
-      opacity: 1;
-      &::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        border-bottom: 2px solid rgb(255, 255, 255, 0.8);
-        bottom: 0;
-        left: 0;
-      }
-    }
-  }
-`
-const NoStories = styled.p`
-  color: ${props => props.theme.white};
-`
+import styles from './styles.css'
 function Info() {
   const [tab, setTab] = useState('written')
   const [isEdit, setEdit] = useState(false)
@@ -50,7 +19,7 @@ function Info() {
     if (loading || !stories) return <BigLoader />
     if (error) return <ErrorMessage error={error} />
     return !stories.edges.length ? (
-      <NoStories>Нет рассказов</NoStories>
+      <p className={styles['no-stories']}>Нет рассказов</p>
     ) : (
       <ListStories
         {...stories}
@@ -79,9 +48,9 @@ function Info() {
               ) : (
                 <AccountInfo me={me} setEdit={setEdit} />
               )}
-              <Tabs>
+              <div className={styles.tabs}>
                 <button
-                  className={tab === 'written' ? 'active' : ''}
+                  className={tab === 'written' ? styles.active : ''}
                   type="button"
                   role="tab"
                   onClick={() => {
@@ -91,7 +60,7 @@ function Info() {
                   Написанные
                 </button>
                 <button
-                  className={tab === 'favs' ? 'active' : ''}
+                  className={tab === 'favs' ? styles.active : ''}
                   type="button"
                   role="tab"
                   onClick={() => {
@@ -100,7 +69,7 @@ function Info() {
                 >
                   Понравившиеся
                 </button>
-              </Tabs>
+              </div>
               {renderStories(me, loading, error, stories, fetchMore)}
             </div>
           )}

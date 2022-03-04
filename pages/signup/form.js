@@ -1,12 +1,10 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 import { adopt } from 'react-adopt'
 import { Form, Field } from 'react-final-form'
 import { Input, ErrorMessage, Button, Logo } from '../../src/components'
-import AuthForm from '../../src/shared-styles/auth-form'
 import { CURRENT_USER_QUERY } from '../../src/lib/queries'
 import {
   SIGN_UP_MUTATION,
@@ -18,13 +16,8 @@ import {
   password,
   confirmationPassword,
 } from '../../src/lib/validators'
-const Username = styled(Input)`
-  margin-top: 36px;
-  margin-bottom: 24px;
-`
-const InputWithMargin = styled(Input)`
-  margin-bottom: 24px;
-`
+import styles from './styles.css'
+import authFormStyles from '../../src/shared-styles/auth-form.css'
 const Composed = adopt({
   signUpMutation: ({ render }) => (
     <Mutation
@@ -54,10 +47,10 @@ function SignupForm() {
             }
           }}
           render={({ handleSubmit, submitting, values }) => (
-            <AuthForm onSubmit={handleSubmit}>
+            <form className={authFormStyles.form} onSubmit={handleSubmit}>
               <button
                 type="button"
-                className="back"
+                className={authFormStyles.back}
                 onClick={() => {
                   Router.back()
                 }}
@@ -73,8 +66,9 @@ function SignupForm() {
                 }
               >
                 {({ input, meta }) => (
-                  <Username
+                  <Input
                     {...input}
+                    rootClassName={styles.username}
                     name="username"
                     type="text"
                     label="Псевдоним"
@@ -89,8 +83,9 @@ function SignupForm() {
                 }
               >
                 {({ input, meta }) => (
-                  <InputWithMargin
+                  <Input
                     {...input}
+                    rootClassName={styles['with-margin']}
                     name="email"
                     type="email"
                     label="E-mail"
@@ -100,8 +95,9 @@ function SignupForm() {
               </Field>
               <Field name="password" validate={password}>
                 {({ input, meta }) => (
-                  <InputWithMargin
+                  <Input
                     {...input}
+                    rootClassName={styles['with-margin']}
                     name="password"
                     type="password"
                     label="Пароль"
@@ -114,8 +110,9 @@ function SignupForm() {
                 validate={value => confirmationPassword(value, values.password)}
               >
                 {({ input, meta }) => (
-                  <InputWithMargin
+                  <Input
                     {...input}
+                    rootClassName={styles['with-margin']}
                     name="passwordConfirmation"
                     type="password"
                     label="Подтвердите пароль"
@@ -123,7 +120,7 @@ function SignupForm() {
                   />
                 )}
               </Field>
-              <div className="button-with-error">
+              <div className={authFormStyles['button-with-error']}>
                 <Button
                   black
                   loading={signUpMutation.result.loading}
@@ -133,14 +130,14 @@ function SignupForm() {
                   Зарегистрироваться
                 </Button>
               </div>
-              <p className="signup-link">
+              <p className={authFormStyles['signup-link']}>
                 Уже есть аккаунт?{' '}
                 <Link href="/signin">
                   <a>Войдите</a>
                 </Link>
                 .
               </p>
-            </AuthForm>
+            </form>
           )}
         />
       )}

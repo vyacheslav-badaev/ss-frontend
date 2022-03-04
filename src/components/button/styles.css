@@ -1,0 +1,36 @@
+.button {
+  text-transform: initial;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  font-weight: 400;
+  color: #fcfcfc;
+  &:disabled,
+  &.loading {
+    cursor: default;
+    opacity: 0.65;
+    pointer-events: none;
+  }
+  &.black {
+    font-size: 1.4rem;
+    height: 40px;
+    background-color: #454545;
+    box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
+    &:hover {
+      background-color: #6d47d9;
+    }
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+  &.violet {
+    background-color: #6d47d9;
+    display: block;
+    padding: 0 12px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 1.2rem;
+    &:hover {
+      background-color: #5c32d5;
+    }
+  }
+}

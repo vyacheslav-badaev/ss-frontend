@@ -1,25 +1,18 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 import { adopt } from 'react-adopt'
 import { Form, Field } from 'react-final-form'
 import { Input, ErrorMessage, Button, Logo } from '../../src/components'
-import AuthForm from '../../src/shared-styles/auth-form'
 import { CURRENT_USER_QUERY } from '../../src/lib/queries'
 import {
   SIGN_IN_MUTATION,
   CHECK_USER_EXIST_MUTATION,
 } from '../../src/lib/mutations'
 import { password, login } from '../../src/lib/validators'
-const Login = styled(Input)`
-  margin-top: 36px;
-  margin-bottom: 24px;
-`
-const Password = styled(Input)`
-  margin-bottom: 24px;
-`
+import styles from './styles.css'
+import authFormStyles from '../../src/shared-styles/auth-form.css'
 const Composed = adopt({
   signInMutation: ({ render }) => (
     <Mutation
@@ -53,10 +46,10 @@ function SigninForm({ returnUrl }) {
             }
           }}
           render={({ handleSubmit, submitting }) => (
-            <AuthForm onSubmit={handleSubmit}>
+            <form className={authFormStyles.form} onSubmit={handleSubmit}>
               <button
                 type="button"
-                className="back"
+                className={authFormStyles.back}
                 onClick={() => {
                   Router.back()
                 }}
@@ -72,10 +65,10 @@ function SigninForm({ returnUrl }) {
                 }
               >
                 {({ input, meta }) => (
-                  <Login
+                  <Input
                     {...input}
+                    rootClassName={styles.login}
                     name="login"
-                    type="text"
                     label="Логин"
                     error={meta.error && meta.touched && meta.error}
                   />
@@ -83,8 +76,9 @@ function SigninForm({ returnUrl }) {
               </Field>
               <Field name="password" validate={password}>
                 {({ input, meta }) => (
-                  <Password
+                  <Input
                     {...input}
+                    rootClassName={styles.password}
                     name="password"
                     type="password"
                     label="Пароль"
@@ -92,7 +86,7 @@ function SigninForm({ returnUrl }) {
                   />
                 )}
               </Field>
-              <div className="button-with-error">
+              <div className={authFormStyles['button-with-error']}>
                 <Button
                   black
                   loading={signInMutation.result.loading}
@@ -103,16 +97,18 @@ function SigninForm({ returnUrl }) {
                 </Button>
               </div>
               <Link href="/request-reset">
-                <a className="forgotten-link">Забыли пароль?</a>
+                <a className={authFormStyles['forgotten-link']}>
+                  Забыли пароль?
+                </a>
               </Link>
-              <p className="signup-link">
+              <p className={authFormStyles['signup-link']}>
                 Нет аккаунта?{' '}
                 <Link href="/signup">
                   <a>Зарегистрируйте</a>
                 </Link>
                 .
               </p>
-            </AuthForm>
+            </form>
           )}
         />
       )}

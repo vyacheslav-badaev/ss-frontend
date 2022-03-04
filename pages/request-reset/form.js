@@ -1,30 +1,16 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
 import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 import { adopt } from 'react-adopt'
 import { Form, Field } from 'react-final-form'
 import { Input, ErrorMessage, Button, Logo } from '../../src/components'
-import AuthForm from '../../src/shared-styles/auth-form'
 import {
   REQUEST_RESET_MUTATION,
   CHECK_USER_EXIST_MUTATION,
 } from '../../src/lib/mutations'
 import { login } from '../../src/lib/validators'
-const Login = styled(Input)`
-  margin-top: 36px;
-  margin-bottom: 24px;
-`
-const BackButton = styled(Button)`
-  height: 40px;
-  background-color: ${props => props.theme.lightGrey};
-  color: ${props => props.theme.black};
-  font-weight: 400;
-  font-size: 1.4rem;
-  &:hover {
-    background-color: #ddd;
-  }
-`
+import styles from './styles.css'
+import authFormStyles from '../../src/shared-styles/auth-form.css'
 const Composed = adopt({
   requestResetMutation: ({ render }) => (
     <Mutation mutation={REQUEST_RESET_MUTATION}>
@@ -50,10 +36,10 @@ function RequestResetForm() {
             setEmail(data.requestReset.email)
           }}
           render={({ handleSubmit, submitting }) => (
-            <AuthForm onSubmit={handleSubmit}>
+            <form className={authFormStyles.form} onSubmit={handleSubmit}>
               <button
                 type="button"
-                className="back"
+                className={authFormStyles.back}
                 onClick={() => {
                   Router.back()
                 }}
@@ -63,7 +49,7 @@ function RequestResetForm() {
               <Logo />
               <ErrorMessage error={requestResetMutation.result.error} />
               {email ? (
-                <div className="success-message">
+                <div className={authFormStyles['success-message']}>
                   <h3>Запрос отправлен</h3>
                   <p>
                     Проверьте письмо по адресу <span>{email}</span> и сбросьте
@@ -79,8 +65,9 @@ function RequestResetForm() {
                     }
                   >
                     {({ input, meta }) => (
-                      <Login
+                      <Input
                         {...input}
+                        rootClassName={styles.login}
                         name="login"
                         type="text"
                         label="Логин"
@@ -88,10 +75,13 @@ function RequestResetForm() {
                       />
                     )}
                   </Field>
-                  <div className="button-wrapper">
-                    <BackButton type="button" onClick={Router.back}>
+                  <div className={authFormStyles['button-wrapper']}>
+                    <Button
+                      className={styles['back-button']}
+                      onClick={Router.back}
+                    >
                       Назад
-                    </BackButton>
+                    </Button>
                     <Button
                       black
                       loading={requestResetMutation.result.loading}
@@ -103,7 +93,7 @@ function RequestResetForm() {
                   </div>
                 </>
               )}
-            </AuthForm>
+            </form>
           )}
         />
       )}
