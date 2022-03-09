@@ -1,0 +1,24 @@
+.footer {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  background-color: #fcfcfc;
+}
+.bar {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1024px;
+  height: 100%;
+  padding: 0 24px;
+  margin: 0 auto;
+}
+.share {
+  display: flex;
+  justify-content: flex-end;
+  > a {
+    margin-left: 12px;
+  }
+}

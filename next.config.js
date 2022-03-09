@@ -1,4 +1,5 @@
 require('dotenv').config()
+const withSize = require('next-size') 
 const withCSS = require('@zeit/next-css')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const dev = process.env.NODE_ENV !== 'production'
@@ -21,9 +22,9 @@ const nextConfig = {
             urlPattern: /^https?.*/,
           },
         ],
-      })
+      }),
     )
     return config
   },
 }
-module.exports = withCSS(nextConfig)
+module.exports = withSize(withCSS(nextConfig))

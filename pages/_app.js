@@ -1,11 +1,12 @@
-import '../src/shared-styles/global.css'
+import '../src/styles/base.css'
+import React from 'react'
 import App, { Container } from 'next/app'
 import Router from 'next/router'
 import { ApolloProvider } from 'react-apollo'
+import withApolloClient from '../src/hoc/with-apollo-client'
 import { Page } from '../src/components'
-import withApollo from '../src/hoc/with-apollo'
 import { initGA, logPageView } from '../src/lib/google-analytics'
-class MyApp extends App {
+class CustomApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
     if (Component.getInitialProps) {
@@ -20,7 +21,7 @@ class MyApp extends App {
     Router.router.events.on('routeChangeComplete', logPageView)
   }
   render() {
-    const { Component, apollo, pageProps } = this.props
+    const { Component, pageProps, apollo } = this.props
     return (
       <Container>
         <ApolloProvider client={apollo}>
@@ -32,4 +33,4 @@ class MyApp extends App {
     )
   }
 }
-export default withApollo(MyApp)
+export default withApolloClient(CustomApp)

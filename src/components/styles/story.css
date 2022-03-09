@@ -1,0 +1,66 @@
+.story {
+  max-width: 700px;
+  padding: 104px 24px 0 24px;
+  margin: 0 auto;
+}
+.title {
+  margin: 24px 0;
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+.body {
+  margin-bottom: 14px;
+  font-size: 1.8rem;
+  line-height: 2.8rem;
+}
+.title,
+.body {
+  overflow: hidden;
+  font-family: 'PT Serif', system-ui;
+  color: #272727;
+  text-overflow: ellipsis;
+}
+.story.dark {
+  .title,
+  .body {
+    color: #b8b8b8;
+  }
+}
+.form-story {
+  input,
+  textarea {
+    width: 100%;
+    font-family: 'PT Serif', system-ui;
+    color: #272727;
+    border: none;
+  }
+  textarea {
+    min-height: 500px;
+  }
+  .genres {
+    margin-bottom: 24px;
+  }
+  .error-message {
+    display: block;
+    margin-top: 4px;
+    font-family: 'PT Sans', system-ui;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #f01;
+  }
+  button[type='submit'] {
+    width: 100%;
+    margin: 24px 0;
+  }
+  &.dark {
+    input,
+    textarea,
+    button {
+      color: #b8b8b8;
+    }
+    button[type='submit'] {
+      color: #272727;
+      background-color: #b8b8b8;
+    }
+  }
+}

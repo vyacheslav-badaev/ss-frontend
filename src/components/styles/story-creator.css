@@ -1,0 +1,9 @@
+.wrapper {
+  min-height: 100vh;
+  background-color: #fff;
+  transition: background-color 0.45s ease-in-out;
+
+  &.dark {
+    background-color: #111;
+  }
+}

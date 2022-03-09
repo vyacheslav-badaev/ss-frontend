@@ -9,11 +9,12 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 const ssrCache = cacheableResponse({
-  ttl: 1000 * 60 * 60,
+  ttl: dev ? 10 : 1000 * 60 * 60,
   get: async ({ req, res, pagePath, queryParams }) => ({
     data: await app.renderToHTML(req, res, pagePath, queryParams),
   }),
   send: ({ data, res }) => res.send(data),
+  compress: true,
 })
 function getId(req) {
   const [id] = req.params.id.split('-')
@@ -24,10 +25,10 @@ app.prepare().then(() => {
   server.use(compression())
   server.get('/', (req, res) => ssrCache({ req, res, pagePath: '/' }))
   server.get('/user/:id', (req, res) =>
-    ssrCache({ req, res, pagePath: '/user', queryParams: { id: getId(req) } })
+    ssrCache({ req, res, pagePath: '/user', queryParams: { id: getId(req) } }),
   )
   server.get('/story/:id', (req, res) =>
-    ssrCache({ req, res, pagePath: '/story', queryParams: { id: getId(req) } })
+    ssrCache({ req, res, pagePath: '/story', queryParams: { id: getId(req) } }),
   )
   server.get('/edit-story/:id', (req, res) =>
     ssrCache({
@@ -35,7 +36,7 @@ app.prepare().then(() => {
       res,
       pagePath: '/edit-story',
       queryParams: { id: getId(req) },
-    })
+    }),
   )
   server.get('*', (req, res) => {
     const parsedUrl = parse(req.url, true)

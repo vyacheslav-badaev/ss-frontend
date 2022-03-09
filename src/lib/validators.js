@@ -1,4 +1,3 @@
-import debounce from 'lodash.debounce'
 export const isEmpty = (value, error) => {
   if (!value) return error
 }
@@ -16,33 +15,33 @@ const checkUnique = async (loginValue, check) => {
   const promise = await check({ variables: { login: loginValue } })
   return promise
 }
-export const username = debounce(async (value, check) => {
-  if (!value) return 'Введите псевдоним.'
-  if (value.length < 3) return 'Слишком короткий псевдоним.'
-  if (value.length > 50) return 'Слишком длинный псевдоним.'
+export const username = async (value, check) => {
+  if (!value) return 'Введите псевдоним'
+  if (value.length < 3) return 'Слишком короткий псевдоним'
+  if (value.length > 50) return 'Слишком длинный псевдоним'
   const { data } = await checkUnique(value, check)
-  if (data.checkUserExist) return 'Псевдоним занят.'
-}, 250)
-export const isEmail = debounce(async (value, check) => {
-  if (!value) return 'Введите имэйл.'
+  if (data.checkUserExist) return 'Псевдоним занят'
+}
+export const isEmail = async (value, check) => {
+  if (!value) return 'Введите имэйл'
   if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value))
-    return 'Некорректный имэйл.'
+    return 'Некорректный имэйл'
   const { data } = await checkUnique(value, check)
-  if (data.checkUserExist) return 'Имэйл занят.'
-}, 250)
+  if (data.checkUserExist) return 'Имэйл занят'
+}
 export const password = value => {
-  if (!value) return 'Введите пароль.'
-  if (value.length < 6) return 'Слишком короткий пароль.'
+  if (!value) return 'Введите пароль'
+  if (value.length < 6) return 'Слишком короткий пароль'
 }
 export const confirmationPassword = (value, passwordValue) => {
   if (!passwordValue) return 'Сначала введите пароль'
-  if (!value) return 'Подтвердите пароль.'
-  if (value !== passwordValue) return 'Пароли не совпадают.'
+  if (!value) return 'Подтвердите пароль'
+  if (value !== passwordValue) return 'Пароли не совпадают'
 }
-export const login = debounce(async (value, check) => {
-  if (!value) return 'Введите логин.'
+export const login = async (value, check) => {
+  if (!value) return 'Введите логин'
   const { data } = await checkUnique(value, check)
-  if (!data.checkUserExist) return 'Аккаунт не найден.'
-}, 250)
+  if (!data.checkUserExist) return 'Аккаунт не найден'
+}
 export const composeValidators = (...validators) => value =>
   validators.reduce((error, validator) => error || validator(value), undefined)

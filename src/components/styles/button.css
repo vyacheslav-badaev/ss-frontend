@@ -1,0 +1,35 @@
+.button {
+  font-weight: 400;
+  color: #fcfcfc;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  &:disabled,
+  &.loading {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.65;
+  }
+  &.black {
+    height: 40px;
+    font-size: 1.4rem;
+    background-color: #454545;
+    box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
+    &:hover {
+      background-color: #6d47d9;
+    }
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+  &.violet {
+    display: block;
+    height: 28px;
+    padding: 0 12px;
+    font-size: 1.2rem;
+    line-height: 28px;
+    background-color: #6d47d9;
+    &:hover {
+      background-color: #5c32d5;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.tabs {
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgb(255, 255, 255, 0.2);
+  button[role='tab'] {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+    margin-right: 20px;
+    font-size: 1.4rem;
+    color: #fcfcfc;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+    &:hover {
+      opacity: 1;
+    }
+    &.active {
+      opacity: 1;
+      &::after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        content: '';
+        border-bottom: 2px solid rgb(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+.no-stories {
+  color: #fcfcfc;
+}

@@ -1,12 +1,12 @@
 import gql from 'graphql-tag'
+import { meFragment, commentFragment, storyFragment } from './fragments'
 export const UPDATE_ACCOUNT_MUTATION = gql`
   mutation UPDATE_ACCOUNT_MUTATION($username: String!, $info: String) {
     updateUser(username: $username, info: $info) {
-      id
-      username
-      info
+      ...me
     }
   }
+  ${meFragment}
 `
 export const POST_PHOTO_MUTATION = gql`
   mutation POST_PHOTO_MUTATION(
@@ -29,11 +29,10 @@ export const CHECK_USER_EXIST_MUTATION = gql`
 export const SIGN_IN_MUTATION = gql`
   mutation SIGN_IN_MUTATION($login: String!, $password: String!) {
     signIn(login: $login, password: $password) {
-      id
-      username
-      email
+      ...me
     }
   }
+  ${meFragment}
 `
 export const SIGN_UP_MUTATION = gql`
   mutation SIGN_UP_MUTATION(
@@ -42,11 +41,10 @@ export const SIGN_UP_MUTATION = gql`
     $password: String!
   ) {
     signUp(username: $username, email: $email, password: $password) {
-      id
-      username
-      email
+      ...me
     }
   }
+  ${meFragment}
 `
 export const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($login: String!) {
@@ -66,11 +64,12 @@ export const RESET_PASSWORD_MUTATION = gql`
       password: $password
       passwordConfirmation: $passwordConfirmation
     ) {
-      id
+      ...me
     }
   }
+  ${meFragment}
 `
-export const VERIFY_MUTATION = gql`
+export const VERIFY_MUTATION =  `
   mutation VERIFY_MUTATION($token: String!) {
     verifyUser(token: $token) {
       id
@@ -111,11 +110,10 @@ export const CREATE_STORY_MUTATION = gql`
     $genreId: ID!
   ) {
     createStory(title: $title, body: $body, genreId: $genreId) {
-      id
-      body
-      title
+      ...story
     }
   }
+  ${storyFragment}
 `
 export const EDIT_STORY_MUTATION = gql`
   mutation EDIT_STORY_MUTATION(
@@ -142,20 +140,18 @@ export const VIEW_STORY_MUTATION = gql`
   mutation VIEW_STORY_MUTATION($id: ID!) {
     viewStory(id: $id) {
       id
+      userId
+      storyId
     }
   }
 `
 export const CREATE_COMMENT_MUTATION = gql`
   mutation CREATE_COMMENT_MUTATION($id: ID!, $body: String!) {
     createComment(id: $id, body: $body) {
-      id
-      body
-      user {
-        id
-      }
-      createdAt
+      ...comment
     }
   }
+  ${commentFragment}
 `
 export const DELETE_COMMENT_MUTATION = gql`
   mutation DELETE_COMMENT_MUTATION($id: ID!) {
@@ -167,11 +163,8 @@ export const DELETE_COMMENT_MUTATION = gql`
 export const UPDATE_COMMENT_MUTATION = gql`
   mutation UPDATE_COMMENT_MUTATION($id: ID!, $body: String!) {
     updateComment(id: $id, body: $body) {
-      id
-      body
-      user {
-        id
-      }
+      ...comment
     }
   }
+  ${commentFragment}
 `

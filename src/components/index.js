@@ -11,7 +11,6 @@ import GenreSelect from './genre-select'
 import Input from './input'
 import Reaction from './reaction'
 import ShareButton from './share-button'
-import User from './user'
 import UserWithDate from './user-with-date'
 import Wrapper from './wrapper'
 import SettingsSort from './settings-sort'
@@ -33,7 +32,6 @@ export {
   Reaction,
   ShareButton,
   GenreSelect,
-  User,
   UserWithDate,
   Wrapper,
   SettingsSort,

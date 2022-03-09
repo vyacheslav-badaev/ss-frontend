@@ -1,0 +1,50 @@
+@import '../../styles/animations/spin.css';
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  &.loading::after {
+    position: absolute;
+    top: calc((100% - 20px) / 2);
+    right: 14px;
+    z-index: 4;
+    display: block;
+    width: 20px;
+    height: 20px;
+    content: '';
+    border: 2px solid #dbdbdb;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.5s infinite linear;
+  }
+}
+.input {
+  height: 46px;
+  padding: 0 14px;
+  font-size: 1.6rem;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  &:focus {
+    border: 1px solid #6d47d9;
+  }
+  &.error:focus {
+    border: 1px solid #f01;
+  }
+}
+.label {
+  position: absolute;
+  top: -5px;
+  left: 14px;
+  font-size: 1.2rem;
+  background-color: #fff;
+}
+.error {
+  position: absolute;
+  top: 100%;
+  margin-top: 2px;
+  font-size: 1rem;
+  color: #f01;
+}

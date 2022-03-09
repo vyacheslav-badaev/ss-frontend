@@ -1,117 +1,26 @@
 import gql from 'graphql-tag'
-const authorFragment = gql`
-  fragment author on User {
-    id
-    username
-    photo
-    info
-  }
-`
-const storyFragment = gql`
-  fragment story on Story {
-    id
-    title
-    body
-    length
-    genre {
-      id
-      name
-    }
-    user {
-      ...author
-    }
-    stats {
-      likes {
-        id
-      }
-      dislikes {
-        id
-      }
-      views {
-        id
-      }
-      comments
-    }
-    createdAt
-  }
-  ${authorFragment}
-`
-export const storiesFragment = gql`
-  fragment stories on StoryConnection {
-    edges {
-      ...story
-    }
-    pageInfo {
-      offset
-      limit
-    }
-  }
-  ${storyFragment}
-`
-export const CURRENT_USER_QUERY = gql`
-  query CURRENT_USER_QUERY {
-    me {
-      id
-      username
-      email
-      isVerified
-      photo
-      info
-    }
-  }
-`
-export const STORY_DATA_QUERY = gql`
-  query STORY_DATA_QUERY($id: ID!, $cursor: String, $limit: Int) {
-    story(id: $id) {
-      ...story
-    }
-    reactions(storyId: $id) {
-      id
-      state
-      userId
-      storyId
-    }
-    comments(cursor: $cursor, limit: $limit, storyId: $id)
-      @connection(key: "CommentsConnection", filter: ["storyId"]) {
-      edges {
-        id
-        body
-        user {
-          ...author
-        }
-        createdAt
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
-  }
-  ${storyFragment}
-  ${authorFragment}
-`
-export const USER_QUERY = gql`
-  query USER_QUERY($id: ID!) {
-    user(id: $id) {
-      id
-      username
-      photo
-      info
-    }
-  }
-`
-export const ALL_STORIES_QUERY = gql`
-  query ALL_STORIES_QUERY(
+import {
+  meFragment,
+  storiesFragment,
+  userFragment,
+  storyFragment,
+  commentsFragment,
+} from './fragments'
+export const INDEX_QUERY = gql`
+  query INDEX_QUERY(
     $offset: Int = 0
     $limit: Int = 20
-    $userId: ID
-    $isLiked: Boolean
+    $userId: ID = null
+    $isLiked: Boolean = false
     $length: String
     $genres: [ID]
     $mostLiked: Boolean = false
     $mostViewed: Boolean = false
     $mostCommented: Boolean = false
   ) {
+    me {
+      ...me
+    }
     stories(
       offset: $offset
       limit: $limit
@@ -124,16 +33,97 @@ export const ALL_STORIES_QUERY = gql`
       mostCommented: $mostCommented
     )
       @connection(
-        key: "AllStoriesConnection"
+        key: "IndexStoriesConnection"
         filter: ["length", "genres", "mostLiked", "mostViewed", "mostCommented"]
       ) {
       ...stories
     }
-    me {
+    genres {
       id
+      name
     }
   }
+  ${meFragment}
   ${storiesFragment}
+`
+export const ME_QUERY = gql`
+  query ME_QUERY($offset: Int = 0, $limit: Int = 20, $userId: ID) {
+    me {
+      ...me
+    }
+    writtenStories: stories(
+      offset: $offset
+      limit: $limit
+      userId: $userId
+      isLiked: false
+    )
+      @connection(
+        key: "WrittenStoriesConnection"
+        filter: ["userId", "isLiked"]
+      ) {
+      ...stories
+    }
+    favStories: stories(
+      offset: $offset
+      limit: $limit
+      userId: $userId
+      isLiked: true
+    )
+      @connection(
+        key: "LikedStoriesConnection"
+        filter: ["userId", "isLiked"]
+      ) {
+      ...stories
+    }
+  }
+  ${meFragment}
+  ${storiesFragment}
+`
+export const EDIT_STORY_QUERY = gql`
+  query EDIT_STORY_QUERY($id: ID!) {
+    story(id: $id) {
+      ...story
+    }
+    genres {
+      id
+      name
+    }
+  }
+  ${storyFragment}
+`
+export const USER_QUERY = gql`
+  query USER_QUERY($id: ID!, $offset: Int = 0, $limit: Int = 20) {
+    me {
+      ...me
+    }
+    user(id: $id) {
+      ...user
+    }
+    stories(offset: $offset, limit: $limit, userId: $id)
+      @connection(key: "UserStoriesConnection", filter: ["userId"]) {
+      ...stories
+    }
+  }
+  ${meFragment}
+  ${userFragment}
+  ${storiesFragment}
+`
+export const STORY_QUERY = gql`
+  query STORY_QUERY($id: ID!, $cursor: String, $limit: Int) {
+    me {
+      ...me
+    }
+    story(id: $id) {
+      ...story
+    }
+    comments(cursor: $cursor, limit: $limit, storyId: $id)
+      @connection(key: "CommentConnection", filter: ["storyId"]) {
+      ...comments
+    }
+  }
+  ${meFragment}
+  ${storyFragment}
+  ${commentsFragment}
 `
 export const GENRES_QUERY = gql`
   query GENRES_QUERY {
@@ -143,58 +133,11 @@ export const GENRES_QUERY = gql`
     }
   }
 `
-export const WRITTEN_STORIES_QUERY = gql`
-  query WRITTEN_STORIES_QUERY(
-    $offset: Int = 0
-    $limit: Int = 20
-    $userId: ID
-    $isLiked: Boolean
-  ) {
-    stories(offset: $offset, limit: $limit, userId: $userId, isLiked: $isLiked)
-      @connection(
-        key: "WrittenStoriesConnection"
-        filter: ["userId", "isLiked"]
-      ) {
-      ...stories
-    }
-  }
-  ${storiesFragment}
-`
-export const LIKED_STORIES_QUERY = gql`
-  query LIKED_STORIES_QUERY(
-    $offset: Int = 0
-    $limit: Int = 20
-    $userId: ID
-    $isLiked: Boolean
-  ) {
-    stories(offset: $offset, limit: $limit, userId: $userId, isLiked: $isLiked)
-      @connection(
-        key: "LikedStoriesConnection"
-        filter: ["userId", "isLiked"]
-      ) {
-      ...stories
-    }
-  }
-  ${storiesFragment}
-`
-export const USER_STORIES_QUERY = gql`
-  query USER_STORIES_QUERY(
-    $offset: Int = 0
-    $limit: Int = 20
-    $userId: ID
-    $isLiked: Boolean
-  ) {
-    stories(offset: $offset, limit: $limit, userId: $userId, isLiked: $isLiked)
-      @connection(key: "UserStoriesConnection", filter: ["userId"]) {
-      ...stories
-    }
-  }
-  ${storiesFragment}
-`
 export const CHECK_LOGGED_IN_QUERY = gql`
   query CHECK_LOGGED_IN_QUERY {
     me {
-      id
+      ...me
     }
   }
+  ${meFragment}
 `

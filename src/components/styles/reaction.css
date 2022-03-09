@@ -1,0 +1,42 @@
+@import '../../styles/animations/pulse.css';
+.reaction-button {
+  display: flex;
+  align-items: center;
+  width: 60px;
+  margin-right: 8px;
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    cursor: pointer;
+    background-color: #fcfcfc;
+    border: 1px solid #272727;
+    border-radius: 50%;
+    outline: none;
+    box-shadow: 0 0 0 rgba(109, 71, 217, 0.4);
+    transition: transform 0.2s ease;
+    transform: scale(1);
+    animation: pulse 2s infinite;
+    will-change: box-shadow, transform;
+    &:hover {
+      transform: scale(1.08);
+      animation: none;
+    }
+    &:active {
+      transform: scale(1);
+    }
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  span {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #272727;
+  }
+  &.dark span {
+    color: #b8b8b8;
+  }
+}
