@@ -1,18 +1,7 @@
-import ReactGA from 'react-ga'
+import galite from 'ga-lite'
 export const initGA = () => {
-  ReactGA.initialize('UA-134985933-1')
+  galite('create', 'UA-134985933-1', 'auto')
 }
 export const logPageView = () => {
-  ReactGA.set({ page: window.location.pathname })
-  ReactGA.pageview(window.location.pathname)
-}
-export const logEvent = (category = '', action = '') => {
-  if (category && action) {
-    ReactGA.event({ category, action })
-  }
-}
-export const logException = (description = '', fatal = false) => {
-  if (description) {
-    ReactGA.exception({ description, fatal })
-  }
+  galite('send', 'pageview')
 }
