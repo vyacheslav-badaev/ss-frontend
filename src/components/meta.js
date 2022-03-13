@@ -56,11 +56,7 @@ function Meta({ router }) {
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="mobile-web-app-capable" content="yes" />
-      <link
-        rel="dns-prefetch"
-        href="https:
-        crossOrigin="anonymous"
-      />
+      <link rel="dns-prefetch" href="https:
       <link
         rel="preconnect"
         href="https:
