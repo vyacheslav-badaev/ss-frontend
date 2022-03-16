@@ -1,5 +1,4 @@
 const express = require('express')
-const cacheableResponse = require('cacheable-response')
 const compression = require('compression')
 const next = require('next')
 const { parse } = require('url')
@@ -8,14 +7,6 @@ const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
-const ssrCache = cacheableResponse({
-  ttl: dev ? 10 : 1000 * 60 * 60,
-  get: async ({ req, res, pagePath, queryParams }) => ({
-    data: await app.renderToHTML(req, res, pagePath, queryParams),
-  }),
-  send: ({ data, res }) => res.send(data),
-  compress: true,
-})
 function getId(req) {
   const [id] = req.params.id.split('-')
   return id
@@ -23,20 +14,14 @@ function getId(req) {
 app.prepare().then(() => {
   const server = express()
   server.use(compression())
-  server.get('/', (req, res) => ssrCache({ req, res, pagePath: '/' }))
   server.get('/user/:id', (req, res) =>
-    ssrCache({ req, res, pagePath: '/user', queryParams: { id: getId(req) } }),
+    app.render(req, res, '/user', { id: getId(req) }),
   )
   server.get('/story/:id', (req, res) =>
-    ssrCache({ req, res, pagePath: '/story', queryParams: { id: getId(req) } }),
+    app.render(req, res, '/story', { id: getId(req) }),
   )
   server.get('/edit-story/:id', (req, res) =>
-    ssrCache({
-      req,
-      res,
-      pagePath: '/edit-story',
-      queryParams: { id: getId(req) },
-    }),
+    app.render(req, res, '/edit-story', { id: getId(req) }),
   )
   server.get('*', (req, res) => {
     const parsedUrl = parse(req.url, true)
