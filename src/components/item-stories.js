@@ -2,6 +2,7 @@ import React from 'react'
 import Router from 'next/router'
 import cn from 'classnames'
 import { Mutation } from 'react-apollo'
+import readingTime from 'reading-time'
 import slugify from '@sindresorhus/slugify'
 import UserWithDate from './user-with-date'
 import { USER_QUERY } from '../lib/queries'
@@ -11,18 +12,6 @@ function getLength(l) {
   if (l >= 1800 && l < 8000) return 'short'
   if (l >= 8000 && l < 25000) return 'middle'
   return 'long'
-}
-function rus(l) {
-  switch (l) {
-    case 'short':
-      return 'Короткий'
-    case 'middle':
-      return 'Средний'
-    case 'long':
-      return 'Длинный'
-    default:
-      break
-  }
 }
 function ItemStories({
   isStoryOwner = false,
@@ -96,13 +85,13 @@ function ItemStories({
           date={createdAt}
         />
       )}
+      <h2 className={styles.title}>{title}</h2>
       <div className={styles.labels}>
         {genre && <span className={styles.genre}>{genre.name}</span>}
         <span className={cn(styles.length, styles[getLength(length)])}>
-          {rus(getLength(length))}
+          Время чтения {Math.ceil(readingTime(body).minutes)} мин
         </span>
       </div>
-      <h2 className={styles.title}>{title}</h2>
       <p className={styles.body}>{body}</p>
       <div className={styles['bottom-bar']}>
         <div className={styles['buttons-container']}>

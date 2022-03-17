@@ -9,7 +9,7 @@ import {
 export const INDEX_QUERY = gql`
   query INDEX_QUERY(
     $offset: Int = 0
-    $limit: Int = 20
+    $limit: Int = 8
     $userId: ID = null
     $isLiked: Boolean = false
     $length: String
@@ -47,7 +47,7 @@ export const INDEX_QUERY = gql`
   ${storiesFragment}
 `
 export const ME_QUERY = gql`
-  query ME_QUERY($offset: Int = 0, $limit: Int = 20, $userId: ID) {
+  query ME_QUERY($offset: Int = 0, $limit: Int = 8, $userId: ID) {
     me {
       ...me
     }
@@ -92,7 +92,7 @@ export const EDIT_STORY_QUERY = gql`
   ${storyFragment}
 `
 export const USER_QUERY = gql`
-  query USER_QUERY($id: ID!, $offset: Int = 0, $limit: Int = 20) {
+  query USER_QUERY($id: ID!, $offset: Int = 0, $limit: Int = 8) {
     me {
       ...me
     }

@@ -4,7 +4,7 @@
 html {
   box-sizing: border-box;
   height: 100%;
-  font-family: 'PT Sans', system-ui;
+  font-family: 'Montserrat', system-ui;
   line-height: 1.15;
   word-break: break-word;
   tab-size: 4;
@@ -31,7 +31,7 @@ main {
   color: #272727;
 }
 a {
-  font-weight: 700;
+  font-weight: 600;
   color: #6d47d9;
   text-decoration: none;
   background-color: transparent;

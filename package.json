@@ -49,6 +49,7 @@
     "react-image-crop": "^6.0.14",
     "react-onclickoutside": "^6.8.0",
     "react-textarea-autosize": "^7.1.0",
+    "reading-time": "^1.2.0",
     "sw-precache-webpack-plugin": "^0.11.5"
   },
   "devDependencies": {

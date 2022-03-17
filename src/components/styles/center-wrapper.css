@@ -6,12 +6,12 @@
   width: 100%;
   height: 100%;
   content: '';
-  background-color: #140028;
+  background-color: #f3f1ef;
   background-image:
     url('/static/images/topography.svg'),
-    linear-gradient(20deg, #140028, #141414);
+    linear-gradient(20deg, #f3f1ef, #f3f1ef);
   background-repeat: repeat;
-  background-size: 170px, auto;
+  background-size: 200px, auto;
 }
 .inner {
   display: flex;

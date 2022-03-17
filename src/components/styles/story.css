@@ -4,20 +4,21 @@
   margin: 0 auto;
 }
 .title {
-  margin: 24px 0;
-  font-size: 3.2rem;
-  font-weight: 700;
+  margin: 18px 0;
+  font-family: Montserrat, sans-serif;
+  font-size: 4.2rem;
+  font-weight: 900;
 }
 .body {
   margin-bottom: 14px;
-  font-size: 1.8rem;
-  line-height: 2.8rem;
+  font-family: Merriweather, sans-serif;
+  font-size: 1.6rem;
+  line-height: 28px;
 }
 .title,
 .body {
   overflow: hidden;
-  font-family: 'PT Serif', system-ui;
-  color: #272727;
+  color: #222;
   text-overflow: ellipsis;
 }
 .story.dark {
@@ -27,15 +28,19 @@
   }
 }
 .form-story {
+  input {
+    font-family: Montserrat, sans-serif;
+    font-weight: 900;
+  }
   input,
   textarea {
     width: 100%;
-    font-family: 'PT Serif', system-ui;
-    color: #272727;
+    color: #222;
     border: none;
   }
   textarea {
     min-height: 500px;
+    font-family: Merriweather, sans-serif;
   }
   .genres {
     margin-bottom: 24px;
@@ -43,7 +48,7 @@
   .error-message {
     display: block;
     margin-top: 4px;
-    font-family: 'PT Sans', system-ui;
+    font-family: 'Montserrat', system-ui;
     font-size: 1.2rem;
     font-weight: 400;
     color: #f01;
