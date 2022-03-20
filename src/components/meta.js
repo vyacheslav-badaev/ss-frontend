@@ -40,7 +40,7 @@ function Meta({ router }) {
         </>
       )}
       <meta name="keywords" content="" />
-      <link rel="manifest" href="/static/other/manifest.json" />
+      <link rel="manifest" href="/static/other/manifest.webmanifest" />
       <meta name="theme-color" content="#766ac3" />
       <meta
         property="og:image"
