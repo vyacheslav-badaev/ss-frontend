@@ -11,8 +11,8 @@
 }
 .body {
   margin-bottom: 14px;
-  font-family: Merriweather, sans-serif;
-  font-size: 1.6rem;
+  font-family: Alegreya, sans-serif;
+  font-size: 1.8rem;
   line-height: 28px;
 }
 .title,
@@ -40,7 +40,7 @@
   }
   textarea {
     min-height: 500px;
-    font-family: Merriweather, sans-serif;
+    font-family: Alegreya, sans-serif;
   }
   .genres {
     margin-bottom: 24px;

@@ -18,10 +18,12 @@
 .inner {
   max-width: 1024px;
   min-height: calc(100vh - 124px);
-  padding: 20px;
-  padding-bottom: 40px;
+  padding: 20px 20px 40px;
   margin: 0 auto;
   margin-top: 64px;
+  @media (max-width: 768px) {
+    padding: 20px 0 0;
+  }
   &.index {
     margin-top: 0;
   }

@@ -1,4 +1,4 @@
-const express = require('express')
+const polka = require('polka')
 const compression = require('compression')
 const next = require('next')
 const { parse } = require('url')
@@ -12,7 +12,7 @@ function getId(req) {
   return id
 }
 app.prepare().then(() => {
-  const server = express()
+  const server = polka()
   server.use(compression())
   server.get('/user/:id', (req, res) =>
     app.render(req, res, '/user', { id: getId(req) }),

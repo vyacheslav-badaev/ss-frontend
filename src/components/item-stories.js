@@ -25,9 +25,9 @@ function ItemStories({
   length,
   me = {},
 }) {
-  const hasLike = stats.likes.some(l => l && l.id === me)
-  const hasDislike = stats.dislikes.some(d => d && d.id === me)
-  const hasView = stats.views.some(v => v && v.id === me)
+  const hasLike = stats.likes.some(l => l && l.id === me.id)
+  const hasDislike = stats.dislikes.some(d => d && d.id === me.id)
+  const hasView = stats.views.some(v => v && v.id === me.id)
   return (
     <article
       className={styles.wrapper}
