@@ -63,16 +63,8 @@ export const ME_QUERY = gql`
       ) {
       ...stories
     }
-    favStories: stories(
-      offset: $offset
-      limit: $limit
-      userId: $userId
-      isLiked: true
-    )
-      @connection(
-        key: "LikedStoriesConnection"
-        filter: ["userId", "isLiked"]
-      ) {
+    favStories: stories(offset: $offset, limit: $limit, isLiked: true)
+      @connection(key: "LikedStoriesConnection") {
       ...stories
     }
   }
