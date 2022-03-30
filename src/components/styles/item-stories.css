@@ -16,13 +16,15 @@
 }
 .title {
   margin: 12px 0;
+  margin-top: 12px;
+  margin-bottom: 26px;
   font-family: Montserrat, sans-serif;
-  font-size: 3.4rem;
+  font-size: 3rem;
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.2;
 }
 .body {
-  font-family: Alegreya, sans-serif;
+  font-family: Alegreya, serif;
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.6;
