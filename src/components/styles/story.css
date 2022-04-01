@@ -8,12 +8,13 @@
   font-family: Montserrat, sans-serif;
   font-size: 4.2rem;
   font-weight: 900;
+  line-height: 1.2;
 }
 .body {
   margin-bottom: 14px;
-  font-family: Alegreya, sans-serif;
-  font-size: 1.8rem;
-  line-height: 28px;
+  font-family: Alegreya, serif;
+  font-size: 2rem;
+  line-height: 26px;
 }
 .title,
 .body {
@@ -30,7 +31,9 @@
 .form-story {
   input {
     font-family: Montserrat, sans-serif;
+    font-size: 4.2rem;
     font-weight: 900;
+    line-height: 1.2;
   }
   input,
   textarea {
@@ -40,7 +43,9 @@
   }
   textarea {
     min-height: 500px;
-    font-family: Alegreya, sans-serif;
+    font-family: Alegreya, serif;
+    font-size: 2rem;
+    line-height: 26px;
   }
   .genres {
     margin-bottom: 24px;

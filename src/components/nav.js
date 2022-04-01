@@ -19,7 +19,12 @@ function Nav({ me }) {
               <>
                 <li>
                   <Link href="/create-story">
-                    <a className={styles.write}>Написать рассказ</a>
+                    <a className={styles.write}>
+                      Написать рассказ&nbsp;
+                      <span role="img" aria-label="emoji">
+                        ✍️
+                      </span>
+                    </a>
                   </Link>
                 </li>
                 <li>
@@ -53,7 +58,12 @@ function Nav({ me }) {
         {isLoggedIn && (
           <>
             <Link href="/create-story">
-              <a className={styles.write}>Написать рассказ</a>
+              <a className={styles.write}>
+                Написать рассказ&nbsp;
+                <span role="img" aria-label="emoji">
+                  ✍️
+                </span>
+              </a>
             </Link>
             <Link href="/me">
               <a>Профиль</a>

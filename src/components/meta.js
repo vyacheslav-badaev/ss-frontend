@@ -8,7 +8,7 @@ const description =
   'Читать любительские рассказы, писать рассказы и стать лучшим автором можно только на Shortstories'
 const url = 'https:
 const shareImage = 'https:
-const favicon = '/static/images/icons/favicon.png'
+const favicon = '/static/icons/favicon.png'
 function Meta({ router }) {
   const page = router.pathname
   return (
@@ -41,7 +41,7 @@ function Meta({ router }) {
       )}
       <meta name="keywords" content="" />
       <link rel="manifest" href="/static/other/manifest.webmanifest" />
-      <meta name="theme-color" content="#766ac3" />
+      <meta name="theme-color" content="#fffae0" />
       <meta
         property="og:image"
         content="https:

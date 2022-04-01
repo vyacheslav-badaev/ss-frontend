@@ -49,9 +49,13 @@ function IndexPage() {
               ленту.
             </p>
           </div>
-          <span className={styles.write} role="img" aria-label="emoji">
-            ✍️
-          </span>
+          <div className={styles.writer}>
+            <Link href="/create-story">
+              <a>
+                <img src="/static/images/writer.svg" alt="" />
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
       <Query query={INDEX_QUERY} variables={variables} partialRefetch>

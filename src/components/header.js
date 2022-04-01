@@ -20,7 +20,9 @@ function Header({ me }) {
       <div className={styles.bar}>
         <div className={styles.logo}>
           <Link href="/">
-            <a>Shortstories</a>
+            <a>
+              <img src="/static/images/logo.svg" alt="" />
+            </a>
           </Link>
         </div>
         <Nav me={me} />

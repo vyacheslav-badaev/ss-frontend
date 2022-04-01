@@ -6,7 +6,8 @@
   justify-content: flex-start;
   order: 0;
   width: 100%;
-  padding: 5vh 0;
+  padding: calc(5vh + 24px) 0;
+  padding-bottom: 5vh;
   margin-top: 48px;
   text-align: left;
   background-color: #fcfcfc;
@@ -36,11 +37,14 @@
       color: #6d47d9;
     }
   }
-  .write {
-    display: block;
+  .writer {
+    display: flex;
     flex: 1;
-    font-size: 10rem;
-    text-align: center;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 100px;
+    }
     @media (max-width: 750px) {
       display: none;
     }
