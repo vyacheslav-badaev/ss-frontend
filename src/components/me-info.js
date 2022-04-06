@@ -21,12 +21,14 @@ function MeInfo({ me, data, loading, error, fetchMore }) {
   if (loading) return <BigLoader />
   if (error) return <ErrorMessage error={error} />
   return (
-    <div>
-      {isEdit ? (
-        <AccountEdit me={me} setEdit={setEdit} />
-      ) : (
-        <AccountInfo me={me} setEdit={setEdit} />
-      )}
+    <>
+      <div className={styles.wrapper}>
+        {isEdit ? (
+          <AccountEdit me={me} setEdit={setEdit} />
+        ) : (
+          <AccountInfo me={me} setEdit={setEdit} />
+        )}
+      </div>
       <div className={styles.tabs}>
         <button
           className={tab === 'written' ? styles.active : ''}
@@ -50,7 +52,7 @@ function MeInfo({ me, data, loading, error, fetchMore }) {
         </button>
       </div>
       {renderStories(stories)}
-    </div>
+    </>
   )
 }
 export default MeInfo

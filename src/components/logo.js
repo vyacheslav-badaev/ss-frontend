@@ -4,8 +4,8 @@ import styles from './styles/logo.css'
 function Logo() {
   return (
     <Link href="/">
-      <a>
-        <div className={styles.logo}>Shortstories</div>
+      <a className={styles.logo}>
+        <img src="/static/images/writer.svg" alt="" />
       </a>
     </Link>
   )

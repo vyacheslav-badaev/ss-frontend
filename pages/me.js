@@ -4,6 +4,7 @@ import { Wrapper } from '../src/components'
 import MeInfo from '../src/components/me-info'
 import { ME_QUERY } from '../src/lib/queries'
 import { checkLoggedIn, redirect } from '../src/lib/helpers'
+import styles from '../src/styles/pages/me.css'
 class MePage extends Component {
   static async getInitialProps(ctx) {
     const { me } = await checkLoggedIn(ctx.apolloClient)
@@ -23,7 +24,7 @@ class MePage extends Component {
         partialRefetch
       >
         {({ data, loading, error, fetchMore }) => (
-          <Wrapper me={data.me}>
+          <Wrapper me={data.me} innerClassName={styles.wrapper}>
             <MeInfo
               me={data.me}
               data={data}

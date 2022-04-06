@@ -6,7 +6,9 @@ function UserProfile({ me, user, stories, loading, error, fetchMore }) {
   if (loading) return <BigLoader />
   return (
     <div>
-      <UserInfo user={user} />
+      <div style={{ backgroundColor: '#fcfcfc' }}>
+        <UserInfo user={user} />
+      </div>
       {!stories.edges.length ? (
         <p>Нет рассказов :(</p>
       ) : (

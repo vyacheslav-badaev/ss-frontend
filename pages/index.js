@@ -27,7 +27,7 @@ function IndexPage() {
       <div className={styles['seo-block']}>
         <div className={styles.inner}>
           <div className={styles.text}>
-            <h1>Здесь вы можете читать рассказы свободных писателей.</h1>
+            <h1>Здесь вы можете читать рассказы свободных писателей</h1>
             <p>
               Откройте для себя новых авторов или{' '}
               <Link href="/create-story">
@@ -46,7 +46,7 @@ function IndexPage() {
               >
                 настройте
               </button>{' '}
-              ленту.
+              ленту
             </p>
           </div>
           <div className={styles.writer}>

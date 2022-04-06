@@ -3,12 +3,24 @@ import cn from 'classnames'
 import Header from './header'
 import Footer from './footer'
 import styles from './styles/wrapper.css'
-function Wrapper({ children, className = '', isIndex = false, me }) {
+function Wrapper({
+  children,
+  className = '',
+  innerClassName = '',
+  isIndex = false,
+  me,
+}) {
   return (
     <>
       <Header me={me} />
       <main className={cn(styles.wrapper, className)}>
-        <div className={cn(styles.inner, { [styles.index]: isIndex })}>
+        <div
+          className={cn(
+            styles.inner,
+            { [styles.index]: isIndex },
+            innerClassName,
+          )}
+        >
           {children}
         </div>
         <Footer />
