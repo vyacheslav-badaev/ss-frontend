@@ -32,5 +32,8 @@
   }
 }
 .no-stories {
+  max-width: 1024px;
+  padding: 24px;
+  margin: 0 auto;
   color: #222;
 }
