@@ -15,7 +15,6 @@
   .name {
     position: relative;
     display: flex;
-    font-weight: 600;
     color: #6d47d9;
     &::after {
       position: absolute;

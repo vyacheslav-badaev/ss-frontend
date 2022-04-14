@@ -92,7 +92,14 @@ function ItemStories({
           Время чтения {Math.ceil(readingTime(body).minutes)} мин
         </span>
       </div>
-      <p className={styles.body}>{body}</p>
+      {body
+        .split('\n')
+        .filter(paragraph => paragraph !== '')
+        .map((paragraph, index) => (
+          <p key={index} className={styles.body}>
+            {paragraph}
+          </p>
+        ))}
       <div className={styles['bottom-bar']}>
         <div className={styles['buttons-container']}>
           <div>

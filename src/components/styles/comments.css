@@ -17,7 +17,7 @@
     > textarea {
       min-height: 63px;
       padding: 20px 20px 20px 0;
-      font-family: 'Montserrat', system-ui;
+      font-family: 'Source Sans Pro', system-ui;
       font-size: 1.6rem;
       line-height: 1.4;
       color: #222;
@@ -79,7 +79,7 @@
     > textarea {
       min-height: 63px;
       padding: 20px;
-      font-family: 'Montserrat', system-ui;
+      font-family: 'Source Sans Pro', system-ui;
       font-size: 1.6rem;
       line-height: 1.4;
       color: #222;

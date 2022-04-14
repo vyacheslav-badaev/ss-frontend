@@ -30,12 +30,6 @@ function Meta({ router }) {
           <meta name="twitter:title" content={title} />
           <meta name="twitter:text:title" content={title} />
           <meta name="twitter:description" content={description} />
-          <link
-            rel="preload"
-            as="image"
-            type="image/svg+xml"
-            href="/static/images/topography.svg"
-          />
           <title>{title}</title>
         </>
       )}
