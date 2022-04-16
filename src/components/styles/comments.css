@@ -17,8 +17,7 @@
     > textarea {
       min-height: 63px;
       padding: 20px 20px 20px 0;
-      font-family: 'Source Sans Pro', system-ui;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       line-height: 1.4;
       color: #222;
       border: none;
@@ -59,7 +58,7 @@
       width: 46px;
       height: 46px;
       padding: 0;
-      transition: background-color 0.25s ease-in-out;
+      transition: background-color 0.2s ease;
       img {
         width: 16px;
         height: 16px;
@@ -68,7 +67,7 @@
         background-color: #eee;
       }
       &.dark:hover {
-        background-color: initial;
+        background-color: #222;
       }
     }
   }
@@ -79,8 +78,7 @@
     > textarea {
       min-height: 63px;
       padding: 20px;
-      font-family: 'Source Sans Pro', system-ui;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       line-height: 1.4;
       color: #222;
       border: none;
@@ -94,17 +92,21 @@
     padding: 20px;
     margin-bottom: 20px;
     overflow: hidden;
+    font-size: 1.4rem;
+    line-height: 1.4;
     color: #222;
     border-radius: 4px;
     box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
     opacity: 0;
     animation: fadeIn 1s ease 0.2s 1 normal forwards running;
-    &.dark {
-      color: #b8b8b8;
-    }
     .body {
       margin-top: 18px;
       line-height: 1.4;
+    }
+    &.dark {
+      .body {
+        color: #b8b8b8;
+      }
     }
   }
 }

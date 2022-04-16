@@ -25,8 +25,8 @@ function Footer({ className = '' }) {
         </div>
         <div className={styles.share}>
           <ShareButton
-            href={`https:
-            title="Поделиться VK"
+            href="https:
+            title="Группа ВК"
             icon="/static/images/icons/vk.svg"
           />
           <ShareButton

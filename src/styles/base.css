@@ -1,9 +1,25 @@
+@font-face {
+  font-family: Noah;
+  src:
+    url('/static/fonts/Noah-Regular.woff2') format('woff2'),
+    url('/static/fonts/Noah-Regular.woff') format('woff');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Noah;
+  src:
+    url('/static/fonts/Noah-Bold.woff2') format('woff2'),
+    url('/static/fonts/Noah-Bold.woff') format('woff');
+  font-weight: 700;
+  font-display: swap;
+}
 :root {
   font-size: 10px;
 }
 html {
   box-sizing: border-box;
-  font-family: 'Source Sans Pro', system-ui;
+  font-family: Noah, system-ui;
   cursor: default;
 }
 *,
@@ -15,7 +31,7 @@ html {
 }
 body {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 main {
@@ -65,14 +81,12 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Ubuntu, system-ui;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.1;
 }
 p {
-  font-family: 'Source Sans Pro', system-ui;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 button,
 ul {

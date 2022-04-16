@@ -50,23 +50,6 @@ function Meta({ router }) {
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="mobile-web-app-capable" content="yes" />
-      <link rel="dns-prefetch" href="https:
-      <link
-        rel="preconnect"
-        href="https:
-        crossOrigin="anonymous"
-      />
-      <link
-        rel="preload"
-        href="https:
-        as="fetch"
-        crossOrigin="anonymous"
-      />
-      <script
-        defer
-        type="text/javascript"
-        src="/static/scripts/google-fonts-fast-render.js"
-      />
       <script
         async
         type="text/javascript"

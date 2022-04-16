@@ -6,6 +6,14 @@ import {
   storyFragment,
   commentsFragment,
 } from './fragments'
+export const ONLY_ME_QUERY = gql`
+  query ONLY_ME_QUERY {
+    me {
+      ...me
+    }
+  }
+  ${meFragment}
+`
 export const INDEX_QUERY = gql`
   query INDEX_QUERY(
     $offset: Int = 0

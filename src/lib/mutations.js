@@ -69,12 +69,13 @@ export const RESET_PASSWORD_MUTATION = gql`
   }
   ${meFragment}
 `
-export const VERIFY_MUTATION =  `
+export const VERIFY_MUTATION = gql`
   mutation VERIFY_MUTATION($token: String!) {
     verifyUser(token: $token) {
-      id
+      ...me
     }
   }
+  ${meFragment}
 `
 export const SIGN_OUT_MUTATION = gql`
   mutation SIGN_OUT_MUTATION {

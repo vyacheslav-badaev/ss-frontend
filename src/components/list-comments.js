@@ -173,6 +173,7 @@ function ListComments({
                     >
                       {deleteComment => (
                         <button
+                          className={cn({ [styles.dark]: isDarkMode })}
                           type="button"
                           onClick={e => {
                             e.stopPropagation()

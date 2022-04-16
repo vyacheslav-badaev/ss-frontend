@@ -29,7 +29,7 @@
     "compression": "^1.7.4",
     "date-fns": "^1.30.1",
     "dotenv": "^7.0.0",
-    "downshift": "^3.2.6",
+    "downshift": "^3.2.7",
     "final-form": "^4.12.0",
     "graphql": "^14.2.1",
     "graphql-tag": "^2.10.1",
@@ -46,7 +46,7 @@
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.3",
     "react-final-form": "^4.1.0",
-    "react-image-crop": "^6.0.14",
+    "react-image-crop": "^7.0.1",
     "react-onclickoutside": "^6.8.0",
     "react-textarea-autosize": "^7.1.0",
     "reading-time": "^1.2.0",
@@ -64,7 +64,6 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.6.0",
-    "ga-lite": "^2.0.1",
     "next-size": "^2.0.2",
     "postcss-easy-import": "^3.0.0",
     "postcss-global-import": "^1.0.6",
@@ -114,6 +113,9 @@
     "extends": [
       "stylelint-config-standard",
       "stylelint-config-recess-order"
+    ],
+    "ignoreFiles": [
+      "**/*.js"
     ],
     "rules": {
       "at-rule-no-unknown": [

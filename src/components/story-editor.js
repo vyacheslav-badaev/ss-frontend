@@ -12,7 +12,6 @@ import { isEmpty, storyLength, withoutGenre } from '../../src/lib/validators'
 import styles from './styles/story-editor.css'
 import storyStyles from './styles/story.css'
 function StoryEditor({ mode, id, userId, story, theme, genres }) {
-  console.log(id, userId)
   return (
     <Mutation
       mutation={EDIT_STORY_MUTATION}
