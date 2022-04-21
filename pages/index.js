@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
+import cn from 'classnames'
 import { Query } from 'react-apollo'
 import { Wrapper, MainStories, SettingsSort, Modal } from '../src/components'
 import { INDEX_QUERY } from '../src/lib/queries'
@@ -31,7 +32,7 @@ function IndexPage() {
             <p>
               Откройте для себя новых авторов или{' '}
               <Link href="/create-story">
-                <a>продемонстрируйте</a>
+                <a className={styles.link}>продемонстрируйте</a>
               </Link>{' '}
               талант и станьте лучшим
             </p>
@@ -41,7 +42,7 @@ function IndexPage() {
                 onClick={() => {
                   setOpen(true)
                 }}
-                className={styles['settings-button']}
+                className={cn(styles['settings-button'], styles.link)}
                 type="button"
               >
                 настройте

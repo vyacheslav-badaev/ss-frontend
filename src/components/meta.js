@@ -35,7 +35,7 @@ function Meta({ router }) {
       )}
       <meta name="keywords" content="" />
       <link rel="manifest" href="/static/other/manifest.webmanifest" />
-      <meta name="theme-color" content="#fffae0" />
+      <meta name="theme-color" content="#f7f6fa" />
       <meta
         property="og:image"
         content="https:

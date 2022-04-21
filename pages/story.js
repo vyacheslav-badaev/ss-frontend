@@ -21,6 +21,7 @@ class StoryPage extends Component {
             fragment: storyFragment,
             fragmentName: 'story',
           })
+          const { userId } = mutationResult.data.viewStory
           cache.writeFragment({
             id: `Story:${query.id}`,
             fragment: storyFragment,
@@ -31,10 +32,12 @@ class StoryPage extends Component {
                 ...story.stats,
                 views: [
                   ...story.stats.views,
-                  {
-                    id: mutationResult.data.viewStory.userId,
-                    __typename: 'User',
-                  },
+                  userId
+                    ? {
+                        id: userId,
+                        __typename: 'User',
+                      }
+                    : null,
                 ],
               },
             },

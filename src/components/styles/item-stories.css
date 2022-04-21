@@ -101,12 +101,15 @@
       justify-content: center;
       margin-left: 16px;
       img {
-        width: 16px;
-        height: 16px;
-        margin-bottom: 2px;
+        opacity: 0.45;
+        width: 14px;
+        height: 14px;
+        margin-bottom: 1px;
       }
       span {
         font-size: 1rem;
+        font-weight: 700;
+        opacity: 0.6;
       }
     }
   }
