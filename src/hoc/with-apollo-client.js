@@ -5,7 +5,11 @@ import {
 } from 'apollo-boost'
 import { createUploadLink } from 'apollo-upload-client'
 import withApollo from 'next-with-apollo'
-function createClient({ headers, initialState = {} }) {
+function createClient({ headers = {}, initialState = {} }) {
+  if (headers[':method']) delete headers[':method']
+  if (headers[':authority']) delete headers[':authority']
+  if (headers[':scheme']) delete headers[':scheme']
+  if (headers[':path']) delete headers[':path']
   return new ApolloClient({
     link: createUploadLink({
       uri: process.env.API_URL,
