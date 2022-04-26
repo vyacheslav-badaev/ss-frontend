@@ -12,11 +12,11 @@ function getId(req) {
   const [id] = req.params.id.split('-')
   return id
 }
-const options = {
-  key: fs.readFileSync('shortstories.crt'),
-  cert: fs.readFileSync('shortstories.key'),
-}
-const server = http2.createSecureServer(options)
+const server = http2.createSecureServer({
+  key: fs.readFileSync('shortstories.key'),
+  cert: fs.readFileSync('shortstories.crt'),
+  allowHTTP1: true,
+})
 const compressionMiddleware = compression()
 app.prepare().then(() => {
   server.on('error', err => console.error(err))
