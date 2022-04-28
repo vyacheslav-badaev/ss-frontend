@@ -15,6 +15,7 @@ const nextConfig = {
     config.plugins.push(
       new SWPrecacheWebpackPlugin({
         verbose: true,
+        minify: true,
         staticFileGlobsIgnorePatterns: [/\.next\
         runtimeCaching: [
           {
