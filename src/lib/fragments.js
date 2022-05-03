@@ -70,6 +70,7 @@ export const commentFragment = gql`
   fragment comment on Comment {
     id
     body
+    commentId
     user {
       ...user
     }
@@ -78,14 +79,5 @@ export const commentFragment = gql`
   ${userFragment}
 `
 export const commentsFragment = gql`
-  fragment comments on CommentConnection {
-    edges {
-      ...comment
-    }
-    pageInfo {
-      hasNextPage
-      endCursor
-    }
-  }
   ${commentFragment}
 `

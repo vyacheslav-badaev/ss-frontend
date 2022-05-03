@@ -147,16 +147,20 @@ export const VIEW_STORY_MUTATION = gql`
   }
 `
 export const CREATE_COMMENT_MUTATION = gql`
-  mutation CREATE_COMMENT_MUTATION($id: ID!, $body: String!) {
-    createComment(id: $id, body: $body) {
+  mutation CREATE_COMMENT_MUTATION($id: ID!, $body: String!, $commentId: ID) {
+    createComment(id: $id, body: $body, commentId: $commentId) {
       ...comment
     }
   }
   ${commentFragment}
 `
 export const DELETE_COMMENT_MUTATION = gql`
-  mutation DELETE_COMMENT_MUTATION($id: ID!) {
-    deleteComment(id: $id) {
+  mutation DELETE_COMMENT_MUTATION(
+    $id: ID!
+    $hasChildren: Boolean!
+    $commentId: ID
+  ) {
+    deleteComment(id: $id, hasChildren: $hasChildren, commentId: $commentId) {
       id
     }
   }

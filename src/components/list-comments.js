@@ -1,13 +1,17 @@
-import React, { Fragment } from 'react'
+import React, { useState } from 'react'
 import { Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
+import { groupBy } from 'ramda'
 import cn from 'classnames'
+import compareDesc from 'date-fns/compare_desc'
+import nanoid from 'nanoid'
 import { Button, ErrorMessage, UserWithDate } from '.'
 import { commentFragment, storyFragment } from '../lib/fragments'
 import { STORY_QUERY } from '../lib/queries'
 import {
   UPDATE_COMMENT_MUTATION,
   DELETE_COMMENT_MUTATION,
+  CREATE_COMMENT_MUTATION,
 } from '../lib/mutations'
 import styles from './styles/comments.css'
 function editUpdate(cache, payload, id) {
@@ -18,16 +22,38 @@ function editUpdate(cache, payload, id) {
     data: payload.data.updateComment,
   })
 }
-function deleteUpdate(cache, payload, id) {
+function deleteUpdate(cache, payload, id, hasChildren, parentId) {
   const data = cache.readQuery({ query: STORY_QUERY, variables: { id } })
   const story = cache.readFragment({
     id: `Story:${id}`,
     fragment: storyFragment,
     fragmentName: 'story',
   })
-  data.comments.edges = data.comments.edges.filter(
-    comment => comment.id !== payload.data.deleteComment.id,
-  )
+  if (parentId) {
+    const parentComment = data.comments.find(comment => comment.id === parentId)
+    if (parentComment.body === null) {
+      data.comments = data.comments.filter(
+        comment =>
+          comment.id !== payload.data.deleteComment.id &&
+          comment.id !== parentComment.id,
+      )
+    }
+  }
+  if (!hasChildren) {
+    data.comments = data.comments.filter(
+      comment => comment.id !== payload.data.deleteComment.id,
+    )
+  } else {
+    data.comments = data.comments.map(comment => {
+      if (comment.id === payload.data.deleteComment.id) {
+        return {
+          ...comment,
+          body: null,
+        }
+      }
+      return comment
+    })
+  }
   cache.writeQuery({
     query: STORY_QUERY,
     variables: { id },
@@ -105,22 +131,32 @@ function CommentEditor({
   )
 }
 function ListComments({
-  edges,
+  comments,
   editId,
   commentBody,
   onChange,
   storyId,
   me,
-  pageInfo,
-  fetchMore,
   resetAfterUpdate,
   activateEditMode,
   isDarkMode,
 }) {
-  return edges.length > 0 ? (
-    <Fragment>
-      <ul className={styles['list-comments']}>
-        {edges.map(comment =>
+  const [replyCommentId, setReplyCommentId] = useState(null)
+  const [replyCommentBody, setReplyCommentBody] = useState('')
+  const byCommentId = groupBy(comment => comment.commentId)
+  const groupedComments = byCommentId(comments)
+  const parentComments = groupedComments['null']
+  const recurComments = (array = parentComments, id, parentId) => {
+    const isParent = !(id && id !== parentId)
+    const commentsArray = isParent ? array : groupedComments[id]
+    if (!Array.isArray(commentsArray)) return null
+    return (
+      <ul
+        className={cn(styles['list-comments'], {
+          [styles['parent-comments']]: isParent,
+        })}
+      >
+        {commentsArray.map(comment =>
           me && editId === comment.id ? (
             <CommentEditor
               key={`comment-editor-${comment.id}`}
@@ -139,7 +175,7 @@ function ListComments({
                   user={comment.user}
                   date={comment.createdAt}
                 />
-                {me && me.id === comment.user.id && (
+                {me.id === comment.user.id && comment.body !== null && (
                   <div className={styles['edit-and-delete']}>
                     <button
                       className={cn({ [styles.dark]: isDarkMode })}
@@ -159,9 +195,19 @@ function ListComments({
                     </button>
                     <Mutation
                       mutation={DELETE_COMMENT_MUTATION}
-                      variables={{ id: comment.id }}
+                      variables={{
+                        id: comment.id,
+                        hasChildren: !!groupedComments[comment.id],
+                        commentId: comment.commentId,
+                      }}
                       update={(cache, payload) =>
-                        deleteUpdate(cache, payload, storyId)
+                        deleteUpdate(
+                          cache,
+                          payload,
+                          storyId,
+                          !!groupedComments[comment.id],
+                          comment.commentId,
+                        )
                       }
                       optimisticResponse={{
                         __typename: 'Mutation',
@@ -194,41 +240,131 @@ function ListComments({
                   </div>
                 )}
               </div>
-              <p className={styles.body}>{comment.body}</p>
+              <p className={styles.body}>
+                {comment.body === null
+                  ? 'Комментарий удалён автором'
+                  : comment.body}
+              </p>
+              {replyCommentId && replyCommentId === comment.id ? (
+                <Mutation
+                  mutation={CREATE_COMMENT_MUTATION}
+                  variables={{
+                    id: storyId,
+                    commentId: comment.id,
+                    body: replyCommentBody,
+                  }}
+                  update={(cache, mutationResult) => {
+                    const storyQuery = cache.readQuery({
+                      query: STORY_QUERY,
+                      variables: { id: storyId },
+                    })
+                    const story = cache.readFragment({
+                      id: `Story:${storyId}`,
+                      fragment: storyFragment,
+                      fragmentName: 'story',
+                    })
+                    storyQuery.comments = [
+                      ...storyQuery.comments,
+                      mutationResult.data.createComment,
+                    ].sort((a, b) => compareDesc(a.createdAt, b.createdAt))
+                    cache.writeQuery({
+                      query: STORY_QUERY,
+                      variables: { id: storyId },
+                      data: storyQuery,
+                    })
+                    cache.writeFragment({
+                      id: `Story:${storyId}`,
+                      fragment: storyFragment,
+                      fragmentName: 'story',
+                      data: {
+                        ...story,
+                        stats: {
+                          ...story.stats,
+                          comments: story.stats.comments + 1,
+                        },
+                      },
+                    })
+                  }}
+                  optimisticResponse={{
+                    createComment: {
+                      id: nanoid(10),
+                      commentId: comment.id,
+                      body: replyCommentBody,
+                      user: {
+                        id: me.id,
+                        username: me.username,
+                        photo: me.photo,
+                        info: me.info,
+                        __typename: 'User',
+                      },
+                      createdAt: new Date().toISOString(),
+                      __typename: 'Comment',
+                    },
+                    __typename: 'Mutation',
+                  }}
+                >
+                  {createComment => (
+                    <div className={styles['reply-section']}>
+                      <ReactTextareaAutosize
+                        autoFocus
+                        placeholder="Напишите ответ..."
+                        value={replyCommentBody}
+                        maxLength={255}
+                        className={styles['reply-textarea']}
+                        onChange={e => {
+                          setReplyCommentBody(e.target.value)
+                        }}
+                      />
+                      <div className={styles['reply-buttons']}>
+                        <Button
+                          onClick={async () => {
+                            await createComment()
+                            setReplyCommentBody('')
+                            setReplyCommentId(null)
+                          }}
+                          disabled={replyCommentBody.length === 0}
+                          violet
+                        >
+                          Ответить
+                        </Button>
+                        <button
+                          className={styles['cancel-button']}
+                          type="button"
+                          onClick={() => {
+                            setReplyCommentId(null)
+                          }}
+                        >
+                          Отменить
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </Mutation>
+              ) : +me.id > 0 && comment.body !== null ? (
+                <button
+                  className={styles.reply}
+                  type="button"
+                  onClick={() => {
+                    if (replyCommentId !== null) setReplyCommentId(null)
+                    setReplyCommentId(comment.id)
+                  }}
+                >
+                  Ответить
+                </button>
+              ) : null}
+              {recurComments(
+                groupedComments[comment.commentId],
+                comment.id,
+                comment.commentId,
+              )}
             </li>
           ),
         )}
       </ul>
-      {pageInfo.hasNextPage && (
-        <Button
-          black
-          className={styles['more-button']}
-          onClick={() => {
-            fetchMore({
-              variables: {
-                cursor: pageInfo.endCursor,
-              },
-              updateQuery: (previousResult, { fetchMoreResult }) => {
-                if (!fetchMoreResult) {
-                  return previousResult
-                }
-                return {
-                  comments: {
-                    ...fetchMoreResult.comments,
-                    edges: [
-                      ...previousResult.comments.edges,
-                      ...fetchMoreResult.comments.edges,
-                    ],
-                  },
-                }
-              },
-            })
-          }}
-        >
-          More
-        </Button>
-      )}
-    </Fragment>
+    )
+  }
+  return parentComments && parentComments.length ? (
+    recurComments()
   ) : (
     <p
       className={cn(styles['no-comments'], {

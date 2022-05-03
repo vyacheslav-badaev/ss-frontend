@@ -1,8 +1,7 @@
 import Router from 'next/router'
 import { CHECK_LOGGED_IN_QUERY } from './queries'
-const dev = process.env.NODE_ENV === 'development'
 export function getPhoto(url) {
-  if (typeof url === 'string') return dev ? `http:
+  if (typeof url === 'string') return url
   return '/static/images/user-placeholder.svg'
 }
 export function redirect(ctx, target) {

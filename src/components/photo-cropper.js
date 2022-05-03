@@ -13,7 +13,6 @@ const acceptedFileTypes =
 const acceptedFileTypesArray = acceptedFileTypes
   .split(',')
   .map(type => type.trim())
-const percentToPx = (a, b) => a * (b / 100)
 function validateFiles(files) {
   if (files && files.length > 0) {
     const { type, size } = files[0]
@@ -101,21 +100,24 @@ function PhotoCropper({ cb, userId }) {
                 photo: mutationResult.data.postPhoto.photo,
               },
             })
-            cache.writeFragment({
-              id: `User:${userId}`,
-              fragment: userFragment,
-              data: {
-                ...user,
-                photo: mutationResult.data.postPhoto.photo,
-              },
-            })
+            if (Object.keys(user).length > 0) {
+              cache.writeFragment({
+                id: `User:${userId}`,
+                fragment: userFragment,
+                data: {
+                  ...user,
+                  photo: mutationResult.data.postPhoto.photo,
+                },
+              })
+            }
           }}
           variables={{
             file,
-            width: percentToPx(previewImg.naturalWidth, crop.width),
-            height: percentToPx(previewImg.naturalHeight, crop.height),
-            x: percentToPx(previewImg.naturalWidth, crop.x),
-            y: percentToPx(previewImg.naturalHeight, crop.y),
+            width: crop.width * (previewImg.naturalWidth / previewImg.width),
+            height:
+              crop.height * (previewImg.naturalHeight / previewImg.height),
+            x: crop.x * (previewImg.naturalWidth / previewImg.width),
+            y: crop.y * (previewImg.naturalHeight / previewImg.height),
           }}
         >
           {postPhoto => (

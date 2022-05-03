@@ -34,8 +34,9 @@
   }
 }
 .list-comments {
-  padding-bottom: 40px;
   margin-top: 20px;
+  margin-left: 32px;
+  border-left: 1px dashed #ccc;
   .avatar {
     width: 40px;
     height: 40px;
@@ -89,24 +90,57 @@
   }
   li {
     position: relative;
-    padding: 20px;
-    margin-bottom: 20px;
+    padding-top: 15px;
+    padding-left: 20px;
     overflow: hidden;
     font-size: 1.6rem;
     line-height: 1.4;
     color: #222;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
     opacity: 0;
     animation: fadeIn 1s ease 0.2s 1 normal forwards running;
     .body {
       margin-top: 18px;
+      margin-bottom: 18px;
       line-height: 1.4;
     }
     &.dark {
-      .body {
+      .body,
+      .reply-textarea,
+      .cancel-button {
         color: #b8b8b8;
       }
     }
+  }
+}
+.parent-comments {
+  padding-bottom: 18px;
+  margin-left: -20px;
+  border-left: none;
+}
+.reply {
+  font-size: 1.3rem;
+  color: #818181;
+  transition: 0.2s;
+  &:hover {
+    color: #6d47d9;
+  }
+}
+.reply-textarea {
+  min-height: 63px;
+  padding: 20px 20px 20px 0;
+  font-size: 1.6rem;
+  line-height: 1.4;
+  color: #222;
+  border: none;
+}
+.reply-buttons {
+  display: flex;
+  .cancel-button {
+    display: block;
+    height: 28px;
+    padding: 0 12px;
+    margin-left: 12px;
+    font-size: 1.2rem;
+    background-color: transparent;
   }
 }

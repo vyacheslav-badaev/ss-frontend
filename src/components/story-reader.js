@@ -19,7 +19,7 @@ function StoryReader({ mode, id, viewStory, theme }) {
   }, [viewStory])
   return (
     <Query query={STORY_QUERY} variables={{ id, limit: 10 }}>
-      {({ error, loading, data, fetchMore }) => {
+      {({ error, loading, data }) => {
         if (error) return <ErrorMessage error={error} />
         if (loading) return <BigLoader />
         if (!data.story) return <p>Рассказа не существует</p>
@@ -130,10 +130,9 @@ function StoryReader({ mode, id, viewStory, theme }) {
               </div>
             )}
             <Comments
-              {...comments}
+              comments={comments}
               id={id}
               me={me}
-              fetchMore={fetchMore}
               isDarkMode={mode === 'dark'}
             />
           </div>

@@ -10,7 +10,7 @@ import { storyFragment } from '../lib/fragments'
 import { STORY_QUERY } from '../lib/queries'
 import { CREATE_COMMENT_MUTATION } from '../lib/mutations'
 import styles from './styles/comments.css'
-function Comments({ edges, pageInfo, fetchMore, id, me, isDarkMode }) {
+function Comments({ comments, id, me, isDarkMode }) {
   const [body, setBody] = useState('')
   const [editId, setEditId] = useState(null)
   const [commentBody, setCommentBody] = useState('')
@@ -30,8 +30,8 @@ function Comments({ edges, pageInfo, fetchMore, id, me, isDarkMode }) {
               fragment: storyFragment,
               fragmentName: 'story',
             })
-            storyQuery.comments.edges = [
-              ...storyQuery.comments.edges,
+            storyQuery.comments = [
+              ...storyQuery.comments,
               mutationResult.data.createComment,
             ].sort((a, b) => compareDesc(a.createdAt, b.createdAt))
             cache.writeQuery({
@@ -55,6 +55,7 @@ function Comments({ edges, pageInfo, fetchMore, id, me, isDarkMode }) {
           optimisticResponse={{
             createComment: {
               id: nanoid(10),
+              commentId: null,
               body,
               user: {
                 id: me.id,
@@ -100,7 +101,7 @@ function Comments({ edges, pageInfo, fetchMore, id, me, isDarkMode }) {
       )}
       <ListComments
         isDarkMode={isDarkMode}
-        edges={edges}
+        comments={comments}
         editId={editId}
         commentBody={commentBody}
         onChange={e => {
@@ -108,8 +109,6 @@ function Comments({ edges, pageInfo, fetchMore, id, me, isDarkMode }) {
         }}
         storyId={id}
         me={me}
-        pageInfo={pageInfo}
-        fetchMore={fetchMore}
         resetAfterUpdate={() => {
           setEditId(null)
           setCommentBody('')

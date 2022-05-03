@@ -4,7 +4,7 @@ import {
   storiesFragment,
   userFragment,
   storyFragment,
-  commentsFragment,
+  commentFragment,
 } from './fragments'
 export const ONLY_ME_QUERY = gql`
   query ONLY_ME_QUERY {
@@ -109,21 +109,20 @@ export const USER_QUERY = gql`
   ${storiesFragment}
 `
 export const STORY_QUERY = gql`
-  query STORY_QUERY($id: ID!, $cursor: String, $limit: Int) {
+  query STORY_QUERY($id: ID!) {
     me {
       ...me
     }
     story(id: $id) {
       ...story
     }
-    comments(cursor: $cursor, limit: $limit, storyId: $id)
-      @connection(key: "CommentConnection", filter: ["storyId"]) {
-      ...comments
+    comments(storyId: $id) {
+      ...comment
     }
   }
   ${meFragment}
   ${storyFragment}
-  ${commentsFragment}
+  ${commentFragment}
 `
 export const GENRES_QUERY = gql`
   query GENRES_QUERY {
