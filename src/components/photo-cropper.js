@@ -39,8 +39,8 @@ function PhotoCropper({ cb, userId }) {
     x: 0,
     y: 0,
     aspect: 1 / 1,
-    width: 0,
-    height: 0,
+    width: 120,
+    height: 120,
   })
   const onDrop = acceptedFiles => {
     if (acceptedFiles && acceptedFiles.length > 0) {
@@ -120,9 +120,11 @@ function PhotoCropper({ cb, userId }) {
             y: crop.y * (previewImg.naturalHeight / previewImg.height),
           }}
         >
-          {postPhoto => (
+          {(postPhoto, { loading }) => (
             <div className={styles.crop}>
               <ReactCrop
+                minHeight={120}
+                minWidth={120}
                 src={img}
                 crop={crop}
                 onImageLoaded={image => {
@@ -132,8 +134,8 @@ function PhotoCropper({ cb, userId }) {
                         x: 0,
                         y: 0,
                         aspect: 1 / 1,
-                        width: 50,
-                        height: 50,
+                        width: 120,
+                        height: 120,
                       },
                       image.naturalWidth / image.naturalHeight,
                     ),
@@ -146,20 +148,22 @@ function PhotoCropper({ cb, userId }) {
                 keepSelection
               />
               <div className={styles.buttons}>
-                <Button
+                <button
+                  type="button"
                   className={styles['other-photo-button']}
                   onClick={() => {
                     setImg(null)
                   }}
                 >
                   Другое фото
-                </Button>
+                </button>
                 <Button
-                  violet
+                  black
                   onClick={async () => {
                     await postPhoto()
                     cb()
                   }}
+                  loading={loading}
                 >
                   Сохранить
                 </Button>
