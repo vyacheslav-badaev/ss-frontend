@@ -1,8 +1,5 @@
 {
   "private": true,
-  "engines": {
-    "node": ">=11.0.0"
-  },
   "name": "shortstories-frontend",
   "version": "1.0.0",
   "description": "Frontend for shortstories.io",
@@ -16,9 +13,9 @@
   "author": "Shashkov Danil <shashkovdanil@gmail.com> (https://github.com/shashkovdanil)",
   "license": "MIT",
   "scripts": {
-    "start:dev": "NODE_ENV=development node server.js",
-    "build:prod": "next build",
-    "start:prod": "NODE_ENV=production node server.js"
+    "dev": "NODE_ENV=development node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@sindresorhus/slugify": "^0.9.1",
